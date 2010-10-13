@@ -1,0 +1,182 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]
+{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+
+\begin{document}
+\newpar{C.1-1}
+The number of $k$-substrings in an $n$-string is $n-k+1$.  Thus the
+total number of substrings of an $n$-string is
+\[ \sum_{i=0}^n (n-i+1) = \sum_{i=1}^{n+1}i = \frac{(n+1)(n+2)}{2}.\]
+
+\newpar{C.1-2}
+There are $2^{2^n}$ $n$-input, $1$-output boolean functions.
+
+There are $(2^m)^{2^n} = 2^{m2^n}$ $n$-input, $m$-output boolean
+functions.
+
+\newpar{C.1-3}
+Let's consider one of the professor.  The place of this professor
+doesn't matter because all the configurations obtained by rotation are
+equivalent .  What matter is the place of the other $n-1$ relative to
+him.  Those there's $(n-1)!$ ways to sit around a circular conference
+table for the professors.
+
+\newpar{C.1-4}
+The sum of three distinct numbers is even if the first number is even
+and the other two have the same parity or the first one is odd and the
+other two have different parity.  So the number of ways to choose  those
+numbers if their order matters is
+\[ 50 \,49\, 48 + 50\, 50\, 49 + 50\, 49\, 50 + 50\, 50\, 49 = 485100.\]
+But given that the order doesn't matter, we should divide this total
+by the number of permutations of these three distinct numbers.
+\[ \frac{485100}{6!} = 80850.\]
+
+\newpar{C.1-5}
+We have for $0 < k \le n$
+\begin{eqnarray*}
+  C_n^k &=& \frac{n!}{k!(n-k)!} \\
+  &=& \frac{n}{k}\,\frac{(n-1)!}{(k-1)!(n-k)!} \\
+  &=& \frac{n}{k}C_{n-1}^{k-1}
+\end{eqnarray*}
+
+\newpar{C.1-6}
+We have for $0 \le k < n$
+\begin{eqnarray*}
+  C_n^k &=& \frac{n!}{k!(n-k)!} \\
+  &=& \frac{n}{n-k}\,\frac{(n-1)!}{k!(n-k-1)!} \\
+  &=& \frac{n}{n-k}C_k^{n-1}
+\end{eqnarray*}
+
+\newpar{C.1-7}
+If the distinguished object isn't chosen, all the $k$ objects are
+ chosen from the other $n-1$ objects.  And there's $C_{n-1}^k$ to
+choose $k$ objects from $n$.
+
+If the distinguished object is chosen,  the remaining $k-1$ objects
+are chosen from the other $n-1$ objects remaining.  And there's
+$C_{n-1}^{k-1}$ to do so.
+
+So finally the number of ways to choose $k$ objects from $n$ is the
+sum of the two previous case, thus
+\[ C_n^k = C_{n-1}^k + C_{n-1}^{k-1}.\]
+
+\newpar{C.1-8}
+Note that at the edges of the triangle $k = 1$ or $k = n-1$ thus it's
+always equal to $1$.
+\begin{verbatim}
+            1
+          1   1
+        1   2   1
+      1   3   3   1
+    1   4   6   4   1
+  1   5   10  10  5   1
+1   6   15  20  15  6   1  
+\end{verbatim}
+
+\newpar{C.1-9}
+We have
+\begin{eqnarray*}
+  \sum_{i=1}^n i &=& \frac{n(n+1)}{2} \\
+  &=& \frac{(n+1)!}{2!(n-1)!} \\
+  &=& C_{n+1}^2
+\end{eqnarray*}
+
+\newpar{C.1-10}
+For $0 \le k \le n$, given that $C_n^k = C_n^{n-k}$, we could limit
+our case to $0 \le k \le n/2$.  If $ k < n/2$, we have,
+\[ \frac{k!(n-k)!}{(k+1)!(n-k-1)!} = \frac{n-k}{k+1} \ge
+\frac{k+1}{k+1} = 1.\]
+Thus,
+\[ C_n^k \le C_n^{k+1}.\]
+We then conclude easily that maximum value is achieved when $k =
+\lfloor n/2\rfloor$ when $k$ is even and $k = \lceil n/2\rceil$ if $k$
+is odd.
+
+\newpar{C.1-11}
+Let $n \ge 0, j \ge 0, k \ge 0$ and $j+k \le n$.  We have,
+\begin{eqnarray*}
+  C_n^{j+k} &=& \frac{n!}{(j+k)!(n-j-k)!} \\
+  &=& \frac{n!}{j!(n-j)!} \times
+  \frac{(n-j)!}{k!(n-j-k)!} \times
+  \frac{j!k!}{(j+k)!} \\
+  &=& \frac{C_n^j C_{n-j}^k}{C_{j+k}^j} \\
+  &\le& C_n^j C_{n-j}^k
+\end{eqnarray*}
+
+Suppose we choose $j$ items from $n$ items and $k$ items from the $n-j$
+remaining items.  Note that here, the elements of the first set could
+not be permuted with the elements of the second one without changing
+the partition.  Whereas it's possible to permute the elements if we
+have chosen directly $j+k$ items.  Thus, we then deduce that
+\[ C_n^{j+k} \le C_n^j C_{n-j}^k.\]
+
+In particular, if $k=j=1$, and $n > 1$ we have
+\[C_n^2 = \frac{n(n-1)}{2} < C_1^n C_1^{n-1} = n(n-1).\]
+
+\newpar{C.1-12}
+Let's show by induction on $k \le n/2$ that
+\[ C_n^k \le \frac{n^n}{k^k(n-k)^{n-k}}.\]
+For $k = 0$ we have,
+\[ C_n^0 = 1 = \frac{n^n}{0^0n^n}.\]
+
+Suppose we have the inequality for $k \le n/2 - 1$.  Then we have
+\begin{eqnarray*}
+  C_n^{k+1} &=& \frac{n!}{(k+1)!(n-k-1)!} \\
+  &=& \frac{n-k}{k+1}C_n^k \\
+  &\le& \frac{n-k}{k+1} \times
+  \frac{n^n}{k^k(n-k)^{n-k}}, \mbox{by induction} \\
+  &=& \frac{n^n}{(k+1)^{k+1}(n-k-1)^{n-k-1}} \times
+  \frac{\left(1+\frac{1}{k}\right)^k}
+       {\left(1+\frac{1}{n-k-1}\right)^{n-k-1}}
+\end{eqnarray*}
+Let's consider the function $f: x \mapsto \frac{\ln(1+x)}{x}$ for $x
+\ge 0$.  We have,
+\[ f'(x) = \frac{\frac{x}{1+x} - \ln(1+x)}{x^2}.\]
+If we note $g(x) = x^2 f'(x)$, we have
+\begin{eqnarray*}
+  g'(x) &=& \frac{1}{(1+x)^2} - \frac{1}{1+x} \ge 0,\ \mbox{and} \\
+  g'(0) &=& 0.
+\end{eqnarray*}
+Thus $g$ is a positive function and so is $f'$.  We then deduce that
+$f$ is an increasing function.
+
+Given that $k < n/2 - 1$, we have $k < n-k-1$ thus $f(k) < f(n-k-1)$.
+So finally,
+\[ C_n^{k+1} \le \frac{n^n}{(k+1)^{k+1}(n-k-1)^{n-k-1}}.\]
+
+Moreover if $k > n/2$, we have $n-k < n/2$.  And from C.3, we deduce
+that we have the inequality too.
+
+\newpar{C.1-13}
+Using Striling's approximation we have,
+\begin{eqnarray*}
+  C_{2n}^n &=& \frac{(2n)!}{(n!)^2} \\
+  &=& \frac{(2n/e)^{2n}\sqrt{4\pi n}(1+O(1/2n))}
+  {(n/e)^{2n} 2\pi n(1+O(1/n))^2} \\  
+  &=& \frac{2^{2n}}{\sqrt{\pi n}}(1 + O(1/n))
+\end{eqnarray*}
+
+\newpar{C-1-14}
+Since $H(1-\lambda) = H(\lambda)$, we could assume that $0 \le \lambda
+\le 1/2$.  We then have $\lambda \le 1 - \lambda$, thus
+\[  H'(\lambda)  = - \lg \lambda - \frac{1}{\ln 2} +
+\lg(1-\lambda) + \frac{1}{\ln 2} \ge 0.\]
+Thus, $H(\lambda) \le H(\frac{1}{2}) = 1$.
+
+\newpar{C.1-15}
+For $n\ge 0$, we have
+\begin{eqnarray*}
+  \sum_{k=0}^n C_n^k k &=& \sum_{k=1}^n C_n^k k \\
+  &=& \sum_{k=1}^n k \frac{n!}{k!(n-k)!} \\
+  &=& n \sum_{k=1}^n C_{n-1}^{k-1} \\
+  &=& n \sum_{k=0}^n-1C_{n-1}^k \\
+  &=& n 2^{n-1}
+\end{eqnarray*}
+\end{document}

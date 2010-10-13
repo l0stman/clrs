@@ -1,0 +1,22 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\prob}[1]{\mathrm{Pr}\left\{ #1 \right\}}
+
+\begin{document}
+\newpar{7.3-1}
+Because we couldn't trick the algorithm to run on the worst-case
+performance.
+
+\newpar{7.3-2}
+In the worst case the partition ratio would be $0$ to $1-1/n$ at each
+step.  So \textsc{RANDOM} is called $\Theta(n)$ times.  In the best
+case scenario,  the number of calls is $\Theta(\lg n)$ because the
+ratio would be $1/2$ to $1/2$.
+\end{document}

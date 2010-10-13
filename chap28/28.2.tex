@@ -1,0 +1,109 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]
+{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+
+\begin{document}
+\newpar{28.2-1}
+We have,
+\begin{eqnarray*}
+  P_1 &=& a(f-h) = 2 \\
+  P_2 &=& (a+b)h = 8 \\
+  P_3 &=& (c+d)e = 96 \\
+  P_4 &=& d(g-e) = -14 \\
+  P_5 &=& (a+d)(e+h) = 80 \\
+  P_6 &=& (b-d)(g+h) = -32 \\
+  P_7 &=& (a-c)(e+f) = -48 \\
+  r &=& P_5 + P_4 - P_2 + P_6 = 26 \\
+  s &=& P_1 + P_2 = 10 \\
+  t &=& P_3 + P_4 = 82 \\
+  u &=& P_5 + P_1 - P_3 - P_7 = 34 \\
+\end{eqnarray*}
+
+\newpar{28.2-2}
+Note: $m = 2^{\lfloor \lg n\rfloor+1} - n$.  $0_{m,n}$  and $0_{n,m}$
+are the matrices of size $m\times n$ and $n\times m$ whose elements
+are zeroes.  And $I_{m,m}$ is the identity matrix of size $m\times m$.
+Consider the two matrices of size $A'$ and $B'$ defined by
+\begin{eqnarray*}
+A' &=& \left(
+\begin{array}{ll}
+  A&0_{n,m} \\
+  0_{m,n}&I_{m,m}
+\end{array} \right) \\
+B' &=& \left(
+\begin{array}{ll}
+  B&0_{n,m} \\
+  0_{m,n}&I_{m,m}
+\end{array} \right)
+\end{eqnarray*}
+$A'$ and $B'$ are square matrices of size $2^{\lfloor \lg n\rfloor +
+  1}$.  And we have,
+\[ A'B' = \left(
+\begin{array}{ll}
+  AB&0_{n,m} \\
+  0_{m,n}&I_{m,m}
+\end{array} \right) \]
+The running time of Strassen's algorithm on $A'$ and $B'$ is
+$\Theta(2^{(\lfloor \lg n\rfloor+1)\lg 7}).$
+
+Given that
+\[ \lg n < \lfloor \lg n\rfloor+1 \le \lg n + 1,\]
+we deduce that
+\[ n^{\lg 7} < 2^{(\lfloor \lg n\rfloor+1)\lg 7} \le 7 n^{\lg 7}.\]
+Thus the running time is $\Theta(n^{\lg 7})$.
+
+\newpar{28.2-3}
+Suppose we can multiply $3\times3$ matrices using $k$
+multiplications. Since we don't assume the commutativity of
+multiplication, we can swap numbers for matrices and obtain a
+recursive algorithm.
+
+We have the following recurrence for the running time of the algorithm
+\[ T(n) = k T(n/3) + \Theta(n^2).\]
+If we choose $k > 9$, then $\log_3k > 2$.  From the
+master theorem, we have $T(n) = \Theta(n^{\log_3k})$.
+
+Since we want $T(n) = o(n^{\lg 7})$, we need to have $\log_3k < \lg
+7$, that is
+\[ k < \exp(\lg 7 \log 3) \simeq 21.85.\]
+So the maximum value of $k$ is $21$ wich is a posteriori greater than
+$9$.  And we have $\log_321 \simeq 2.77$.
+
+\newpar{28.2-4}
+We have,
+\begin{eqnarray*}
+\log_{68} 132464 &\simeq& 2.795128 \\
+\log_{70} 143640 &\simeq& 2.795122 \\
+\log_{72} 155424 &\simeq& 2.795147 
+\end{eqnarray*}
+So the method that yields the best asymptotic running time when used
+in divide-and-conquer matrix-multiplication is the second one.  Given
+that $\lg 7 \simeq 2.81$, it's better than Strassen's algorithm.
+
+\newpar{28.2-5}
+To multiply a $kn\times n$ matrix by an $n \times kn$ matrix the
+running time is,
+\[ T(n) = \Theta((k n)^2 n^{\lg 7}).\]
+If the order of the input matrices are reversed, we have
+\[ T(n) = \Theta(k n^{\lg 7}).\]
+
+\newpar{28.2-6}
+We define the following products,
+\begin{eqnarray*}
+  P_1 &=& a(c+d) \\
+  P_2 &=& (a+b)d \\
+  P_3 &=& (b-a)c 
+\end{eqnarray*}
+We have,
+\begin{eqnarray*}
+  P_1 - P_2 &=& ac-bd \\
+  P_1 + P_3 &=& ad+bc
+\end{eqnarray*}
+\end{document}

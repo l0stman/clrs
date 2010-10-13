@@ -1,0 +1,85 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\exchange}[2]{\mathrm{exchange}\ #1 \leftrightarrow #2}
+
+\begin{document}
+
+\newpar{6.2-2}
+\textsc{min-heapify}$(A, i)$
+\begin{algorithmic}
+  \STATE $l \la \textsc{left}(i)$
+  \STATE $r \la \textsc{right}(i)$
+
+  \IF{ $l \le \mathrm{heap-size}[A]$ \textbf{and} $A[l] < A[i]$ }
+  \STATE $smallest \la l$
+  \ELSE
+  \STATE $smallest \la i$
+  \ENDIF
+
+  \IF{ $r \le \mathrm{heap-size}[A]$ \textbf{and} $A[r] <
+    A[smallest]$}
+  \STATE $smallest \la r$
+  \ENDIF
+
+  \IF{ $smallest \not= i$ }
+  \STATE $\exchange{A[i]}{A[smallest]}$
+  \STATE $\textsc{min-heapify}(A, smallest)$
+  \ENDIF
+\end{algorithmic}
+
+\textsc{min-heapify} and \textsc{max-heapify} have the same running
+time.
+
+\newpar{6.2-3}
+\textsc{max-heapify} has no effect.
+
+\newpar{6.2-4}
+$\textsc{left}(i)$ and $\textsc{right}(i)$ are greater than
+$\mathrm{heap-size}[A]$.  Thus, there's no effect on $A$.
+
+\newpar{6.3-5}
+$\textsc{max-heapify}(A, i)$
+\begin{algorithmic}
+  \STATE $l \la \textsc{left}(i)$
+  \STATE $r \la \textsc{right}(i)$
+  \STATE $continue \la \textsc{true}$
+
+  \WHILE{$continue$}
+  \IF{ $l \le \mathrm{heap-size}[A]$ \textbf{and} $A[l] > A[i]$ }
+  \STATE $largest \la l$
+  \ELSE
+  \STATE $largest \la i$
+  \ENDIF
+
+  \IF{ $r \le \mathrm{heap-size}[A]$ \textbf{and} $A[r] > A[largest]$}
+  \STATE $largest \la r$
+  \ENDIF
+
+  \IF{ $largest \not= i$ }
+  \STATE $\exchange{A[i]}{A[largest]}$
+  \STATE $i \la largest$
+  \ELSE
+  \STATE $continue \la \textsc{false}$
+  \ENDIF
+  \ENDWHILE
+\end{algorithmic}
+
+\newpar{6.2-6}
+Consider a max-heap and let's do the following transformation.  We
+rotate the left-most branch.  That is the node $i$ on the left-most
+branch becomes $\textsc{parent}(i)$ if $i > 1$ and the leaf in this
+branch becomes the root of the heap.  It's easy to verify that the
+left branch and the right branch of this new heap are still
+max-heaps.
+
+If we run \textsc{max-heapify} on his particular heap, we would
+traverse the left-most branch all the way down.  Thus, the worst-case
+running time of \textsc{max-heapify} is $\Omega(\lg n)$.
+\end{document}

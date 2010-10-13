@@ -1,0 +1,71 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\prob}[1]{\mathrm{Pr}\left\{ #1 \right\}}
+
+\begin{document}
+\newpar{5.2-1}
+We hire exactly one time if the first candidate is the best one.  So
+the probability is $1/n$.
+We hire exactly $n$ times if the candidates come in increasing order.
+So the probability is $1/n!$.
+
+\newpar{5.2-2}
+We hire exactly twice if the first candidate is the second-best
+candidate.  So the probability is $1/n$.
+
+\newpar{5.2-3} For $1\le i\le n$ and $1\le j\le 6$, note $X_{i,j}$ the
+indicator random variable associated with the event the result of the
+$i^{th}$ dice is $j$.  Note $X$ the random variable representing the
+sum of the results of $n$ dices.  We have
+\[ X = \sum_{i=1}^n\sum_{j=1}^6jX_{i,j}.\]
+Thus,
+\begin{eqnarray*}
+  E[X] &=& E\left[\sum_{i=1}^n\sum_{j=1}^6jX_{i,j}\right] \\
+  &=& \sum_{i=1}^n\sum_{j=1}^6jE[X_{i,j}] \\
+  &=& \sum_{i=}^n\sum_{j=1}^6\frac{j}{6} \\
+  &=& \frac{7n}{2}
+\end{eqnarray*}
+
+\newpar{5.2-4}
+For $1\le i\le n$, let $X_i$ be the indicator random variable
+associated with the event the costumer $i$ gets his hat back.  If we
+note $X$ the random variable representing the number of customers that
+get back their own hat we have:
+\[ X = \sum_{1\le i\le n}X_i.\]
+Thus we have,
+\begin{eqnarray*}
+  E[X] &=& E\left[\sum_{1\le i\le n}X_i\right] \\
+  &=& \sum_{1\le i\le n} E[X_i] \\
+  &=& \sum_{1\le i\le n} \frac{1}{n} \\
+  &=& 1
+\end{eqnarray*}
+
+\newpar{5.2-5}
+For $1\le i < j\le n$, note $X_{i,j}$ the indicator random variable
+associated with the event $A[i] > A[j]$.  If we note $X$ the random
+variable representing the number of inversions in the array $A$, we
+have
+\[ X = \sum_{j=1}^n \sum_{i=1}^{j-1}X_{i,j}.\]
+Note $\mathrm{rank}(i)$ the order of $A[i]$ if we classify the
+elements of the array $A$ by increasing order.  We have
+\begin{eqnarray*}
+  \prob{A[i] > A[j]} &=& \sum_{k=2}^n\prob{\mathrm{rank}(i) =
+    k\,\mbox{and}\,\mathrm{rank}(i) > \mathrm{rank}(j)} \\
+  &=& \sum_{k=2}^n \frac{1}{n} \,\frac{k-1}{n-1} \\
+  &=& \frac{1}{2}
+\end{eqnarray*}
+Thus finally
+\begin{eqnarray*}
+  E[X] &=& E\left[\sum_{j=1}^n\sum_{i=1}^{j-1} X_{i,j}\right] \\
+  &=& \sum_{j=1}^n\sum_{i=1}^{j-1} E[X_{i,j}] \\
+  &=& \sum_{j=1}^n \sum_{i=1}^{j-1} \frac{1}{2} \\
+  &=& \frac{n(n-1)}{4}
+\end{eqnarray*}
+\end{document}

@@ -1,0 +1,75 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\prob}[1]{\mathrm{Pr}\left\{ #1 \right\}}
+
+\begin{document}
+Let $c_1$ and $c_2$ be two positive constants such that
+\[ T(n-1) + c_1\,n \le T(n) \le T(n-1) + c_2\,n\]
+for $n > 0$. Let's show that
+\[ K_1\,n^2\le T(n) \le K_2\,n^2\]
+for appropriate choices of the positive constants $K_1$ and $K_2$.
+
+Suppose we have the inequalities for $n-1$.  We have
+\begin{eqnarray*}
+  T(n) &\ge& T(n-1) + c_1\,n \\
+  &\ge& K_1(n-1)^2 + c_1\,n \\
+  &=& K_1n^2 + (c_1 - 2K_1)n + K_1{}^2 \\
+  &\ge& K_1n^2
+\end{eqnarray*}
+if we have $K_1 \le \frac{c_1}{2}$.  And also
+\begin{eqnarray*}
+  T(n) &\le& T(n-1) + c_2\,n \\
+  &\le& K_2(n-1)^2 + c_2\,n \\
+  &=& K_2n^2 - \left((2K_2 - c_2) n - K_2\right)\\
+  &\le& K_2n^2 - ((2K_2 - c_2) - K_2), \mbox{ if $K_2 \ge c_2$} \\
+  &\le& K_2n^2
+\end{eqnarray*}
+Moreover,  if we choose $K_1$ small enough  and $K_2$ large enough
+such that
+\[ K_1 \le T(1) \le K_2,\]
+we have the inequalities for $n > 0$.
+
+\newpar{7.2-2}
+In this case, the ratio of the partition is always $n-1$ to $0$.
+Thus the running time verify the recurrence
+\[ T(n) = T(n-1) + \Theta(n).\]
+
+\newpar{7.2-3}
+The ratio of the partition is always $0$ to $n-1$, so the same
+reasoning applies.
+
+\newpar{7.2-4}
+If we note $i$ the number of inversions in an array of size $n$,  then
+the running time of \textsc{INSERTION-SORT} is $\Theta(n+i)$.  Thus if
+the array is almost sorted,  \textsc{INSERTION-SORT} would run in
+linear time.
+
+\newpar{7.2-5}
+Given that $0 < \alpha \le \frac{1}{2}$ we have $0 < \alpha \le
+1-\alpha.$  So the leaf having the minimum depth is leftmost one.  If
+we note $h$ its height we have
+\[ \alpha^h n \le 1 < \alpha^{h-1} n.\]
+So approximatively the depth is $ - \log_\alpha n$.  The same
+reasoning apply to the rightmost leaf whose heigh is $ -
+\log_{1-\alpha}n$.
+
+\newpar{7.2-6}
+If we note $p$ the index of the partition in an array of size $n$,
+this partition is more balanced than $1-\alpha$ to $\alpha$ if and
+only if $\alpha\le \frac{p}{n}\le 1-\alpha$, that is
+\[ \alpha\,n \le p\le (1-\alpha)\,n.\]
+The index of the partition is $p$ if the pivot is the $p^{th}$ number
+in increasing order.  Given that the input array is random,  the
+probability to have a partition is
+\[ \frac{(n-1)!}{n!} = \frac{1}{n}.\]
+So the probability that the partition is more balanced than $1-\alpha$
+to $\alpha$ is approximatively
+\[\frac{\alpha\,n - (1-\alpha)n}{n} = 1- 2\alpha.\]
+\end{document}

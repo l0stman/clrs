@@ -1,0 +1,168 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]
+{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+
+\begin{document}
+\newpar{4.1-1}
+Consider the recursion $T(n) = T(\lceil n/2\rceil) + 1$.  Let's show
+that
+\[ T(n) \le c \lg n.\]
+for a certain positive constant $c$.  Suppose we have the property for 
+$\lceil n/2 \rceil$.  We have,
+\begin{eqnarray*}
+T(n) &=& T(\lceil n/2\rceil) + 1 \\
+&\le& c\lg \lceil n/2\rceil + 1 \\
+&\le& c\lg(n/2 + 1) + 1 \\
+&\le& c\lg(n/2) + c\lg(1 + 2/n) + 1 \\
+&=& c\lg n - (c(1 - \lg(1 + 2/n)) - 1)
+\end{eqnarray*}
+There $n_0$ such that for $n \ge n_0$, we have
+\[ \lg(1 + 2/n) \le \frac{1}{2}.\]
+Thus,
+\[ T(n) \le c\lg n - (c/2 - 1).\]
+If we choose, $c \ge 2$ for $n \ge n_0$ we have,
+\[ T(n) \le c\lg n.\]
+And $c$ should be large enough such that
+\[ T(n_0) \le c\lg n_0.\]
+
+\newpar{4.1-2}
+Let's prove that $c n\lg n \le T(n)$ for an appropriate choice of the
+constant $c > 0$.  Suppose we have the property for $\lfloor n/2
+\rfloor$. We have,
+\begin{eqnarray*}
+T(n) &=& 2 T(\lfloor n/2 \rfloor) + n \\
+&\ge& 2c\lfloor n/2\rfloor
+\lg(\lfloor n/2\rfloor) + n \\
+&\ge&2c(n/2-1) \lg(\lfloor n/2\rfloor) + n \\
+&=& c n\lg(\lfloor n/2\rfloor) - 2c\lg(\lfloor n/2\rfloor) + n \\
+&\ge& cn\lg(n/2 - 1) - 2c\lg(n/2) + n \\
+&=& cn(\lg n - 1 + \lg(1 - 2/n)) - 2c(\lg n-1) + n \\
+&=& cn\lg n + n\left(1 - c + c\lg(1-2/n) - 2c\frac{\lg n-1}{n}\right)
+\end{eqnarray*}
+If we have $c \le 1/2$. There exists $n_0$ such that for $n \ge n_0$,
+\[ 0 \ge -c \lg(1-2/n) + 2c\frac{\lg n - 1}{n} \ge -1/2.\]
+Thus for $n \ge n_0$ we have
+\[ T(n) \ge cn\lg n.\]
+And $c$ should be small enough such that,
+\[ T(n_0) \ge cn_0\lg n_0.\]
+
+\newpar{4.1-3}
+We could show that $T(n) \le cn\lg n + 1$ for an appropriate choice of
+the constant $c > 0$.  Suppose we have the inequality for 
+$\lfloor n/2 \rfloor$, thus
+\begin{eqnarray*}
+T(n) &=& 2T(\lfloor n/2\rfloor) + n \\
+&\le& 2c\lfloor n/2\rfloor \lg(\lfloor n/2\rfloor) + 2 + n \\
+&\le& cn \lg(n/2) + n+2 \\
+&=& cn\lg n - ((c-1) n - 2) \\
+&\le& cn\lg n,\ \mbox{for $c \ge 3$}
+\end{eqnarray*}
+Plus, we have $T(1) = 1 \le c \lg 1 + 1$.
+
+\newpar{4.1-4}
+The running time of \textsc{MERGE-SORT} is
+\[ T(n) = \left\{
+\begin{array}{ll}
+\Theta(1)&\mbox{if $n = 1$},\\
+T(\lceil n/2\rceil + T(\lfloor n/2\rfloor) + f(n)&
+\mbox{if $n > 1$.}
+\end{array} \right. \]
+where $f(n) = \Theta(n)$. Let $c_1$ and $c_2$ be two positive
+constants such that for $n \ge n_0$,
+\[ c_1 n \le f(n) \le c_2 n.\]
+Let's show that $T(n) \le c n\lg n$ for $n \ge n_0$ and for an
+appropriate choice of the constant  $c > 0$.  Suppose we have the
+inequality for $\lceil n/2 \rceil$ and $\lfloor n/2 \rfloor$.  Thus,
+we have for $n \ge n_0$
+\begin{eqnarray*}
+T(n) &=& T(\lceil n/2\rceil) + T(\lfloor n/2\rfloor) + f(n) \\
+&\le& c\lceil n/2\rceil \lg(\lceil n/2\rceil) +
+c\lfloor n/2\rfloor \lg(\lfloor n/2\rfloor) + c_2n \\
+&\le& c\lceil n/2\rceil \lg(n/2 + 1) +
+c\lfloor n/2\rfloor \lg(n/2) + c_2 n \\
+&=& c n \lg(n/2) + c\lceil n/2\rceil \lg(1 + 2/n) + c_2 n \\
+&\le&cn \lg(n/2) + \frac{c}{\ln 2}(n/2+1)2/n + c_2 n \\
+&\le& cn\lg n - \left((c - c_2) n - \frac{3c}{\ln 2}\right)
+\end{eqnarray*}
+If we have $c > c_2$ and $n_0$ large enough
+\[ T(n) \le cn\lg n.\]
+And $c$ should be large enough so we have,
+\[ T(n_0) \le c n_0\lg n_0.\]
+We then deduce that $T(n) = O(n\lg n)$.
+
+\medskip
+Let's show that $T(n) \ge c n\lg n$ for $n \ge n_0$ and for an
+appropriate choice of the constant $c > 0$.  Suppose we have the
+inequality for $\lceil n/2\rceil$ and $\lfloor n/2\rfloor$. Then, we
+have for $n \ge n_0$
+\begin{eqnarray*}
+T(n) &=& T(\lceil n/2\rceil) + T(\lfloor n/2\rfloor) + f(n) \\
+&\ge& c\lceil n/2\rceil\lg(\lceil n/2\rceil) +
+c\lfloor n/2\rfloor\lg(\lfloor n/2\rfloor) + c_1 n \\
+&\ge& c\lceil n/2\rceil\lg(n/2) + 
+c\lfloor n/2\rfloor\lg(n/2 - 1) + c_1 n \\
+&=& c n\lg(n/2) + c\lfloor n/2\rfloor \lg(1-2/n) + c_1 n \\
+&\ge& c n\lg n + cn/2\lg(1-2/n) + (c_1-c) n
+\end{eqnarray*}
+For $0 \le x < 1$, we have
+\[ \ln (1-x) \ge \frac{-x}{1-x}.\]
+Thus,
+\[T(n) \ge c n\lg n - \frac{c}{\ln 2\,(1-2/n)} + (c_1-c)n.\]
+If we have $c_1 > c$ and $n_0$ large enough, we have,
+\[T(n) \ge c n\lg n.\]
+Plus, $c$ should be small enough such that
+\[ T(n_0) \ge c n_0\lg n_0.\]
+We then deduce that $T(n) = \Omega(n\lg n)$.  So finally,
+$T(n) = \Theta(n\lg n)$.
+
+\newpar{4.1-5}
+Let's show that $T(n) \le c n\lg n$ for an appropriate choice the
+constant $c > 0$.  Suppose that we have the equality for 
+$\lfloor n/2\rfloor + 17$, we have
+\begin{eqnarray*}
+T(n) &=& 2 T(\lfloor n/2\rfloor + 17) + n \\
+&\le& 2c(\lfloor n/2\rfloor+17)\lg(\lfloor n/2\rfloor+17) + n \\
+&\le& c(n + 34)\lg(n/2+17) + n \\
+&=& c(n+34)\lg(n/2) + c(n+34)\lg(1+34/n) + n \\
+&\le& c(n+34) \lg n + (1-c) n + \frac{34c}{\ln 2}(1+34/n) \\
+&\le& cn\lg n - \left((c-1) n - 34c\lg n - \frac{1190c}{\ln 2}\right)
+\end{eqnarray*}
+If we have $c > 1$, there exists $n_0$ such that for $n \ge n_0$
+\[ (c-1) n - 34c\lg n - \frac{1190c}{\ln 2} > 0.\]
+Thus,
+\[ T(n) \le cn\lg n.\]
+And $c$ should be large enough so,
+\[ T(n_0) \le cn_0\lg n_0.\]
+We then deduce that $T(n) = O(n\lg n)$.
+
+\newpar{4.1-6}
+Let's consider the recurrence $T(n) = 2T(\sqrt{n}) + 1$.  We have
+\[ T(2^n) = 2T(2^{n/2}) + 1.\]
+Note $S(n) = T(2^n)$.  We have the recurrence,
+\[ S(n) = 2S(n/2) + 1.\]
+Let's show that $S(n) = \Theta(n)$.  For this, we will demonstrate
+that \[c_1n \le S(n) \le c_2n - \frac{1}{2}\] for an appropriate
+choice of the positive constansts $c_1$, $c_2$ and $b$ . Suppose that
+we have the inequalities for $n/2$, we have
+\begin{eqnarray*}
+S(n) &=& 2S(n/2) + 1 \\
+&\le& 2\left(c_2\frac{n}{2} - \frac{1}{2}\right) + 1 \\
+&=& c_2n
+\end{eqnarray*}
+and
+\begin{eqnarray*}
+S(n) &=& 2S(n/2) + 1 \\
+&\ge& 2 c_2 n/2 + 1 \\
+&\ge& c_2 n
+\end{eqnarray*}
+We need to choose $c_1$ small enough and $c_2$ large enough such that
+\[ c_1 \le S(1) \le c_2.\].  We then deduce that $S(n) = \Theta(n)$.
+And finally, $T(n) = S(\lg n) = \Theta(\lg n)$.
+\end{document}

@@ -1,0 +1,107 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\exchange}[2]{\mathrm{exchange}\ #1 \leftrightarrow #2}
+
+\begin{document}
+
+\newpar{6.3-2}
+Because we want to ensure that each node $i+1, i+2, \ldots, n$ is the
+root of a max-heap.  If we increase $i$ from $1$ to $\lfloor
+\mathrm{length}[A]/2\rfloor$, this property is in general false
+because we don't know if the left and right subtrees are max-heaps.
+
+\newpar{6.3-3}
+First, let's show the following lemma.
+
+\begin{quote}
+  If $a$ is a real and $n$ is a positive integer, then we have
+  \[ \left\lfloor \frac{\left\lfloor a \right\rfloor}{n}
+  \right\rfloor =
+  \left\lfloor \frac{a}{n}\right\rfloor.\]
+\end{quote}
+
+First we have
+
+\[\left\lfloor \frac{\left\lfloor a \right\rfloor}{n}
+\right\rfloor \le
+\frac{\left\lfloor a \right\rfloor}{n} \le \frac{a}{n}\]
+
+Thus taking the floor we have the inequality
+
+\[ \left\lfloor \frac{\left\lfloor a \right\rfloor}{n}
+\right\rfloor \le
+\left\lfloor \frac{a}{n}\right\rfloor.\,\mbox{(*)}\]
+
+On the other hand we have
+
+\[  n \left\lfloor\frac{a}{n}\right\rfloor \le a <
+\left\lfloor a \right\rfloor + 1.\]
+
+Since the leftmost and rightmost members of the inequalities are
+integers, we then deduce
+
+\begin{eqnarray*}
+n \left\lfloor \frac{a}{n} \right\rfloor &\le& \lfloor a \rfloor \\
+\left\lfloor \frac{a}{n} \right\rfloor &\le& \frac{\lfloor a\rfloor}{n} \\
+\left\lfloor \frac{a}{n}\right\rfloor &\le& \left\lfloor
+\frac{\lfloor a \rfloor}{n} \right\rfloor
+\end{eqnarray*}
+
+Thus with (*), we have the lemma.
+Now consider an $n$-element heap.  Let's show by induction that
+the nodes of height $h$ in the heap are:
+
+\[ \left\lfloor
+\frac{\left\lfloor\frac{n+2}{2}\right\rfloor}{2^h}\right\rfloor,
+\left\lfloor
+\frac{\left\lfloor\frac{n+2}{2}\right\rfloor}{2^h}\right\rfloor + 1,
+\ldots, \left\lfloor \frac{n}{2^h} \right\rfloor.\]
+
+If $h = 0$ then from \textbf{Exercises 6.1-7}, the leaves of the heap
+are the nodes
+
+\[ \left\lfloor \frac{n}{2} \right\rfloor + 1, \ldots, n.\]
+
+Suppose we have the property for $h < \lfloor \lg n \rfloor$.  Then
+the nodes of height $h+1$ are the parents of the nodes of height $h$.
+By induction, we deduce that they're the nodes
+
+\[\left\lfloor \frac{\left\lfloor
+\frac{\left\lfloor\frac{n+2}{2}\right\rfloor}{2^h}\right\rfloor
+}{2}\right\rfloor,
+\ldots, \left\lfloor \frac{\left\lfloor \frac{n}{2^h}
+  \right\rfloor}{2} \right\rfloor.\]
+
+And with the lemma, we deduce the property for $h+1$.
+
+\medskip
+Keeping in mind that $-\lfloor x\rfloor = \lceil -x \rceil$, the
+number of nodes of height $h$ is
+\begin{eqnarray*}
+  \left\lfloor \frac{n}{2^h} \right\rfloor -\left\lfloor
+  \frac{\left\lfloor\frac{n+2}{2}\right\rfloor}{2^h}\right\rfloor + 1
+  &=&
+  \left\lfloor \frac{n}{2^h} \right\rfloor + \left\lceil
+  -\frac{\left\lfloor\frac{n+2}{2}\right\rfloor}{2^h}\right\rceil + 1 \\
+  &=& \left\lceil
+  \left\lfloor \frac{n}{2^h} \right\rfloor - \frac{n}{2^h} +
+  \frac{n + \left\lceil -\frac{n+2}{2}\right\rceil}{2^h}
+  \right\rceil + 1 \\
+  &=& \left\lceil
+  \left\lfloor \frac{n}{2^h} \right\rfloor - \frac{n}{2^h} +
+  \frac{\left\lceil \frac{n}{2}\right\rceil - 1}{2^h}
+  \right\rceil + 1 \\
+  &\le& \left\lfloor \frac{\left\lfloor \frac{n}{2}\right\rfloor -
+    1}{2^h}\right\rfloor + 1 \\
+  &\le& \left\lfloor \frac{\left\lfloor
+    \frac{n}{2}\right\rfloor}{2^h}\right\rfloor + 1 \\
+  &=& \left\lfloor \frac{n}{2^{h+1}}\right\rfloor + 1
+\end{eqnarray*}
+\end{document}

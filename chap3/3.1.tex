@@ -1,0 +1,82 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]
+{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+
+\begin{document}
+\newpar{3.1-1}
+There exists $n_0$ such that for $n \ge n_0$
+\[ f(n) \ge 0 \mbox{ and }g(n) \ge 0.\]
+Thus,
+\[\frac{f(n) + g(n)}{2} \le \max(f(n), g(n)) \le
+f(n) + g(n).\]
+So $\max(f(n), g(n)) = \Theta(f(n) + g(n))$.
+
+\newpar{3.1-2}
+For $b > 0$, we have
+\[ \lim_{n \to +\infty}\left(1 + \frac{a}{n}\right)^b = 1.\]
+So there exists $n_0 > 0$ such that, for $n \ge n_0$
+\[ - \frac{1}{2} \le \left(1 + \frac{a}{n}\right)^b - 1
+\le \frac{1}{2}.\]
+Thus,
+\[ \frac{1}{2} n^b \le (n + a)^b \le \frac{3}{2} n^b.\]
+We then deduce that $(n+a)^b = \Theta(n^b)$.
+
+\newpar{3.1-3}
+It's meaningless because it says nothing about the lower bound of the
+running time of the algorithm A.  It could run in constant time or in
+linear time.
+
+\newpar{3.1-4}
+We have,
+\[ 2^{n+1} \le 2\ 2^n.\]
+So $2^{n+1} = O(2^n)$.  On the other hand suppose that we have a
+constant $c$ such that for sufficiently large values of $n$
+\[ 2^{2n} \le c\ 2^n.\]
+Taking the logarithm, we have
+\[ n \le \lg c.\]
+Which is absurd.
+
+\newpar{3.1-5}
+Straightforward.
+
+newpar{3.1-6}
+Suppose that the running time of an algorithm is $\Theta(g(n))$.  So
+all entry runs in $O(g(n))$, particularly the worst-case running time.
+And the best-case running time is $\Omega(g(n))$.
+
+Reciprocally, the running time of an algorithm lies between the
+best-case running time and the worst-case running time.
+
+\newpar{3.1-7}
+Let $f(n)$ be an element of $o(g(n)) \cap \omega(g(n))$.  Given
+that $f(n) = o(g(n))$, there exists $n_0$ such that for $n \ge n_0$
+\[ f(n) \le \frac{g(n)}{2}.\]
+But given that $f(n) = \omega(g(n))$, there exists $n_1$ such that for
+$n \ge n_1$
+\[ g(n) \le f(n).\]
+Thus, for $n \ge \max(n_0, n_1)$
+\[ f(n) \le \frac{f(n)}{2}.\]
+Wich is absurd since $f(n)$ is positive for large values of $n$.  We
+then deduce that 
+\[o(g(n) \cap \omega(g(n))) = \emptyset.\]
+
+\newpar{3.1-8}
+We could proporse the following definitions
+\begin{eqnarray*}
+\Omega(g(n, m)) = \{f(n,m):\ \mbox{there exist positive constants}\ 
+c, n_0,\ \mbox{and}\ m_0\\ \mbox{such that}\ 0 \le c\,f(n,m) \le
+g(n) \mbox{for all}\ n \ge n_0\ \mbox{and}\ m \ge m_0\},
+\end{eqnarray*}
+\begin{eqnarray*}
+\Theta(g(n, m)) = \{f(n,m): \mbox{ there exist positive constants } 
+c_1, c_2, n_0,\  m_0\\ \mbox{such that}\ c_1\,f(n,m) \le
+g(n,m) \le c_2\,f(n,m) \mbox{for all}\ n \ge n_0\ \mbox{and}\ m \ge m_0\}.
+\end{eqnarray*}
+\end{document}

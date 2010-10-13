@@ -1,0 +1,84 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\exchange}[2]{\mathrm{exchange}\ #1 \leftrightarrow #2}
+\newenvironment{alg}[2]
+               {\noindent $\textsc{#1}(#2)$ \begin{algorithmic}}
+               {\end{algorithmic}}
+
+\begin{document}
+
+\newpar{8.3-2} \textsc{insertion-sort} and \textsc{mege-sort} are
+stable.
+
+To make any sorting algorithm stable, first we scan the array and keep
+track of the indexes of the keys equal to a given key in the
+order of their apparition.  We do this for all the possible values of
+the keys.  Then we build an array composed of the first element in
+each group and sort it using the sorting algorithm.  Then we return
+the result by inserting all the elements equal to first key, then the
+second one until the last one.  And we obtain a stable sort.
+
+Thus we add $\Theta(n)$ more space and running time to the algorithm.
+
+\newpar{8.3-3} To prove that \textsc{radix-sort} is correct, let's
+consider the following loop invariant:
+
+\begin{quote}
+  If we truncate the entries to the first $i-1$ digits, the array is
+  sorted.
+\end{quote}
+
+\begin{itemize}
+\item \textbf{Initialization: }  If $i=1$, truncating to the first $0$
+  digits yields no number so we can say whatever properties we want on
+  those numbers.
+
+  \item \textbf{Maintenance: }  Suppose the property is true at the
+    beginning of the \textbf{for} loop.
+
+    We have the property that the elements of the array truncated to
+    the first $i-1$ digits are in sorted order.  Now we sort the array
+    $A$ on the $i^{th}$ digit using a stable sort.
+
+    Consider two elements in the array.  If their respective $i^{th}$
+    digits are different, then they are in the correct order.  If
+    they are equal, since our sorting algorithm is a stable sort, they
+    keep the same order as before the sorting.  Thus the elements of
+    the array truncated to first $i$ digits is in sorted order.
+
+    \item \textbf{Termination: } At the end of the \textbf{for} loop,
+      we have $i = d+1$.  Thus the array is sorted.
+\end{itemize}
+
+\newpar{8.3-4}  Since the number of bits in each integer is
+$\lg(n^2-1) \simeq 2 \lg n$, using \emph{Lemma 8.4} with $r = \lfloor
+\lg n\rfloor$ we have a $\Theta(n)$ running time.
+
+\newpar{8.3-5} Suppose we sort according to the first digit, it will
+cost us $\Theta(n + k)$.  Note $n_i$ the number of numbers whose first
+digit is equal to $i$.  Since we have to sort each of these piles of
+numbers according to their second digits, it will cost us
+
+\[ \sum_{i=1}^k \Theta(n_i + k) = \Theta(n + k^2).\]
+
+The same reasoning holds true when sorting according to the third
+digit which will cost us $\Theta(n + k^3)$ since there is $k^3$ piles
+of numbers.   So the total cost will be
+
+\[ \sum_{i=1}^d \Theta(n+k^i) = \Theta\left(d\,n +
+k\frac{k^d-1}{k-1}\right) = \Theta(d\,n + k^d).\]
+
+The number of piles of card the operator needs to keep track of in the
+worst case is: $k\,d$.  To prove this claim, by symmetry we suppose
+that sorting the numbers in the first pile in each turn use the worst
+case memory.  And since we can only add $k$ piles of numbers of
+sorting, we have the desired result.
+
+\end{document}

@@ -1,0 +1,522 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\exchange}[2]{\mathrm{exchange}\ #1 \leftrightarrow #2}
+\newcommand{\prob}[1]{\mathrm{Pr}\left\{ #1 \right\}}
+\newenvironment{alg}[2]
+               {\noindent $\textsc{#1}(#2)$ \begin{algorithmic}}
+               {\end{algorithmic}}
+
+\begin{document}
+
+\newpar{8.4-2} The worst-case running time occurs when all the numbers
+are in the same bucket and they're in decreasing order.  The running
+time is $\Theta(n^2)$.
+
+We just replace the insertion sort in line $5$ by a merge sort or heap
+sort.
+
+\newpar{8.4-3} We have
+
+\begin{eqnarray*}
+  E[X^2] &=& 0^2 \times \frac{1}{n^2} + 1^2 \times \frac{2}{n^2} + 2^2
+  \times \frac{1}{n^2} \\
+  &=& \frac{6}{n^2}.
+\end{eqnarray*}
+
+And
+
+\begin{eqnarray*}
+  E^2[X] &=& \left(0 \times \frac{1}{n^2} + 1 \times \frac{2}{n^2} + 2
+  \times \frac{1}{n^2}\right)^2 \\
+  &=& \frac{16}{n^4}
+\end{eqnarray*}
+
+\newpar{8.4-4} We split the unit circle into $n$ equal regions, formed
+by the angles $\frac{2\pi k}{n}$ for $0 \le k\le n-1$.  Consider the
+point $p_i$ of the unit circle whose angle in polar coordinate is
+$\theta_i$.  If $x_i \not= 0$, we have
+
+\[ \theta_i = \arctan\left(\frac{y_i}{x_i}\right).\]
+
+Note $k_i$ the number of the bucket we put $p_i$ into.  We
+define it as:
+
+\[
+k_i = \left\{
+\begin{array}{l}
+  \left\lfloor\frac{n}{4}\right\rfloor\ \mbox{if $x_i = 0$ and $y_i > 0$} \\
+  \left\lfloor\frac{3n}{4}\right\rfloor\ \mbox{if $x_i = 0$ and $y_i < 0$} \\
+  \left\lfloor \frac{n\theta_i}{2\pi}\right\rfloor\ \mbox{if $x_i \not= 0$}
+\end{array}
+\right.
+\]
+
+The probability that a point $p_i$ is in the bucket $k$ for $0\le k\le
+n-1$ is the probability that
+
+\[ \frac{2\pi k}{n} \le \theta_i < \frac{2\pi(k+1)}{n}.\]
+
+Since the probability is proportional to the area of that region which
+is $\frac{2\pi}{n}$, we deduce it's equal to
+
+\[ \frac{\frac{2\pi}{n}}{2\pi} = \frac{1}{n}.\]
+
+Thus using \textsc{bucket-sort} to sort the points according to the
+distance from the origin, we have an average running-time equal to
+$\Theta(n)$.
+
+\newpar{8.4-5} Since the probability distribution function $P$ is
+continuous, it takes all the possible value between $0$ and $1$.  Thus
+for each $i$ between $0$ and $n-1$, the probability that a certain
+$P(x)$ lays between $\frac{i}{n}$ and $\frac{i+1}{n}$ is
+$\frac{1}{n}$.
+
+We use \textsc{bucket-sort} by placing $X_i$ in the $j^{th}$ bucket if
+$\frac{j-1}{n}\le X_i<\frac{j}{n}$ for $1\le j < n$ or in the $n^{th}$
+bucket if $X_i = 1$.  Since the random variables are drawn at random,
+the probability that $X_i$ is in the $j^{th}$ bucket is $\frac{1}{n}$.
+
+\newprob{8-1} \subpar{a} Since the algorithm is correct, the only
+leaves that could be reached from the root of $T_A$ are the
+permutations of the random input.  There are $n!$ of them so they are
+labeled $1/n!$ and the rest are labeled with $0$.
+
+\subpar{b} Note $k_l$ and $k_r$ the number of leaves in the left
+subtree and the right subtree respectively.  Since we must add one to
+the height of each leave in the subtrees to compute their height in
+$D(T)$, we have
+
+\[ D(T) = (D(LT) + k_l) + (D(RT) + k_r) = D(LT) + D(RT) + k.\]
+
+\subpar{c} Let $T$ be a tree with $k$ leaves that achieves the minimum
+and let $i_0$ be the number of leaves in $LT$ and $k-i_0$ the number
+of leaves in $RT$.  We have
+
+\begin{eqnarray*}
+  D(T) &=& d(k) \\
+  &=& D(LT) + D(RT) + k \\
+  &\ge& d(i_0) + d(k-i_0) + k \\
+  &\ge& \min_{1\le i\le k-1}\{d(i) + d(k-i) +k\}
+\end{eqnarray*}
+
+Let $i_1$ be an integer between $1$ and $k$ such that
+
+\[ d(i_1) + d(k-i_1) + k = \min_{1\le i\le k-1}\{d(i) + d(k-i) +k\}.\]
+
+If $D(T) > d(i_1) + d(k-i_1) + k$, consider the tree $T'$ which has
+the same root as $T$, whose left subtree composed of the same elements
+as $LT$ whose depth is $d(i_1)$ and the right subtree is of depth
+$d(k-i_1)$ composed of the elements of $RT$.  We then have
+
+\[ D(T) = d(k) > d(i_1) + d(k-i_1) + k = D(T').\]
+
+Which is absurd.  We then deduce that
+
+\[ d(k) = \min_{1\le i\le k-1}\{d(i) + d(k-i) + k\}.\]
+
+\subpar{d}  Let $k>1$ and for a real $x$ such that $1 \le x\le k-1$,
+note: $f(x) = x \lg x + (k-x)\lg (k-x)$.  We have
+
+\[  f'(x) = \frac{\ln x + 1 - \ln(k-x) - 1}{\ln 2} = \lg\frac{x}{k-x}.\]
+
+We then have $f'(x) \ge 0$ if and only if $x \ge k/2$.  We then deduce
+that $x = k/2$ is a minimum for $f$ when x varies between $1$ and
+$k-1$.
+
+\medskip
+Let's show that
+
+\[ c_1\,k\lg k \le d(k) \le c_2\,k\lg k + 1\]
+
+for appropriate choices of the positive constants $c_1$ and $c_2$.
+Suppose we have the inequalities for $1\le i\le k-1$, we have
+
+\begin{eqnarray*}
+  d(k) &=& \min_{1\le i\le k-1}\{ d(i) + d(k-i) + k\} \\
+  &\le& c_2 \min_{1\le i\le k-1}\{i\lg i + (k-i)\lg (k-i) \} + 2
+  + k\\
+  &=& c_2 k \lg (k/2) + 2 + k \\
+  &=& c_2 k \lg k + 1 - ((c_2 - 1)k - 1) \\
+  &\le& c_2 k\lg k + 1
+\end{eqnarray*}
+
+if $c_2 \ge 2$.  And we have too
+
+\begin{eqnarray*}
+  d(k) &=& \min_{1\le i\le k-1}\{ d(i) + d(k-i) + k\} \\
+  &\ge& c_1 \min_{1\le i\le k-1}\{ i \lg i + (k-i)\lg(k-i)\} + k \\
+  &=& c_1 (k \lg k - k) + k \\
+  &=& c_1\,k \lg k + k(1-c_1) \\
+  &\ge& c_1k\lg k
+\end{eqnarray*}
+
+if we have $0 < c_1 \le 1$.  Since we have for $k=1$ $0 \le d(1) \le
+1$, we then deduce that $c_1\,k\lg k \le d(k) \le c_2\,k\lg k$ for
+$k\ge 1$.  That is $d(k) = \Theta(k\lg k)$.
+
+\subpar{e} Note that only the reachable leaves from the root interest
+us.  There's $n!$ of them and since $T_A$ is a binary tree, the depth
+of that subtree is at most $\lg n!$.  We then deduce that $D(T_A) =
+O(n!  \lg(n!))$.  And from d., we have $D(T_A) \ge d(n!) = \Theta(n!
+\lg (n!))$.  We then deduce that $D(T_A) = \Theta(n! \lg n!)$.
+
+The expected running time of the algorithm $A$ is the expected depth
+of a reachable leaf which is equal to
+
+\[ \frac{D(TA)}{n!} = \Theta(\lg n!) = \Theta(n\lg n).\]
+
+\subpar{d} Note $A_1, A_2, \ldots, A_m$ all the deterministic
+comparison sorts that we obtain from $B$ by replacing a randomization
+node with one of its children.  Note $C(A)$ the average number of
+comparisons for a comparison sort algorithm $A$.  We have,
+
+\[ C(B) = \sum_{i=1}^m \prob{A_i} C(A_i).\]
+
+If for all $i$ between $1$ and $m$ we have $C(A_i) > C(B)$, then
+
+\[ C(B) = \sum_{i=1}^m \prob{A_i} C(A_i) > C(B) \sum_{i=1}^m
+\prob{A_i} = C(B).\]
+
+Which is absurd.  We then deduce that there exists an integer $i$ such
+that $C(A_i) \le C(B)$.
+
+\newprob{8-2} \subpar{a} \textsc{counting-sort}.
+
+\subpar{b}
+
+\begin{alg}{sort}{A}
+  \STATE $i \la 1$
+  \STATE $j \la length[A]$
+
+  \WHILE { $i < j$ }
+
+  \WHILE { $A[i] = 0$ }
+  \STATE $i \la i + 1$
+  \ENDWHILE
+
+  \WHILE { $A[j] = 1$ }
+  \STATE $j \la j - 1$
+  \ENDWHILE
+
+  \STATE $\exchange{A[i]}{A[j]}$
+  \ENDWHILE
+\end{alg}
+
+\subpar{c} \textsc{insertion-sort}.
+
+\subpar{d} First of all the algorithm needs to be $O(n)$, which excludes
+algorithm (c).  On the other hand (b) could be used in place of
+\textsc{counting-sort} in radix sort and will run in $O(bn)$.
+
+\subpar{e}
+
+\begin{alg}{csort2}{A, k}
+  \STATE \COMMENT{ Create two arrays $B$ and $C$ of size $k+1$ }
+  \FOR { $i \la 0$ \textbf{to} $k$ }
+  \STATE $B[i] \la 0$
+  \ENDFOR
+
+  \FOR { $i \la 1$ \textbf{to} $length[A]$ }
+  \STATE $B[A[i]] \la B[A[i] + 1]$
+  \ENDFOR
+
+  \STATE \COMMENT{ $B[i]$ now contains the number of elements equal to
+    $i$ }
+  \STATE $C[0] \la B[0]$
+  \FOR { $i \la 1$ \textbf{to} $k$ }
+  \STATE $C[i] \la B[i] + C[i-1]$
+  \ENDFOR
+
+  \STATE \COMMENT{ $C[i]$ now contains the number of elements less
+    than or equal to $i$ }
+  \STATE $j \la k$
+  \WHILE { \TRUE }
+
+  \WHILE { $j>0$ \textbf{and} $B[i] = 0$ }
+  \STATE $i \la i-1$
+  \ENDWHILE
+
+  \IF { $j = 0$ }
+  \RETURN
+  \ENDIF
+
+  \STATE \COMMENT{ Place in the array the elements equal to $j$ }
+  \WHILE { $B[j] > 0$ }
+
+  \WHILE { $A[C[j]] = j$ }
+  \STATE $C[j] \la C[j] - 1$, $B[j] \la B[j] - 1$
+  \ENDWHILE
+
+  \STATE $i \la C[j]$
+  \IF { $B[j] > 0$ }
+  \WHILE { $A[C[A[i]] \not= j$ }
+    \STATE $B[A[i]] \la B[A[i]] - 1$, $C[A[i]] \la C[A[i]] - 1$
+    \STATE $\exchange{A[C[A[i]]+1]}{A[i]}$
+  \ENDWHILE
+
+  \STATE $C[j] \la C[j]-1$, $B[j] \la B[j]-1$
+  \STATE $C[A[i]] \la C[A[i]]-1$, $B[A[i]] \la B[A[i]]-1$
+  \STATE $\exchange{A[C[A[i]]+1}{A[i]}$
+  \ENDIF
+
+  \ENDWHILE
+
+  \ENDWHILE
+\end{alg}
+
+Of course, this new algorithm is not a stable sort.
+
+\newprob{8-3}
+\subpar{a} Let \textsc{ndigits} be a procedure that returns the number of
+digits of an integer.
+
+\begin{alg}{sort}{A}
+  \STATE $low \la i \la 1$
+  \WHILE {$low < length[A]$}
+
+  \STATE $med \la low$
+  \FOR {$j \la low$ \textbf{to} $length[A]$}
+  \IF {$\textsc{ndigits}(A[j]) = i$}
+  \STATE $\exchange{A[j]}{A[low]}$
+  \STATE $med \la med + 1$
+  \ENDIF
+  \ENDFOR
+
+  \STATE \COMMENT{Sort the sub-arrays $A[low\ldots med-1]$ and $A[med
+      \ldots length[A]]$ using a stable sort on digit $i$}
+  \STATE $i \la i+1$
+  \STATE $low \la med$
+  \ENDWHILE
+\end{alg}
+
+Note $n_l$ the number of integers who has a $l^{th} digit$.  We have
+
+\[ n = \sum_{l \ge 1} n_l.\]
+
+If we note $k$ the number of different digits and we use
+\textsc{counting-sort} as stable sort.  The running-time of the
+$i^{th}$ iteration of the \textbf{while} loop is:
+
+\begin{eqnarray*}
+  &=& O(n_i) + O((med - low + k) + (length[A] - med + 1 + k)) \\
+  &=& O(n_i) + O(n_i + 2k) \\
+  &=& O(n_i + k)
+\end{eqnarray*}
+
+Thus the total running time is $O((k+1)n) = O(n)$.
+
+\subpar{b} Just use the same algorithm as in a. but reverse the
+strings.
+
+\newpar{8-4}
+\subpar{a}
+
+\begin{enumerate}
+
+\item If there's no red jug left. Stop. Otherwise pick one.
+
+\item Pick one blue jug.
+
+\item Compare the capacity of the right jug with the blue one.  If
+  they have the same capacity, pair them and remove them from the list
+  of jugs and goto 1.  Otherwise goto 2.
+\end{enumerate}
+
+\subpar{b} Consider the decision-tree representing the comparisons
+performed by an algorithm.  Each leaf represents a pair of n jugs
+where the first elements represent a permutation of the red jugs and the
+second elements a permutation of the blue ones.  There are $n!^2$
+of them.
+
+If we note $h$ the height of the decision-tree.  If we assume that the
+algorithm is correct each of the $n!^2$ pairs are reachable leaves.
+Since a binary tree of height $h$ has no more than $2^h$ leaves we
+deduce that $n!^2 \le 2^h$.  We then deduce that $h = \Omega(n \lg
+n)$.
+
+\subpar{c} We'll use a variant of \textsc{randomized-quicksort} to
+solve the problem.  When the two arrays $reds$ and $blues$ are sorted,
+their respective $i^{th}$ member have the same size.  The procedure
+$\textsc{cmp}(A, B)$ returns $-1$ if the capacity of the jug $A$ is less
+than the capacity of jug $B$, $0$ if they're equal and $1$ otherwise.
+
+\begin{alg}{partition}{x, A, p, r}
+  \STATE $i \la p-1$
+
+  \FOR {$j \la p$ \textbf{to} $r$}
+  \STATE $cmp \la \textsc{cmp}(A[j], x)$
+
+  \IF{ $cmp \le 0$ }
+  \STATE $i \la i+1$
+  \STATE $\exchange{A[i]}{A[j]}$
+  \IF { $cmp = 0$ }
+  \STATE $pos \la k$
+  \ENDIF
+  \ENDIF
+  \ENDFOR
+
+  \STATE $\exchange{A[k]}{A[pos]}$
+  \RETURN $k$
+\end{alg}
+
+\newpage
+\begin{alg}{randomized-partition}{reds, blues, p, r}
+  \STATE $i \la \textsc{partition}(reds[\textsc{random}(p, r)], blues, p, r)$
+  \STATE $\textsc{partition}(blues[i], reds, p, r)$
+  \RETURN $i$
+\end{alg}
+
+\medskip
+\begin{alg}{randomized-sortjugs}{reds, blues, p, r}
+  \IF {$p<r$}
+  \STATE $q \la \textsc{randomized-partition}(reds, blues, p, r)$
+  \STATE $\textsc{randomized-sortjugs}(reds, blues, p, q-1)$
+  \STATE $\textsc{randomized-sortjugs}(reds, blues, q+1, r)$
+  \ENDIF
+\end{alg}
+
+From the analysis of \textsc{quicksort}, we deduce that the expected
+number of comparisons is $O(n\lg n)$ and the worst-case number of
+comparisons is $O(n^2)$.
+
+\newpar{8.5}
+\subpar{a} It means that the array is sorted.
+
+\subpar{b} The sequel $2, 1, 3, 4, 5, 6, 7, 8, 9, 10$ is $2$-sorted
+but not sorted.
+
+\subpar{c} An array $A$ is $k$-sorted if and only if for all $i$
+between $1$ and $n-k$, we have
+
+\begin{eqnarray*}
+  \frac{\sum_{j=i}^{i+k-1}A[j]}{k} &\le&
+  \frac{\sum_{j=i+1}^{i+k}A[j]}{k} \\
+  A[i] + \sum_{j=i+1}^{i+k-1}A[j] &\le& A[i+k] + \sum_{j=i+1}^{i+k-1}
+  A[j] \\
+  A[i] &\le& A[i+k]
+\end{eqnarray*}
+
+\subpar{d}
+
+\begin{alg}{k-sort}{A, k}
+  \STATE \COMMENT{Create an array $B$ of size $length[A]$ and an array
+    $C$ of size $k$}
+  \FOR {$i\la 1$ \textbf{to} $k$}
+  	\STATE $j \la i$
+  	\STATE $len \la 1$
+
+  	\WHILE {$j \le length[A]$}
+  		\STATE $C[len] \la A[j]$
+  		\STATE $len \la len+1$
+  		\STATE $j \la j+k$
+  	\ENDWHILE
+
+  	\STATE $\textsc{heap-sort}(C[1\ldots len-1])$
+
+  	\STATE $l \la i$
+  	\FOR {$j \la 1$ \textbf{to} $len$}
+  		\STATE $B[l] \la C[j]$
+  	\STATE $l \la l+k$
+  \ENDFOR
+
+  \ENDFOR
+
+  \RETURN $B$
+\end{alg}
+
+It's easy to see that \textsc{k-sort} verifies the property in c., so
+it $k$-sorts the array $A$.  Given that $len \le  n/k$, we deduce that
+the running time is
+
+\[ k (O(n/k) + O(n/k \lg(n/k)) + O(n/k)) = O(n\lg(n/k).\]
+
+\subpar{e} We create an array $B$ of size $n$ as follows: for $i$
+between $1$ and $k$, copy successively the $i^{th}$ element of
+each $k$-array into $B$.  Then we use the \textsc{merge} procedure in
+\textbf{Exercises 6.5-8} to merge the already sorted $k$-arrays.
+
+\subpar{f} From d., we deduce that we can $k$-sort an $n$-element array
+in $O(n\lg n)$.  Thus from c., we have
+
+\[ A[1] \le A[1+k] \le A[1+2k] \le \cdots \le A[1+\lfloor
+  (n-1)/k\rfloor].\]
+
+We have sorted at least $\lfloor (n-1)/k\rfloor + 1$ elements in the
+array $A$.  We then deduce that the running time $T(n)$ verifies
+
+\[ T(n) = \Omega((\lfloor(n-1)/k\rfloor+1) \lg(\lfloor(n-1)/k\rfloor)+1) =
+\Omega(n \lg n).\]
+
+\newprob{8-6}  Suppose that each list has distinct elements.
+
+\subpar{a} Suppose we choose $n$ numbers to form the first list.
+Since this list should be sorted and has distinct elements, there's
+only one permutation of the $n$ numbers to satisfy these
+requirements.  The same reasoning applies to the other $n$ numbers
+forming the second list.  Thus, the number of possible way to divide
+$2n$ numbers into two sorted list, each with $n$ numbers is the number
+of way to choose $n$ numbers from $2n$ numbers.
+
+\subpar{b} The final merged list should appear as a leaf in the
+decision tree.  Since it's sorted, we can say that it's the
+concatenation of two sorted lists with $n$ elements each.  From a., we
+already know that there's $C_{2n}^n$ possible way to divide $2n$
+numbers to two sorted lists of size $n$.  And each of them should be
+reachable since if we feed the two halves of size $n$ of the list as
+entries to the algorithm, the final result should be itself.
+
+We then deduce that the decision tree of an algorithm should at least
+contains $C_{2n}^n$ leaves.  Thus the height of the decision tree is
+at least
+
+\[  \left\lfloor \lg C_{2n}^n\right\rfloor \ge \lg (2n)! - 2 \lg n!.\]
+
+From Stirling's approximation, we have
+
+\[ n! = \sqrt{2 \pi n} \left(\frac{n}{e}\right)^n (1 + O(1/n)).\]
+
+Thus
+
+\[  \lg n! = n(\lg n - \lg e) + \frac{\lg n + 1 + \lg \pi}{2} +
+O(1/n).\]
+
+An finally
+
+\begin{eqnarray*}
+  \lg(2n)! - 2\lg n! &=& 2n - \frac{\lg n + \lg \pi}{2} +
+  O(1/n)\\
+  &=& 2n - o(n)
+\end{eqnarray*}
+
+We then deduce that the algorithm is using at least $2n - o(n)$
+comparisons.
+
+\subpar{c} Let $x$ be an element of the first list and $y$ an element
+of the second such that $x$ and $y$ are in the sorted order.  The only
+way to establish this relation is to compare $x$ with $y$ or compare
+$x$ with an element $z$ of second list such that $z < y$ and we deduce
+that $x < z$, or to compare $y$ with an element $z$ of the first list
+such that $x < z$ and we deduce that $z < y$.
+
+Thus, for two consecutive elements, the only way to know their order
+is to compare them.
+
+\subpar{d} Note $(x_i)_{1\le i\le n}$ the elements of the first sorted
+list and $(y_i)_{1\le i\le n}$ the elements of the second one.  And
+suppose that the final sorted list is:
+
+\[ x_1, y_1, x_2, y_2, \ldots, x_{n-1}, y_{n-1}, x_n, y_n .\]
+
+From c., we deduce that we need at least $2n-1$ comparisons to merge
+the two lists.
+
+Thus for each algorithm, there's always entries that needs at least
+$2n-1$ comparisons.
+\end{document}

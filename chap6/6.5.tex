@@ -1,0 +1,378 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\exchange}[2]{\mathrm{exchange}\ #1 \leftrightarrow #2}
+\newenvironment{alg}[2]
+               {\noindent $\textsc{#1}(#2)$ \begin{algorithmic}}
+               {\end{algorithmic}}
+
+\begin{document}
+
+\newpar{6.5-3}
+\begin{alg}{heap-mininum}{A}
+  \RETURN $A[1]$
+\end{alg}
+
+\medskip
+\begin{alg}{heap-extract-min}{A}
+  \IF{$\mathrm{heap-size}[A] < 1$}
+  \STATE \textbf{error} ``heap underflow''
+  \ENDIF
+
+  \STATE $min \la A[1]$
+  \STATE $A[1] \la A[\mathrm{heap-size}[A]]$
+  \STATE $\textsc{min-heapify}(A, 1)$
+  \RETURN $min$
+\end{alg}
+
+\medskip
+\begin{alg}{heap-decrease-key}{A, i, key}
+  \IF{$key > A[i]$}
+  \STATE \textbf{error} ``new key is greater than current key''
+  \ENDIF
+
+  \STATE $A[i] \la key$
+  \WHILE{$i>1$ \textbf{and} $A[\mathrm{parent}(i)] > A[i]$}
+  \STATE $\exchange{A[i]}{A[\mathrm{parent}(i)]}$
+  \STATE $i \la \mathrm{parent}(i)$
+  \ENDWHILE
+\end{alg}
+
+\newpar{6.5-4}
+We do so that the new heap is a max-heap and the last element is always
+less than the newly inserted element.  Note that only this last
+property matters so we can replace $-\infty$ with $k-1$ and the
+algorithm still works.
+
+\newpar{6.5-5}
+Let's show the property is a loop invariant:
+
+\begin{itemize}
+\item \textbf{Initialization: }  Since $A$ is a max-heap and we have
+  set $A[i]$ to $key$ at line $3$,  the new heap is max-heap except
+  that $A[i]$ could be greater than $A[\mathrm{parent}[i]]$.
+
+  \item \textbf{Maintenance: } We deduce from the property that
+    $A[\mathrm{parent}(i)]$ is greater than the children of $A[i]$.
+    Thus if we exchange these two elements, the node $i$ becomes a
+    max-heap.  So $A$ remains a max-heap except that
+    $A[\mathrm{parent}(i)]$ could be greater than
+    $A[\mathrm{parent(\mathrm{prarent(i)})}]$.  Since we assign to $i$
+    the value $\mathrm{parent(i)}$, we maintain the property.
+
+    \item \textbf{Termination: } At the end of the loop we have $i = 1$
+      or $A[\mathrm{parent}(i)] \ge A[i]$.  If $i=1$, the node don't
+      have a parent so $A$ is a max-heap.  And we have the second
+      property, we deduce immediately that $A$ is a max-heap.
+\end{itemize}
+
+\newpar{6.5-6} Suppose that we have implemented the procedure
+$\textsc{set-handle}(x, key, H)$ and $\textsc{unset-handle}(x, H)$
+which respectively set the handle of the object $x$ to $key$ in the
+queue $H$ and free the handle of the object.
+
+We implement a queue with a min-heap:
+
+\begin{alg}{queue-empty}{Q}
+  \RETURN $\mathrm{heap-size}(Q) = 0$
+\end{alg}
+
+\medskip
+\begin{alg}{enquue}{Q, x}
+  \STATE $key \la \mathrm{heap-size}[Q] + 1$
+  \STATE $\textsc{set-handle}(x, key, Q)$
+  \STATE $\textsc{min-heap-insert}(Q, key)$
+\end{alg}
+
+\medskip
+\begin{alg}{dequeue}{Q}
+  \STATE $first \la \textsc{heap-extract-min}(Q)$
+  \STATE $\textsc{unset-handle}(first, Q)$
+  \RETURN $first$
+\end{alg}
+
+\bigskip
+We implement a stack as a max-heap:
+
+\begin{alg}{stack-empty}{S}
+  \RETURN $\mathrm{heap-size}[S] = 0$
+\end{alg}
+
+\medskip
+\begin{alg}{push}{S, x}
+  \STATE $key \la \mathrm{heap-size}[S] + 1$
+  \STATE $\textsc{set-handle}(x, key, S)$
+  \STATE $\textsc{max-heap-insert}(S, key)$
+\end{alg}
+
+\medskip
+\begin{alg}{pop}{S}
+  \STATE $top \la \textsc{heap-extract-max}(S)$
+  \STATE $\textsc{unset-handle}(top, S)$
+  \RETURN $top$
+\end{alg}
+
+\newpar{6.5-7}
+\begin{alg}{heap-delete}{A, i}
+  \STATE $\textsc{heap-increase-key}(A, i,
+  \textsc{heap-maximum}(A)+1)$
+  \STATE $A[1] \la A[\mathrm{heap-size}[A]]$
+  \STATE $\mathrm{heap-size[A]} \la \mathrm{heap-size[A]} - 1$
+  \STATE $\textsc{max-heapify}(A, 1)$
+\end{alg}
+
+\newpar{6.5-8} The input is an array of size $n$ considered as a $k$
+sorted arrays with size $\lceil n/k\rceil$ each, except maybe the last
+one which could have a size less than $\lceil n/k\rceil$.
+
+\begin{alg}{merge}{A, k}
+  \STATE \COMMENT{Create an array $B$ of size $length[A]$}
+  \STATE $klen \la \lceil length[A]/k\rceil$
+  \STATE $max \la 1$
+  \FOR{$i\la 1$ \textbf{to} $klen$}
+  	\STATE $j \la i$
+        \STATE $min \la max$
+	\WHILE {$j \le length[A]$}
+        	\STATE $B[max] \la A[j]$
+                \STATE $max \la max+1$
+                \STATE $j \la j+klen$
+        \ENDWHILE
+        \STATE $\textsc{heap-sort}(B[min\ldots max-1])$
+  \ENDFOR
+
+  \RETURN $B$
+\end{alg}
+
+\newprob{6-1}
+\subpar{a} No they don't.  Consider the heap $1, 2, 3, 4$ as initial
+input.  \textsc{build-max-heap} returns the max-heap $4, 2, 3, 1$
+whereas \textsc{build-max-heap'} returns $4, 3, 2, 1$.
+
+\subpar{b} Suppose that elements in the heap are in ascending order.
+Thus when inserting the $i^{th}$ element, we need to move it to the
+position $1$, which needs at least $\lfloor \lg i\rfloor$ operations.
+Thus \textsc{build-max-heap'} needs at least
+\[ \sum_{i=1}^n \lfloor \lg i\rfloor = \Omega(n\lg n) \]
+operations to terminate.  And given that each insertion takes at most
+$O(\lg n)$, we conclude that the worst-case running time is
+$\Theta(n\lg n)$.
+
+\newprob{6-2}
+\subpar{a}  We represent a $d$-ary heap as an ordinary heap but with
+the following primitives.  Given a node $i$, $\textsc{parent}(i)$
+represents the parent of the node, $\textsc{left}(i)$ returns the
+index of the leftmost child of the node $i$ and $\textsc{right}(i)$
+returns the rightmost one.
+
+\bigskip
+\begin{alg}{parent}{i}
+  \RETURN $\lfloor \frac{i-2}{d}\rfloor + 1$
+\end{alg}
+
+\newpage
+\begin{alg}{left}{i}
+  \RETURN $(i-1)d + 2$
+\end{alg}
+
+\medskip
+\begin{alg}{right}{i}
+  \RETURN $id +1$
+\end{alg}
+
+\subpar{b}  We have,
+\[ d^h - 1 \le n < d^{h+1} + 1.\]
+
+Thus $h = \lfloor \log_b n \rfloor$.
+
+\subpar{c}  We need to modify \textsc{max-heapify} to look for the
+maximum between the current node and its children.
+
+\begin{alg}{max-heapify}{A, i}
+  \STATE $largest \la i$
+
+  \FORALL{$k$ such that $\textsc{left}(i) \le k \le \textsc{right}(i)$
+    and $k \le \mathrm{heap-size}[A]$}
+  \IF{$A[k] > largest$}
+  \STATE $largest \la k$
+  \ENDIF
+  \ENDFOR
+
+  \IF{$largest \not= k$}
+  \STATE $\exchange{i}{largest}$
+  \STATE $\textsc{max-heapify}(A, largest)$
+  \ENDIF
+\end{alg}
+
+\textsc{heap-extract-max} could use the same algorithm as the one for
+a binary heap.  Its running time is $O(\log_d n)$.
+
+\subpar{d}  We can use the same algorithm as the one for a binary heap
+since \textsc{heap-increase-key} only references the parents of the
+node.  Its running time is $O(\log_d n)$.
+
+\subpar{e} See d.
+
+\newpar{6-3}
+\subpar{a}
+\[
+\begin{array}{cccc}
+  2 & 8 & 16 & \infty \\
+  3 & 9 & \infty & \infty \\
+  4 & 12  & \infty & \infty \\
+  5 & 14 & \infty & \infty
+\end{array}
+\]
+
+\subpar{b}
+If $Y[1, 1] = \infty$, then $Y[1, j] = \infty$ for $j$ between $1$ and
+$n$ since the first row is sorted.  Suppose that all the elements of
+the $i^{th}$ row are empty where $i < n$.  Thus, $Y[i+1, 1] = \infty$
+since the column is sorted from top to bottom.  And applying the same
+reasoning as previously, we have $Y[i+1, j] = \infty$ for $j$ between
+$1$ and $n$.
+
+\medskip
+Suppose that $Y[m, n] < \infty$.  Since the row are sorted from left
+to right and the column from top to bottom, we deduce that
+
+\[ Y[m, j] < \infty \mbox{ and } Y[i, n] < \infty \mbox{ for $1 \le j
+  \le n$ and $1 \le i \le m$}.\]
+
+Since $Y[m-1, n-1] \le Y[m, n-1] < \infty$, a little induction permits
+to conclude that the matrix is full.
+
+\subpar{c}
+Note that the minimum in a Young tableau is $Y[1, 1]$.
+
+\begin{alg}{extract-min}{Y, k, m, l, n}
+  \STATE $min \la Y[1, 1]$
+  \STATE $i \la j \la 1$
+
+  \IF{$i = m$}
+  \WHILE{$j < n$}
+  \STATE $Y[m, j] \la Y[m, j+1]$
+  \ENDWHILE
+  \STATE $Y[m, n] \la \infty$
+  \ELSIF{$i = n$}
+  \WHILE{$i < m$}
+  \STATE $Y[i, n] \la Y[i+1, n]$
+  \ENDWHILE
+  \STATE $Y[m, n] \la \infty$
+  \ELSIF{$Y[i+1, j] < Y[i, j+1]$}
+  \STATE $\textsc{extract-min}(Y, k+1, m, l, n)$
+  \ELSE
+  \STATE $\textsc{extract-min}(Y, k, m, l+1, n)$
+  \ENDIF
+
+  \RETURN $min$
+\end{alg}
+
+We deduce the simple recurrence:
+\begin{eqnarray*}
+  T(p) &=& \max\left(T(p-1) + \Theta(1), \Theta(m), \Theta(n)\right) \\
+  &\le& \max\left(T(p-1) + \Theta(1), \Theta(p)\right)
+\end{eqnarray*}
+
+Note $c_1$ and $c_2$ two positive constants such that:
+\[ T(p) \le \max(T(p-1) + c_1, c_2\,p).\]
+
+Let's show that by choosing carefully a positive constant $c$, we have
+\[ T(p) \le c\,p.\]
+Suppose that we have the relation for $p-1$, thus
+\begin{eqnarray*}
+  T(p) &\le& \max(c(p-1) + c_1, c_2\,p) \\
+  &\le& c\,p
+\end{eqnarray*}
+if we have $c > c_1$ and $c > c_2$.  Moreover, if we choose $c$ large
+enough such that $T(1) \le c$, we have we property for $p > 0$.  Thus
+$T(p) = O(p)$.
+
+\subpar{d}
+From b. we deduce that if $Y$ is empty, then $Y[m, n] = \infty$.
+
+\begin{alg}{insert}{Y, m, n, key}
+  \STATE $i \la m$
+  \STATE $j \la n$
+  \STATE $Y[m, n] \la key$
+
+  \WHILE{$i > 1$ \textbf{and} $j > 1$}
+  \STATE $max \la Y[i, j]$
+
+  \IF{$Y[i-1, j] > Y[i, j]$}
+  \STATE $k \la i-1$
+  \STATE $l \la j$
+  \STATE $max \la Y[i-1, j]$
+  \ENDIF
+
+  \IF{$Y[i, j-1] > max$}
+  \STATE $k \la i$
+  \STATE $l \la j-1$
+  \STATE $max \la Y[i, j-1]$
+  \ENDIF
+
+  \IF{ $max = Y[i, j]$ }
+  \RETURN
+  \ENDIF
+
+  \STATE $\exchange{Y[k, l]}{Y[i, j]}$
+  \STATE $i \la k$
+  \STATE $j \la l$
+  \ENDWHILE
+
+  \STATE $key \la Y[i, j]$
+  \IF{ $i=1$ }
+  \WHILE{ $j > 1$ \textbf{and} $Y[1, j-1] > key$ }
+  \STATE $Y[1, j] \la Y[1, j-1]$
+  \STATE $j \la j-1$
+  \ENDWHILE
+
+  \ELSE
+  \WHILE{ $i > 1$ \textbf{and} $Y[i-1, 1] > key$ }
+  \STATE $Y[i, 1] \la Y[i-1, 1]$
+  \STATE $i \la i-1$
+  \ENDWHILE
+  \ENDIF
+
+  \STATE $Y[i, j] \la key$
+\end{alg}
+
+\subpar{e}  We just call \textsc{extract-min} $n^2$ times whose
+running time is $O(n+n) = O(n)$.
+
+\subpar{f} The following algorithm look for $key$ in the Young tableau
+$Y$ where the row indexes varies from $k$ to $m$ and the column from
+$l$ to $n$.
+
+\begin{alg}{search}{Y, k, m, l, n, key}
+  \IF{ $k = m$ }
+  \STATE \COMMENT{Do a binary search in the row and return the
+    result.}
+  \ELSIF{ $l = n$ }
+  \STATE \COMMENT{Do a binary search in the column and return the
+    result.}
+  \ENDIF
+
+  \STATE $i \la 1$
+  \STATE $j \la \min(m, n)$
+
+  \WHILE{ $i \le j$}
+  \STATE $mid \la \lfloor \frac{i+j}{2}\rfloor$
+  \IF{ $key = Y[mid, mid]$ }
+  \RETURN \TRUE
+  \ELSIF{ $key < Y[mid, mid]$ }
+  \STATE $j \la mid-1$
+  \ELSE
+  \STATE $i \la mid+1$
+  \ENDIF
+  \ENDWHILE
+
+  \RETURN $\textsc{search}(Y, k, j, i, n)$ \textbf{or}
+  $\textsc{search}(Y, i, m, l, j)$
+\end{alg}
+\end{document}

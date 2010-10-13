@@ -1,0 +1,47 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+
+\begin{document}
+\newpar{5.1-1} We know a total order on the ranks of the candidates if
+and only if two random candidates could always be compared to each
+other.  Suppose we have more than two candidates and let $c_1$ and
+$c_2$ be two of them.  Since the order of the candidates is random
+there's a chance $c_1$ will be the first candidate and $c_2$ the
+second one so in this case we could determine which one is better.
+
+\newpar{5.1-2}
+\textmd{RANDOM($a$, $b$)}
+\begin{algorithmic}
+  \STATE $max \la b-a$
+  \STATE $res \la 0$
+  \STATE $n \la 1$
+  \WHILE{$n \le max$}
+  \STATE $res \la res + n * \textmd{RANDOM(0, 1)}$
+  \STATE $n \la 2 * n$
+  \ENDWHILE
+  \RETURN $a+res$
+\end{algorithmic}
+The expected running time of the procedure is
+$\lfloor\lg(b-a)\rfloor$.
+
+\newpar{5.1-3}
+\textmd{RANDOM()}
+\begin{algorithmic}
+  \STATE $r_1 \la r_2 \la 0$
+  \WHILE{ $r_1 = r_2$}
+  \STATE $r_1 \la \textmd{BIASED-RANDOM()}$
+  \STATE $r_2 \la \textmd{BIASED-RANDOM()}$
+  \ENDWHILE
+  \RETURN $r_1$
+\end{algorithmic}
+We have a geometric distribution with a probability $2p(1-p)$ of success.
+So the expectation of the number of trials before we obtain a success
+is $\frac{1}{2p(1-p)}$.
+\end{document}

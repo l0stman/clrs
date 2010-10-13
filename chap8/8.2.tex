@@ -1,0 +1,50 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\exchange}[2]{\mathrm{exchange}\ #1 \leftrightarrow #2}
+\newenvironment{alg}[2]
+               {\noindent $\textsc{#1}(#2)$ \begin{algorithmic}}
+               {\end{algorithmic}}
+
+\begin{document}
+
+\newpar{8.2-2} From line $10$, we see that if there are $m$ integers
+equal to $i$, then they occupy the indexes $C[i], C[i]-1, \ldots,
+C[i]-m+1$ in the array $B$.  Since we place the integers from the end
+of the array $A$, we then deduce that they keep the order in which
+they appears.  Thus \textsc{counting-sort} is a stable sort.
+
+\newpar{8.2-3} Applying the same reasoning as in \textbf{Exercises
+  8.2-3} we deduce that if there are $m$ integers equal to $i$, then
+they occupy the range $C[i]-m+1, \ldots C[i]$ in $B$ but in reverse
+order of their appearances.  Thus the algorithm still works properly
+but it's not a stable sort anymore.
+
+\newpar{8.2-4}
+\begin{alg}{preprocess}{A, k}
+  \STATE \COMMENT{Create an array of size $k+1$ and bind it to the
+    global variable $C$}
+
+  \FOR{$i \la 0$ \textbf{to} $k$}
+  \STATE $C[i] \la 0$
+  \ENDFOR
+
+  \FOR{$i \la 1$ \textbf{to} $\mathrm{length}[A]$}
+  \STATE $C[A[i]] \la C[A[i]] + 1$
+  \ENDFOR
+
+  \FOR{$i \la 1$ \textbf{to} $k$}
+  \STATE $C[i] \la C[i] + C[i-1]$
+  \ENDFOR
+\end{alg}
+\begin{alg}{count-range}{a, b}
+  \RETURN{$C[b] - C[a] + 1$}
+\end{alg}
+
+\end{document}

@@ -1,0 +1,139 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]
+{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\prob}[1]{\mathrm{Pr}\left\{ #1 \right\}}
+  
+\begin{document}
+\newpar{C.4-1}
+We have
+\begin{eqnarray*}
+  \sum_{k \ge 1}\prob{X=k} &=& \sum_{k \ge 1}q^{k-1}p \\
+  &=& p\times \frac{1}{1-q} \\
+  &=& 1
+\end{eqnarray*}
+
+\newpar{C.4-2}
+The probability to obtain $3$ heads and $3$ tails if we flip $6$ fair
+coins is
+\[ C_6^3 \left(\frac{1}{2}\right)^6 = \frac{5}{16}\]
+We have a geometric distribution so the expectation of the number of
+trial is
+\[16/5 = 3.2\]
+
+\newpar{C.4-3}
+We have
+\begin{eqnarray*}
+  b(k;n,p) &=& C_n^k p^k q^{n-k} \\
+  &=& C_n^{n-k} q^{n-k} p^k \\
+  &=& b(n-k; n, q)
+\end{eqnarray*}
+
+\newpar{C.4-4}
+Let $0 \le k\le n-1$, we have
+\[\frac{b(k+1;n,p)}{b(k;n,p)} = \frac{p(n-k)}{q(k+1)}\]
+Thus $b(k+1;n,p) \ge b(k;n,p)$ if and only if $ k \le pn - q$.  We
+then deduce that the binomial distribution $b(k;n,p)$ reach its
+maximum for $k \simeq pn$.  For large value of $n$, using Stirling
+approximation, we have
+\begin{eqnarray*}
+  b(pn;n,p) &=& C_n^{pn}p^{pn}q^{qn} \\
+  &\simeq& \frac{(n/e)^n \sqrt{2\pi n}}
+  {(pn/e)^{pn} \sqrt{2\pi pn} (qn/e)^{qn}\sqrt{2\pi qn}}
+  p^{pn}q^{qn} \\
+  &=& \frac{1}{\sqrt{2\pi pq}}
+\end{eqnarray*}
+
+\newpar{C.4-5}
+The probability of no successes in $n$ Bernoulli trials, each with
+probability $p = \frac{1}{n}$ is
+\[ \left(1 - \frac{1}{n}\right)^n \rightarrow_{+\infty} \frac{1}{e}\]
+The probability of exactly one success is
+\[ n \frac{1}{n}\left(1-\frac{1}{n}\right)^{n-1} =
+\left(1-\frac{1}{n}\right)^{n-1} \ra_{+\infty} \frac{1}{e}.\]
+
+\newpar{C.4-6}
+For Professor Rosencrantz, let's call a head a success and for
+Professor Guildensen, a tail is a success.  Suppose they get the same
+number $k$ of heads.  Those the number of successes in the experiment
+is $k$ + $n-k = n$ .  And we can show that if the number of successes
+is $n$, then the two professors have the same number of heads.
+
+We then deduce that the probability that they have the same number of
+heads is the probability of having $n$ success(es) which is equal to
+$C_{2n}^n/4^n$.
+
+On the other hand, the probability they have the same number of heads
+is
+\[ \sum_{k=0}^n \left(C_n^k\,\frac{1}{2^k}\,\frac{1}{2^{n-k}}\right)^2 =
+\frac{\sum_{k=0}^n\left(C_n^k\right)^2}{4^n}.\]
+Finally, we then deduce
+\[ \sum_{k=0}^n\left(C_n^k\right)^2 = C_{2n}^n.\]
+
+\newpar{C.4-7}
+Suppose $0 \le k\le n$.  We have
+\begin{eqnarray*}
+  b(k;n,1/2) &=& C_n^k \frac{1}{2^k}\,\frac{1}{2^{n-k}} \\
+  &\le& \frac{n^n}{k^k(n-k)^{n-k}}\,\frac{1}{2^n},
+  \,\mbox{from (C.6)}\\ &=&
+  \left(\frac{k}{n}\right)^{-k}\left(1-\frac{k}{n}\right)^{-(n-k)}\,
+  \frac{1}{2^n} \\
+  &=& 2^{nH(k/n)-n}
+\end{eqnarray*}
+
+\newpar{C.4-8}
+Suppose we have $n$ Bernoulli trials where for $i = 1,2,\ldots,n$ the
+$i^{th}$ trial have probability $p_i$ of success.  Let $X$ be the
+random variable denoting the total number of successes and let $p \le
+p_i$ for all $i = 1,2,\ldots,n$.  The proposition for $1\le k\le n$
+\[\prob{X < k} \le \sum_{i=0}^{k-1}b(i;n,p)\]
+is false.  If $p=1$ the right member of the inequality is equal to $0$
+whereas the left member is not in general.
+
+\newpar{C.4-9}
+For $1\le i\le n$, note $X_i$ and $X_i'$ the random variables equal to
+$1$ if the $i^{th}$ Bernoulli trial respectively of $A$ and $A'$ is a
+success and $0$ otherwise.  Let's show by induction on $n\ge1$ that
+for $0\le k\le n$, we have
+\[  \prob{X_1{}'+X_2{}'+\cdots+X_n{}'\ge k} \ge
+\prob{X_1+X_2+\cdots+X_n\ge k}.\]
+For $n=1$ we have
+\[ \prob{X_1{}' \le 0} = 1 \ge \prob{X_1 \ge 0} = 1,\]
+and
+\[ \prob{X_1{}' \ge 1} = p_1{}' \ge p_1 = \prob{X_1 \ge 1}.\]
+Suppose we have the property for $n$. We have for $0 \le k\le n+1$
+\begin{eqnarray*}
+  \prob{X_1{}'+\cdots+X_{n+1}{}'\ge k} &=&
+  p_{n+1}{}'\prob{X_1{}'+\cdots+X_n{}'\ge k-1} + \\
+  && (1-p_{n+1}{}')\prob{X_1{}'+\cdots+X_n{}'\ge k} \\
+  &=& p_{n+1}{}'(\prob{X_1{}'+\cdots+X_n{}'\ge k-1} -\\
+  &&\prob{X_1{}'+\cdots+X_n{}'\ge k}) + \\
+  &&\prob{X_1{}'+\cdots+X_n{}'\ge k} \\
+  &\ge& p_{n+1}(\prob{X_1{}'+\cdots+X_n{}'\ge k-1}-\\
+  && \prob{X_1{}'+\cdots+X_n{}'\ge k}) + \\
+  && \prob{X_1{}'+\cdots+X_n{}'\ge k} \\
+  &=& p_{n+1}\prob{X_1{}'+\cdots+X_n{}'\ge k-1} + \\
+  && (1-p_{n+1})\prob{X_1{}'+\cdots+X_n{}'\ge k}
+\end{eqnarray*}
+Thus if $k\le n$ by induction we have
+\begin{eqnarray*}
+  \prob{X_1{}'+\cdots+X_{n+1}{}'\ge k} &\ge&
+  p_{n+1}\prob{X_1+\cdots+X_n\ge k-1}+ \\
+  && (1-p_{n+1})\prob{X_1+\cdots+X_n\ge k} \\
+  &=& \prob{X_1+\cdots+X_{n+1}\ge k}
+\end{eqnarray*}
+And if $k=n+1$ we have
+\begin{eqnarray*}
+  \prob{X_1{}'+\cdots+X_{n+1}{}'\ge n+1} &=&
+  \prob{X_1{}'+\cdots+X_{n+1}{}'= n+1} \\
+  &=& p_1{}'p_2{}'\ldots p_{n+1}{}' \\
+  &\ge& p_1 p_2 \ldots p_{n+1} \\
+  &=& \prob{X_1+\ldots+ X_{n+1}\ge n+1}
+\end{eqnarray*}
+\end{document}

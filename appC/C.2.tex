@@ -1,0 +1,253 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]
+{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\prob}[1]{\mathrm{Pr}\left\{ #1 \right\}}
+  
+\begin{document}
+\newpar{C.2-1}
+Let's show \emph{Boole's inequality} by induction for $n \ge 2$.
+
+If $n = 2$, we have
+\begin{eqnarray*}
+  \prob{A_1 \cup A_2} &=&
+  \prob{A_1 \cup (A_2 \setminus (A_2 \cap A_1))} \\ &=&
+  \prob{A_1} + \prob{A_2 \setminus (A_2 \cap A_1)}
+\end{eqnarray*}
+We have
+\begin{eqnarray*}
+  \prob{A_2} &=& \prob{(A_1 \cap A_2) \cup (A_2\setminus (A_1 \cap
+    A_2))} \\ &=&
+  \prob{A_1 \cap A_2} + \prob{A_2 \setminus (A_1 \cap A_2)}
+\end{eqnarray*}
+So finally,
+\begin{eqnarray*}
+  \prob{A_1 \cup A_2} &=& \prob{A_1} + \prob{A_2} - \prob{A_1 \cap
+    A_2} \\ &\le&
+  \prob{A_1} + \prob{A_2}
+\end{eqnarray*}
+
+
+Suppose we have the inequality for $n \ge 2$.  Thus we have,
+\begin{eqnarray*}
+  \prob{\bigcup_{i=1}^{n+1}A_i} &=&
+  \prob{\left(\bigcup_{i=1}^nA_i\right) \bigcup A_{n+1}} \\
+  &\le& \prob{\bigcup_{i=1}^nA_i} + \prob{A_{n+1}} \\
+  &\le& \sum_{i=1}^n \prob{A_i} + \prob{A_{n+1}},\ \mbox{by
+    induction}\\ &=&
+  \sum_{i=1}^{n+1}\prob{A_i}
+\end{eqnarray*}
+
+\newpar{C.2-2}
+If we note $T$ for a tail and $H$ for a head, here's all the
+possible cases where Professor Rosencratz obtains more heads than
+Professor Guildenstern.
+\begin{quote}
+  \begin{tabular}{|c|c|}
+      \hline
+      Rosencrantz & Guildenstern \\
+      \hline
+      T & TT \\
+      \hline
+      H & HT \\
+      \hline
+      H & TH \\
+      \hline
+  \end{tabular}
+\end{quote}
+So the probability that Professor Rosencrantz obtains more heads than
+Professor Guildenstern is $\frac{3}{8}$.
+
+\newpar{C.2-3}
+The three cards are entirely determined by the first card.  And there
+is $8$ ways to choose the first one.  Thus the probability is
+\[ \frac{8}{10^3} = \frac{1}{125}.\]
+
+\newpar{C.2-4}
+Suppose we have $0 < a < b$.  Note \textmd{FLIP-COIN} the procedure
+that returns the result of a fair coin flip: a head is equal to $1$
+and a tail is equal to $0$.
+
+\noindent
+\textmd{FLIP-BIASED($a$, $b$)}
+\begin{algorithmic}
+  \STATE $p \la a/b$
+  \STATE $n \la 1$
+  
+  \WHILE {$p > 0$}
+  \IF { $2p < 1$ }
+  \STATE $bit \la 0$
+  \ELSE
+  \STATE $bit \la 1$
+  \ENDIF
+
+  \STATE $p \la 2p - bit$
+  
+  \IF {$bit = 1$}
+  \STATE $i\la 1$
+  \WHILE {$i\le n$ and $\textmd{FLIP-COIN}() = 1$}
+  \STATE $i \la i+1$
+  \ENDWHILE
+  \ENDIF
+
+  \IF {$i = n+1$}
+  \RETURN $1$
+  \ENDIF
+  
+  \STATE $n \la n+1$
+  \ENDWHILE
+  \RETURN $0$
+\end{algorithmic}
+Suppose the procedure returns when $i = k+1$.
+
+If we note $b_1, b_2,\ldots,b_m,\dots$ the binary representation of
+$p$, the probability $p(k)$ of the event and the number of coin flips
+$n(k)$ are
+\begin{eqnarray*}
+  p(k) &=& \frac{1}{2^k}
+  \prod_{i=1}^{k-1}\left(1-\frac{b_i}{2^i}\right) \le \frac{1}{2^k} \\
+  n(k) &=& k + \sum_{i=1}^{k-1}b_ii \le \frac{k(k+1)}{2}
+\end{eqnarray*}
+Thus
+\[ p(k) n(k) \le \frac{(k+1)^2}{2^{k+1}}.\]
+
+If we note $u_k$ the second member of the inequality, we have
+\[ \lim_{k \to +\infty}\frac{u_{k+1}}{u_k} = \frac{1}{2} < 1.\]
+Thus, the sequel $\sum u_k$ is convergent.  If we note $N$ the average
+number of coin flips, we have
+\[ N = \sum_{k=1}^{+\infty}p(k)n(k) = O(1).\]
+
+\newpar{C.2-5}
+We have $B = (A \cap B) \cup (\bar{A} \cap B)$ and
+$(A \cap B) \cap (\bar{A} \cap B) = \emptyset$.  Thus
+\begin{eqnarray*}
+  \prob{B} &=& \prob{A \cap B} + \prob{\bar{A} \cap B} \\
+  &=& \prob{B}\left(\prob{A | B} + \prob{\bar{A} | B}\right)
+\end{eqnarray*}
+We have the result for $\prob{B} \not= 0$.
+
+\newpar{C-2.6}
+Let's show the property by induction for $n \ge 2$.
+
+If $n=2$, by definition we have
+\[ \prob{A_1 \cap A_2} = \prob{A_1} \prob{A_2 | A_1}.\]
+Suppose we have the equality for $n$, thus we have
+\begin{eqnarray*}
+  \prob{\bigcap_{i=1}^{n+1}A_i} &=&
+  \prob{A_{n+1} \cap \bigcap_{i=1}^nA_i} \\
+  &=& \prob{\bigcap_{i=1}^nA_i} \prob{A_{n+1} | A_1 \cap A_2 \cap
+    \ldots A_n} \\
+  &=& \prob{A_1} \prob{A_2 | A_1} \prob{A_3 | A_1 \cap A_2} \\
+  && \ldots \\ &&
+  \prob{A_{n+1} | A_1 \cap A_2 \cap \ldots \cap A_n},\ 
+  \mbox{by induction}
+\end{eqnarray*}
+
+\newpar{C.2-7}
+Let's built the events by induction for $n\ge 3$.
+
+Suppose $n=3$.  We flip two fair coins.  Let $A_1$ be the event
+that the first coin is heads, let $A_2$ be the event that the second
+coin is tails and let $A_3$ be the event that the two coins are
+similar.  We have
+\begin{eqnarray*}
+  \prob{E_1} &=& \frac{1}{2} \\
+  \prob{E_2} &=& \frac{1}{2} \\
+  \prob{E_3} &=& \frac{1}{2} \\
+  \prob{E_1 \cap E_2} &=& \frac{1}{4} \\
+  \prob{E_1 \cap E_3} &=& \frac{1}{4} \\
+  \prob{E_2 \cap E_3} &=& \frac{1}{4} \\
+  \prob{E_1 \cap E_2 \cap E_3} &=& 0
+\end{eqnarray*}
+So we see that the events are pairwise independent but that the 3 of
+them are not because $\prob{E_1}\prob{E_2}\prob{E_3} = \frac{1}{8}
+\not= 0$.
+
+\medskip
+Suppose we have a set $n \ge 3$ events that are pairwise independent
+but such that no subset of $k > 2$ of them is mutually independent.
+Note $E_1, E_2, \ldots, E_n$ those events.  We execute the experiment
+that leads to these events and we flip $n$ fair dices with $n$
+faces. For $1\le i\le n$, note $E_i'$ the event that $E_i$ happens and
+the $i^{th}$ dice is $i$.  And note $E_{n+1}'$ the event that all the
+dices have the same result.
+
+For $1\le i<j\le n$, given that $E_i \cap E_j = \emptyset$,  we have
+$E_i'\cap E_j' = \emptyset$.  Thus
+\[ \prob{E_i'\cap E_j'} = \prob{E_i'}\prob{E_j'}.\]
+For $1\le i\le n$
+\begin{eqnarray*}
+  \prob{E_i'} &=& \prob{E_i} \times \frac{1}{n} \\
+  \prob{E_{n+1}'} &=& \frac{n}{n^n} = \frac{1}{n^{n-1}} \\
+  \prob{E_i' \cap E_{n+1}'} &=& \prob{E_i} \times \frac{1}{n^n}
+\end{eqnarray*}
+Thus $\prob{E_i' \cap E_{n+1}} = \prob{E_i'} \prob{E_{n+1}'}$.   So
+the events $(E_i')_{1\le i\le n+1}$ are pairwise independent.
+
+If $1\le i<j<k\le n$, by induction, the events $E_i$, $E_j$ and $E_k$ are not
+mutually independent thus $E_i'$, $E_j'$ and $E_k'$ are not mutually
+independent too.  And for $1\le i<j\le n$, $E_i' \cap E_j' \cap
+E_{n+1}' = \emptyset$ thus
+\[\prob{E_i' \cap E_j' \cap E_{n+1}'} = 0 \not=
+\prob{E_i'}\prob{E_j'}\prob{E_{n+1}'}.\]
+
+So no subset of $k > 2$ events are mutually independent.
+
+\newpar{C.2-8}
+Let's consider the following experiment.  We have fair coin and a
+biased coin which always returns tails.  We flip the fair coin and if
+we have heads,  we flip the fair coin two more times.  Otherwise, we
+flip the biased coin twice.
+
+Let $A$ be the event that the result of the second flip is heads and
+let $B$ the event that the result of the third flip is tails.  We
+have
+\begin{eqnarray*}
+  \prob{A} &=& \frac{1}{2} \times \frac{1}{2} = \frac{1}{4} \\
+  \prob{B} &=& \frac{1}{2} + \frac{1}{2}\times\frac{1}{2} =
+  \frac{3}{4} \\
+  \prob{A\cap B} &=& \frac{1}{2} \times \frac{1}{2} \times \frac{1}{2}
+  = \frac{1}{8}
+\end{eqnarray*}
+Thus the event $A$ and $B$ are not independent because
+\[\prob{A}\prob{B} \not= \prob{A\cap B}.\]
+
+\medskip
+Note $C$ the event that the result of the first flip is heads.  We
+have
+\begin{eqnarray*}
+  \prob{A | C} &=& \frac{1}{2} \\
+  \prob{B | C} &=& \frac{1}{2} \\
+  \prob{A \cap B | C} &=& \frac{1}{4}
+\end{eqnarray*}
+Thus we have
+\[ \prob{A\cap B | C} = \prob{A | C} \prob{B | C}.\]
+
+\newpar{C.2-9}
+You increase your chance to win if you switch.  There's $1/3$ chance
+that the prize is behind the curtain you choose.  So if you don't
+switch, this is your chance to win the prize.
+
+On the other hand there's $2/3$ chance that the prize isn't behind the
+curtain you choose.  Given that the emcee lifts one of the other curtains,
+your chance to win the prize if you switch to the remaining curtain is
+$2/3$.
+
+\newpar{C.2-10} He's mistaken.  One of the other prisoner were going
+to die anyway so this information add nothing new to the
+situation.  Note $A$ the event that the prisoner $X$ is freed and $B$
+the event that the prisoner $Y$ is executed.  From Bayes's theorem, we
+have
+\[ \prob{A | B} = \frac{\prob{A}\prob{B|A}}{\prob{B}} =
+\frac{\prob{A}}{\prob{B}}.\]
+If the guard reveals to $X$ that the prisoner $Y$ is going to die, we
+have $\prob{B} = 1$ and thus
+\[ \prob{A | B} = \prob{A}.\]
+So his chance to get out of the prison alive is still $\frac{1}{3}$.
+\end{document}

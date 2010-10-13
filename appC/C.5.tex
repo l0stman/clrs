@@ -1,0 +1,133 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]
+{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\prob}[1]{\mathrm{Pr}\left\{ #1 \right\}}
+  
+\begin{document}
+\newpar{C.5-1}
+The probability to obtain no heads when you flip a fair coin $n$ times
+is $\frac{1}{2^n}$.  If we note $X$ the random variable representing
+the total number of successes, the probability to obtain fewer than
+$n$ heads when you flip the coin $4n$ times is:
+\begin{eqnarray*}
+  \prob{X \le n} &\le& \frac{C_{4n}^{2n}}{2^{4n}},\,\mbox{from
+    \emph{theorem C.2}} \\ &\le&
+  \frac{2^{nH(1/2)}}{2^{4n}},\,\mbox{from (C.7)} \\ &=&
+  \frac{1}{2^n}
+\end{eqnarray*}
+
+\newpar{C.5-2}
+Suppose $np < k < n$, thus $0 < n-k < nq$.  Using \emph{theorem C.4}
+with a probability of success $q$ and $Y$ represents the total number
+of successes for this trial, we have
+\begin{eqnarray*}
+  \prob{X > k} &=& \prob{Y < n-k} \\
+  &=& \sum_{i=0}^{n-k-1}b(i; n, q) \\
+  &<& \frac{(n-k)p}{nq - (n-k)} \,b(n-k;n,q) \\
+  &=& \frac{(n-k)p}{k - np}\,b(k;n,p)
+\end{eqnarray*}
+
+Suppose: $(np+n)/2 < k < n$, thus $0 < n - k < nq/2$.  From
+\emph{corollary C.5}, we deduce the probability
+of fewer than $n-k$ failures is less than one half of the probability
+of fewer than $n-k+1$ failures.  So the probability of more than $k$
+successes is less than one half of the probability of more than $k-1$
+successes.
+
+\newpar{C.5-3}
+Suppose $a>0$ and $0 < k < n$.  We have for $1\le i\le k-1$
+\begin{eqnarray*}
+  C_n^i a^i &=& (1+a)^n C_n^i \left(\frac{a}{1+a}\right)^i
+  \left(\frac{1}{1+a}\right)^{n-i} \\
+  &=& (1+a)^n C_n^i \left(\frac{a}{1+a}\right)^i
+  \left(1 - \frac{1}{1+a}\right)^{n-i} \\
+  &=& (1+a)^n b(i; n, a/(a+1))
+\end{eqnarray*}
+For $0 < k < \frac{a}{1+a}n$, using \emph{theorem C.4}, we have
+\begin{eqnarray*}
+  \sum_{i=0}^{k-1}C_n^i a^i &<&
+  (1+a)^n \frac{k/(a+1)}{na/(a+1) - k} b(k; n, a/(a+1) \\
+  &=& (1+a)^n \frac{k}{na - k(a+1)}b(k; n, a/(a+1))
+\end{eqnarray*}
+
+\newpar{C.5-4}
+Using \emph{theorem C.4}, we have
+\begin{eqnarray*}
+  \sum_{i=0}^{k-1}p^iq^{n-i} &\le& \sum_{i=0}^{k-1}b(i;n,p) \\
+  &<& \frac{kq}{np-k}C_n^k p^k q^{n-k} \\
+  &\le& \frac{kq}{np-k} \left(\frac{np}{k}\right)^k
+  \left(\frac{nq}{n-k}\right)^{n-k},\,\mbox{from (C.6)}
+\end{eqnarray*}
+
+\newpar{C.5-5}
+Note $X'$ the random variable describing the total number of
+failures.  We have $X' = n - X$ and $E[X'] - n - \mu$.  Thus
+\begin{eqnarray*}
+  \prob{\mu - X \ge r} &=& \prob{X' - (n -\mu) \ge r} \\
+  &\le& \left(\frac{(n - \mu)e}{r}\right)^r
+\end{eqnarray*}
+The same reasoning apply to \emph{Corollary C.9}.
+
+\newpar{C.5-6}
+For $0 \le p \le 1$ and $q = 1-p$, let's show that
+\[ p e^{\alpha q} + q e^{-\alpha p} \le e^{\alpha^2/2}.\]
+We have
+\begin{eqnarray*}
+  p e^{\alpha q} + q e^{-\alpha p} &=&
+  e^{\alpha q}(1 + q(e^{-\alpha} - 1)) \\ &\le& 
+  e^{\alpha q}\exp\left(q(e^{-\alpha}-1)\right) \\ &=&
+  \exp\left(q(e^{-\alpha}-1+\alpha)\right) \\ &\le&
+  \exp\left(q \alpha^2/2\right) \\ &\le&
+  e^{\alpha^2/2}
+\end{eqnarray*}
+By using this inequality instead of (C.43), we obtain
+\[ E[e^{\alpha(X-\mu)}] \le \exp(n\alpha^2/2).\]
+And finally,
+\begin{eqnarray*}
+  \prob{X - \mu \ge r} &\le& \exp\left(n\frac{\alpha^2}{2} - \alpha
+  r\right) \\ &=&
+  \exp\left(\frac{n}{2}\left(\alpha^2 - \frac{2\alpha
+    r}{n}\right)\right) \\ &=&
+  \exp\left(\frac{n}{2}\left(\left(\alpha - \frac{r}{n}\right)^2
+  - \frac{r^2}{n^2}\right)\right) \\
+  &=& e^{-r^2/2n},\,\mbox{for $\alpha = r/n$}
+\end{eqnarray*}
+
+\newpar{C.5-7}
+Note $f(\alpha) = \mu e^\alpha - \alpha r$.
+We have $f'(\alpha) \ge 0$ if and only if $\alpha \ge \ln(r/\mu)$.
+Thus $f(\ln(r/\mu))$ is the minimum of $f$.
+
+\newprob{C-1: balls and Bins}
+\subpar{a}  For each ball, we have $b$ choices of bins, so the number
+of ways of placing the balls in the bin is $b^n$.
+
+\subpar{b}  Suppose that we arrange $n$ distinct balls and $b-1$
+indistinguishable sticks in a row where the beginning of the row and the
+first stick, two consecutive sticks, and the last stick and the end of
+the row represent a bin.  Thus we have $(b+n-1)!/(b-1)!$ to place the
+distinguishable ordered balls in the bins.
+
+\subpar{c}  If the balls are identical, we need to divide the result
+in \textbf{b} by the number of permutations of the balls.
+
+\subpar{d}  To be able to place the balls in the bins, we need that
+there are more bins than balls.  And the number of ways to do that is
+to choose $n$ bins where to place the balls, because the balls are
+identical.
+
+\subpar{e}  Let's use the same reasoning as in \textbf{b}.  Since the
+leftmost bin isn't empty, the first element in the row should be a
+ball.  That left us with $n-1$ balls and $b-1$ sticks.  Since we
+couldn't have two consecutive sticks, each stick should be followed by
+a ball.  So we have finally $b-1$ pairs of a stick and a ball and
+$n-b$ balls.  The number of ways is thus
+\[ \frac{(n-b+b-1)!}{(n-b)!(b-1)!} = C_{n-1}^{b-1}.\]
+\end{document}

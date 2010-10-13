@@ -1,0 +1,578 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]
+{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+
+\begin{document}
+\newpar{3.2-1}
+Suppose that $f(n)$ and $g(n)$ are monotonically increasing
+functions.  For $m \ge n$, we have
+\[ f(n) \le f(m) \mbox{ and } g(n) \le g(m).\]
+Taking the sum of the two inequalities, we have
+\[ f(n) + g(n) \le f(m) + g(m).\]
+And given that $f$ is monotone
+\[ f(g(n)) \le f(g(m)).\]
+If in addition, $f(n)$ and $g(n)$ are non negative, we could multiply
+the two inequalities to obtain
+\[ f(n) g(n)  \le f(m) g(m).\]
+
+\newpar{3.2-2}
+Let $a$, $b$, $c$ be real positive numbers, we have
+\begin{eqnarray*}
+\log_b(1/a) &=& (\log_ba + \log_b(1/a)) - \log_b a \\
+&=& \log_b\left(a \times \frac{1}{a}\right) - \log_b a \\
+&=& \log_b 1 - \log_b a \\
+&=& -\log_b a
+\end{eqnarray*}
+And 
+\begin{eqnarray*}
+\log_ba &=& \frac{\ln a}{\ln b} \\
+&=& \left(\frac{\ln b}{\ln a}\right)^{-1} \\
+&=& \frac{1}{\log_a b}
+\end{eqnarray*}
+Lastly,
+\begin{eqnarray*}
+a^{\log_b c} &=& e^{\frac{\ln b}{\ln a} \ln c} \\
+&=& e^{\ln b \ln_a c} \\
+&=& b^{\ln_a c}
+\end{eqnarray*}
+
+\newpar{3.2-3}
+Using Stirling's approximation, we have
+\[ \frac{n!}{n^n} = \sqrt{2\pi n}\frac{1}{e^n}
+\left(1 + \Theta\left(\frac{1}{n}\right)\right).\]
+Thus,
+\[ \lim_{n \to +\infty}\frac{n!}{n^n} = 0.\]
+So $n! = o(n^n)$.  And we have,
+\[ \lim_{n \to +\infty}\frac{n!}{2^n} =
+\lim_{n \to +\infty}\sqrt{2\pi n}\left(\frac{n}{2e}\right)^n
+\left(1 + \Theta\left(\frac{1}{n}\right)\right) = +\infty
+\]
+so $n! = \omega(2^n)$.  And finally,
+\begin{eqnarray*}
+\lg(n!) &=& n \lg n - \lg e + \frac{1}{2} (\log(2\pi) + n)
++ \lg\left(1 + \Theta\left(\frac{1}{n}\right)\right) \\
+&=& \Theta(n \lg n)
+\end{eqnarray*}
+
+\newpar{3.2-4}
+Using Stirling's formula, we have
+ \[\lceil \lg n \rceil ! = \sqrt{2\pi \lceil \lg n \rceil}
+\left(\frac{\lceil \lg n\rceil}{e}\right)^{\lceil \lg n\rceil}
+\left(1 + \Theta\left(\frac{1}{\lg n}\right)\right).\]
+But we have,
+\begin{eqnarray*}
+\left(\frac{\lceil \lg n\rceil}{e}\right)^{\lceil \lg n \rceil} &\ge&
+\left(\frac{\lg n}{e}\right)^{\lg n} \\ &=&
+(\lg n^e)^{\lg n} \\ &=&
+2^{\lg n \lg \lg n^e} \\ &=&
+n^{\lg \lg n^e}
+\end{eqnarray*}
+So $\lceil \lg n \rceil !$ couldn't be polynomially bounded.
+
+Taking the same reasonning, we have
+\begin{eqnarray*}
+\left(\frac{\lceil \lg \lg n\rceil}{e}\right)^{\lceil \lg \lg
+  n\rceil}&\le&
+\left(\frac{\lg \lg n + 1}{e}\right)^{\lg \lg n + 1} \\ &=&
+(\lg \lg n + 1)^{\lg \lg n + 1} \frac{1}{e (\lg n)^{\lg e}} \\ &=&
+(\lg \lg n + 1)^{\lg \lg n} 
+\frac{\lg \lg n + 1}{e (\lg n)^{\lg e}} \\ &=&
+(\lg \lg n)^{\lg \lg n}\left(1 + \frac{1}{\lg \lg n}\right)^{\lg \lg
+  n} \frac{\lg \lg n + 1}{e (\lg n)^{\lg e}} \\&=&
+(\lg \lg n)^{\lg \lg n}\ O(1) \\ &=&
+2^{\lg \lg n \times \lg \lg \lg n} O(1)
+\end{eqnarray*}
+We have $\lg \lg \lg n = O(\lg \lg n) = O(\lg n/\lg \lg n)$.  So
+there exists $c > 0$ and $n_0$ positive integer such that for $n >
+n_0$, we have
+\[ \lg \lg \lg n \le c \frac{\lg n}{\lg \lg n}.\]
+We then deduce that for $n > n_0$,
+\[\left(\frac{\lceil \lg \lg n\rceil}{e}\right)^{\lceil \lg \lg
+  n\rceil}\le O(n^c).\]
+Plus, we have
+\[ \sqrt{2\pi \lceil \lg \lg n\rceil} = O(n),\]
+and
+\[\left(1 + \Theta\left(\frac{1}{\lceil \lg \lg n\rceil}\right)
+\right) = O(1).\]
+So from Stirling's formula, we deduce
+\begin{eqnarray*}
+\lceil \lg \lg n\rceil ! &\le& O(n)\ n^c\ O(1) \\
+&=& O(n^{c+1})
+\end{eqnarray*}
+
+\newpar{3.2-5}
+For large values of $n$, we have
+\begin{eqnarray*}
+\lg^* \lg n &=& \min\{i \ge 0: \lg^{(i)}\lg n \le 1\} \\
+&=& \min\{i \ge 0: \lg^{(i+1)} n \le 1\} \\
+&=& \min\{i > 0: \lg^{(i)} n \le 1\} \\
+&=& \lg^* n
+\end{eqnarray*}
+So $\lg^*(\lg n)$ is asymptotically larger than than $\lg(\lg^*n)$.
+
+\newpar{3.2-6}
+We have,
+\[ F_0 = 0 = \frac{\phi^0 - {\hat{\phi}}^0}{\sqrt{5}},\]
+and
+\[ F_1 = 1 = \frac{\phi - \hat{\phi}}{\sqrt{5}}.\]
+
+\medskip  Let $i$ be a non-negative integer and suppose that
+we have the equalities for $i$ and $i+1$.  We have,
+\begin{eqnarray*}
+F_{i+2} &=& F_{i+1} + F_i \\
+&=& \frac{\phi^{i+1} - {\hat{\phi}}^{i+1}}{\sqrt{5}} +
+\frac{\phi^i - {\hat{\phi}}^i}{\sqrt{5}}, \mbox{ by induction} \\
+&=& \frac{\phi^i(\phi+1) - {\hat{\phi}}^i(\hat{\phi} + 1)}
+{\sqrt{5}} \\
+&=& \frac{\phi^i \phi^2 - {\hat{\phi}}^i {\hat{\phi}}^2}{\sqrt{5}} \\
+&=& \frac{\phi^{i+2} - {\hat{\phi}}^{i+2}}{\sqrt{5}} \\
+\end{eqnarray*}
+
+\newpar{3.2-7}
+We have,
+\[ F_2 = 1 \ge \phi^0\ \mbox{and}\ F_3 = 2 \ge \phi.\]
+Suppose that for $i \ge 0$, we have
+\[ F_{i+2} \ge \phi^i\ \mbox{and}\ F_{i+3} \ge \phi^{i+1}.\]
+Thus, we have
+\begin{eqnarray*}
+F_{i+4} &=& F_{i+3} + F_{i+2} \\
+&\ge& \phi^{i+1} + \phi^i,\ \mbox{by induction} \\
+&=& \phi^i(\phi+1) \\
+&=& \phi^i\phi^2\\
+&=& \phi^{i+2}
+\end{eqnarray*}
+
+\newprob{3-1}
+a. Suppose $k \ge d$, then for $n \ge 1$ we have
+\begin{eqnarray*}
+p(n) &\le& n^d\left(\sum_{i=0}^da_i\right)\ \mbox{(*)}\\
+&\le& n^k \left(\sum_{i=0}^da_i\right)
+\end{eqnarray*}
+Thus, $p(n) = O(n^k)$.
+
+\medskip \noindent b. Suppose $k \le d$, then for $n \ge 1$ we have
+for $0 \le i \le d-1$
+\[ a_i n^i \ge - |a_i| n^i \ge -|a_i| n^{d-1}.\]
+We then deduce that,
+\begin{eqnarray*}
+p(n) &\ge& n^d\left(a_d - \sum_{i=0}^{d-1} \frac{|a_i|}{n}\right)
+\end{eqnarray*}
+For $n \ge 2 \sum_{i=0}^{d-1}|a_i|/a_d$, we have
+\[a_d - \sum_{i=0}^{d-1} \frac{|a_i|}{n} \ge \frac{a_d}{2}.\]
+We then have
+\begin{eqnarray*}
+p(n) &\ge& \frac{a_d}{2} n^d\ \mbox{(**)}\\ 
+&\ge& \frac{a_d}{2} n^k.
+\end{eqnarray*}
+Finally, we conclude that $p(n) = \Omega(n^k)$.
+
+\medskip \noindent
+c. From a. and b., we deduce that if $k=d$ $p(n) = \Theta(n^k)$.
+
+\medskip \noindent
+d. We deduce easily from (*) that if $k > d$, then $p(n) = o(n^k)$.
+
+\medskip \noindent
+e. From (**), we deduce that if $k < d$, then $p(n) = \omega(n^k)$.
+
+\newprob{3-2}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+&$\mathbf{A}$&$\mathbf{B}$&$\mathbf{O}$&$\mathbf{o}$&
+$\mathbf{\Omega}$&$\mathbf{\omega}$&$\mathbf{\Theta}$\\ 
+\hline
+\textbf{a.}&$\lg^kn$&$n$&yes&yes&no&no&no\\ 
+\hline
+\textbf{b.}&$n^k$&$c^n$&yes&yes&no&no&no\\
+\hline
+\textbf{c.}&$\sqrt{n}$&$n^{\sin n}$&no&no&no&no&no\\
+\hline
+\textbf{d.}&$2^n$&$2^{n/2}$&no&no&yes&yes&no\\
+\hline
+\textbf{e.}&$n^{\lg c}$&$c^{\lg n}$&yes&no&yes&no&yes\\
+\hline
+\textbf{f.}&$\lg(n!)$&$\lg(n^n)$&yes&yes&no&no&no\\
+\hline
+\end{tabular}
+
+\medskip
+Let's explain only for \textbf{c.}, the others are straightforward.
+
+Let $l$ be a positive integer.  Given that $\pi/2 > 1$, there exists
+two integers $n$ and $m$ such that,
+\[ \frac{\pi}{4} + 2l\pi < n < \frac{3\pi}{4} + 2l\pi,\]
+and
+\[ \frac{5\pi}{4} + 2l\pi < m < \frac{7\pi}{4} + 2l\pi.\]
+We then deduce that,
+\[ \frac{1}{2} < \sin n < 1,\]
+and
+\[ -1 < \sin m < -\frac{1}{2}.\]
+$n$ and $m$ could be arbitraly large so we can't compare the order of
+growth of $n^k$ with $n^{\sin n}$.
+
+\newprob{3-3}
+a. We have,
+\begin{eqnarray*}
+2^{2^{n+1}} &=& \Omega(2^{2^n}) \\
+2^{2^n} \ &=& \Omega((n+1)!)\\
+(n+1)! &=& \Omega(n!) \\
+n! &=& \Omega(e^n ) \\
+e^n  &=& \Omega(n \times 2^n) \\
+n \times 2^n &=& \Omega\left(2^n\right)\\
+2^n &=& \Omega\left(\left(\frac{3}{2}\right)^n\right) \\
+\left(\frac{3}{2}\right)^n &=& \Omega\left(n^{\lg \lg n}\right) \\
+n^{\lg \lg n} &=& \Omega\left((\lg n)!\right) \\
+(\lg n)! &=& \Omega\left((\lg n)^{\lg n}\right) \\
+(\lg n)^{\lg n} &=& \Omega\left(n^3\right) \\
+n^3 &=& \Omega\left(4^{\lg n}\right) \\
+4^{\lg n} &=& \Omega\left(n^2\right) \\
+n^2 &=& \Omega\left(\lg(n!)\right) \\
+\lg(n!) &=& \Omega\left(n \lg n\right) \\
+n \lg n &=& \Omega\left(2^{\lg n}\right) \\
+2^{\lg n} &=& \Omega\left(n\right) \\
+n &=& \Omega\left(\left(\sqrt{2}\right)^{\lg n}\right) \\
+\left(\sqrt{2}\right)^{\lg n} &=& \Omega\left(2^{\sqrt{2\lg n}}\right) \\
+2^{\sqrt{2\lg n}} &=& \Omega\left(\lg^2 n\right) \\
+\lg^2 n &=& \Omega\left(\ln n\right) \\
+\ln n &=& \Omega\left(\sqrt{\lg n}\right) \\
+\sqrt{\lg n} &=& \Omega\left(\ln \ln n\right) \\
+\ln \ln n &=& \Omega\left(2^{\lg^* n}\right) \\
+2^{\lg^* n} &=& \Omega\left(\lg^* n\right) \\
+\lg^* n &=& \Omega\left(\lg^*(\lg n)\right) \\
+\lg^*(\lg n) &=& \Omega\left(\lg(\lg^* n)\right) \\
+\lg(\lg^* n) &=& \Omega\left(n^{1/\lg n}\right) \\
+n^{1/\lg n} &=& \Omega(1)
+\end{eqnarray*}
+
+\medskip \noindent
+b. For $n$ positive integer, let $q$ and $r$ be the quotient and
+remainder of the division of $n$ by $30$.
+Let's consider the functions $\phi$ and $\psi_i$ defined by
+\[ \phi(n) = \left\{
+\begin{array}{cl}
+0 & \mbox{if $q$ is even}, \\
+n & \mbox{otherwise}
+\end{array}\right.\]
+And for $1 \le i \le 30$,
+\[ \psi_i(n) = \left\{
+\begin{array}{cl}
+1 & \mbox{if $r = i-1$} \\
+0 & \mbox{otherwise}
+\end{array} \right. \]
+And finally, the function $f$ defined as
+\[ f(n) = \phi(n) \sum_{i=1}^{30} \psi_i(n) g_i(n) .\]
+
+For $1 \le i \le 30$, and $k$ integer we have
+\[ \phi(60 k + i-1) = 0 \mbox{ and } 
+\phi(30(2k+1)+i-1) = n.\]
+And for $1 \le j \le 30$
+\[ \psi_j(30(2k+1)+i-1) = \left\{
+\begin{array}{cl}
+1 & \mbox{if $i = j$}, \\
+0 & \mbox{otherwise}
+\end{array} \right. .\]
+So we have,
+\[ f(60k+i-1) = 0 = o(g_i(60k+i-1)), \]
+and
+\begin{eqnarray*}
+f(30(2k+1)+i-1) &=& (30(2k+1)+i-1)g_i(30(2k+1)+i-1) \\
+&=& \omega(g_i(30(2k+1)+i-1)).
+\end{eqnarray*}
+We then deduce that $f$ is neither $O(g_i(n))$ nor $\Omega(g_i(n))$
+for all $i$ between $1$ and $30$.
+
+\newprob{3-4}
+\subpar{a} False.  We have $n = O(n^2)$ but $n^2 \not= O(n)$.
+
+\subpar{b} False. We have $\min(n, n^2) = n$ and $n + n^2 =
+\Theta(n^2) \not= \Theta(n)$.
+
+\subpar{c} Suppose $f(n) = O(g(n))$.  There exists $C > 0$ such that
+for sufficiently large $n$
+\[ f(n) \le C g(n).\]
+We then deduce
+\begin{eqnarray*}
+\lg f(n) &\le& \lg C + \lg g(n) \\
+&=& (1+\lg C)\lg g(n) - ((\lg g(n) - 1) \lg C)
+\end{eqnarray*}
+But for sufficiently large $n$, $\lg g(n) \ge 1$ by hypothese.  Plus
+we can choose $C$ to be greater than $2$. Thus,
+\[ \lg f(n) \le (1+\lg C)\lg g(n).\]
+So $\lg f(n) = O(\lg g(n))$.
+
+\subpar{d} False.  We have $2n = O(n)$ but $2^{2n} = 4^n \not=
+O(2^n)$.
+
+\subpar{e} False.  $1/n \not= O(1/n^2)$.
+
+\subpar{f} Suppose $f(n) = O(g(n))$.  There exists $C > 0$ such that
+for sufficiently large $n$ we have,
+\[ f(n) \le C g(n).\]
+Thus,
+\[ \frac{1}{C} f(n) \le g(n).\]
+Then, we can deduce that $g(n) = \Omega(f(n))$.
+
+\subpar{g}  False. We have, $2^{n/2} = o(2^n)$, thus $2^n \not=
+  \Theta(2^{n/2})$.
+
+\subpar{h}  Let $g$ be function such that $g(n) = o(f(n))$.  For
+sufficiently large $n$, we have
+\[ g(n) \le f(n).\]
+Thus,
+\[ f(n) + g(n) \le 2f(n).\]
+We then deduce that $f(n) + g(n) = O(f(n))$.  Since $g$ is
+asymptotically positive, we have easily $f(n) + g(n) = \Omega(f(n))$.
+
+So we deduce that $f(n) + o(f(n)) = \Theta(f(n))$.
+
+\newprob{3-5}
+\subpar{a} Let $f$ and $g$ be two asymptotically nonnegative
+functions.  And suppose $f(n) \not= O(g(n))$.
+
+We then deduce that for all interger $N$ there exists $n > N$ such that
+\[ f(n) \ge g(n).\]
+In particular, there exists $n_0 > 0$ such that,
+\[ f(n_0) \ge g(n_0).\]
+Suppose that we have a sequel $n_0\le n_1\le \ldots\le n_k$ such that
+\[ f(n_l) \ge g(n_l)\ \mbox{ for $0 \le l \le k$}.\]
+Then, there exists $n_{k+1} > n_k$ such that,
+\[ f(n_{k+1} \ge g(n_{k+1}).\]
+So $f(n) \ge g(n) \ge 0$ for infinitely many intergers $n$.  We then
+deduce that $f(n) =\ \stackrel{\infty}{\Omega}(g(n))$.
+
+\medskip
+On the other side, consider the function $f$ defined by,
+\[ f(n) = \left\{
+\begin{array}{cl}
+0 & \mbox{if $n$ is even} \\
+1 & \mbox{otherwise}
+\end{array} \right. \]
+and $g(n) = f(n+1)$.  For all constants $C > 0$ we have,
+\[ f(2n) < Cg(2n)\ \mbox{and}\ Cg(2n+1) < f(2n+1).\]
+Thus, $f(n) \not= O(g(n))$ and $f(n) \not= \Omega(g(n))$.
+
+\subpar{b}  Note $T$ the running time of an algorithm.  Suppose that
+there exists $C > 0$ such that sufficiently large $n$ of the form 
+$2^l(2m+1)$ we have,
+\[ 0 \le Cg(n) \le T(n).\]
+This is really informative because only the intergers wich are exact
+power of $2$ are excluded.  But theses numbers become rarer as $n$
+becomes larger.  There's only $\lfloor \lg N\rfloor + 1$ exact power
+of $2$ less than $N$.
+
+On the other hand, if we have the previous property only for integers
+wich are exact power of $2$, it's useless.  Because we have no
+information for the entries we would most likely encounter.
+
+So basically, the $\stackrel{\infty}{\Omega}$ is useful only the
+proportion of the integers wich don't verify the property is
+negligible compared to those which do.
+
+\subpar{c}  Given that $f(n)$ is asymptotically positive, for sufficiently
+large $n$, we have $|f(n)| = f(n)$.  Thus \emph{Theorem 3.1} holds.
+
+\subpar{d} Similarly we have,
+\[ \tilde{\Omega}(g(n)) = \{f(n): \exists\ c, k, n_0\ \mbox{such
+  that}\ 0 \le c\,g(n) \lg^k(n) \le f(n)\ \forall\ n \ge n_0\}.\]
+and,
+\begin{eqnarray*}
+\tilde{\Theta}{g(n)} = \{f(n)&:& \exists\ c_1, c_2, k, n_0\ 
+\mbox{such that}\\
+&& 0 \le c_1\,g(n) \lg^k(n) \le f(n) \le
+c_2\,g(n) \lg^k(n)\ \forall\ n \ge n_0\}.
+\end{eqnarray*}
+The same reasonning as in \emph{Exercises 3.1-5} apply to prove the
+equivalent of \emph{Theorem 3.1}.
+
+\newprob{3-6}
+\begin{tabular}{|c|c|c|c|}
+\hline
+&$\mathbf{f(n)}$&$\mathbf{c}$&$\mathbf{f_c^*(n)}$\\
+\hline
+\textbf{a.}&$n-1$&$0$&$n$\\
+\hline
+\textbf{b.}&$\lg n$&$1$&$\lg^*n$ \\
+\hline
+\textbf{c.}&$n/2$&$1$&$\lceil \lg n\rceil$ \\
+\hline
+\textbf{d.}&$n/2$&$2$&$\lceil \lg n\rceil - 1$ \\
+\hline
+\textbf{e.}&$\sqrt{n}$&$2$&$\lceil \lg \lg n\rceil$ \\
+\hline
+\textbf{f.}&$\sqrt{n}$&$1$&$+\infty$ \\
+\hline
+\textbf{g.}&$n^{1/3}$&$1$&$\lceil \log_3 \lg n\rceil$ \\
+\hline
+\textbf{h.}&$n/\lg n$&$2$&$\Theta(\lg n / \lg \lg n)$ \\
+\hline
+\end{tabular}
+
+\medskip
+Only the last one is subtil.  Let's show by induction that for all integers
+$1\le k < \lg n/\lg \lg n$, we have
+\[ \frac{n}{\lg^k n} \le f^{(k)}(n).\]
+We have this property for $k=1$, because
+\[ f(n) = \frac{n}{\lg n}.\]
+Suppose that we have this property for $k < \lg n/\lg \lg n$.  $f$
+is monotonically increasing function, thus we have
+\[ f\left(\frac{n}{\lg^k n}\right) \le f^{(k+1)}(n).\]
+We have,
+
+\begin{eqnarray*}
+f\left(\frac{n}{\lg^k n}\right) &=&
+\frac{n}{\lg^k n\ (\lg n - k \lg \lg n)} \\
+&=&\frac{n}{\lg^{k+1}n\ (1 - k \frac{\lg \lg n}{\lg n})} \\
+&\ge& \frac{n}{\lg^{k+1}n}\ \mbox{because $k < \lg n /\lg \lg n$}
+\end{eqnarray*}
+We then deduce that,
+\[ \frac{n}{\lg^{k+1}n} \le f^{(k+1)}(n).\]
+So far we have for $k < \lg n / \lg \lg n$,
+\[ \frac{n}{\lg^kn} \le f^{(k)}(n).\]
+But for $k < (\lg n - 1)/\lg \lg n$, we have
+\[ 2 < \frac{n}{\lg^k n} \le f^{(k)}(n).\]
+We then deduce that,
+\[ f^*_2(n) \ge \frac{\lg n - 1}{\lg \lg n}.\]
+Thus $f^*_2(n) = \Omega(\lg n/\lg\lg n)$.
+
+\medskip
+Now, let's show by induction for that $0 \le k < \lg n/\lg \lg n + 1$
+\[ f^{(k)}(n) \le \frac{n}{\prod_{i=0}^{k-1}(\lg n - i \lg \lg n)}.\]
+The case is trivial for $k=0$.  Suppose we have the property for $k$.
+Given that $f$ is an increasing function, we have,
+\begin{eqnarray*}
+f^{(k+1)}(n) &\le& f\left(\frac{n}
+{\prod_{i=0}^{k-1}(\lg n - i \lg \lg n)}\right) \\
+&=& \frac{n}{\prod_{i=0}^{k-1}(\lg n - i \lg \lg n)} \times
+\frac{1}{\lg n - \sum_{i=0}^{k-1}\lg (\lg n - i \lg \lg n)} \\
+&=& \frac{n}{\prod_{i=0}^{k-1}(\lg n - i \lg \lg n)}\,
+\frac{1}{\lg n - k \lg \lg n - 
+\sum_{i=0}^{k-1}\lg \left(1 - i \frac{\lg \lg n}{\lg n}\right)}
+\end{eqnarray*}
+Given that $0 < k < \lg n / \lg \lg n + 1$, we have
+\[ - \sum_{i=0}^{k-1}\lg(1 - i \lg n/\lg \lg n) > 0\]
+because each term is positive.
+We then deduce that,
+\[ f^{(k+1)}(n) \le \frac{n}{\prod_{i=0}^{k}(\lg n - i \log \lg n)}.\]
+
+So for $0 < k < \lg / \lg \lg n + 1$, we have
+\begin{eqnarray*}
+f^{(k)}(n) &\le&\frac{n}
+{(\lg \lg n)^k \prod_{i=0}^{k-1}(\lg n/\lg \lg n - i)} \\
+&\le& \frac{n}
+{(\lg\lg n)^k \prod_{i=0}^{k-1}(\lfloor \lg n/\lg\lg n\rfloor - i)}
+\end{eqnarray*}
+Thus, for $k = \lfloor \lg n/\lg\lg n\rfloor$ we have
+\[ f^{(k)}(n) \le \frac{n}{(\lg\lg n)^k\lfloor \lg n/\lg\lg
+  n\rfloor!}.\]
+But for $m \ge 1$, we have
+\[ m! = \sqrt{2\pi m}\left(\frac{m}{e}\right)^m e^{\alpha_m}\]
+where
+\[ \frac{1}{12m+1} < \alpha_m < \frac{1}{12m}.\]
+We then deduce that
+\[ \frac{1}{m!} < \left(\frac{e}{m}\right)^m.\]
+Thus,
+\begin{eqnarray*}
+f^{(k)}(n) &\le& \frac{n\,e^{\lfloor \lg n/\lg\lg n\rfloor}}{
+(\lg\lg n\ \lfloor \lg n/\lg\lg n\rfloor)^{\lfloor \lg n/\lg\lg
+    n\rfloor}} \\ &\le&
+\frac{n\,e^{\lg n/\lg\lg n}}{(\lg\lg n\ \lfloor \lg n/\lg\lg n\rfloor)^{\lfloor \lg n/\lg\lg
+    n\rfloor}}
+\end{eqnarray*}
+Given that $\lfloor \lg n/\lg\lg n\rfloor > \lg n/\lg\lg n - 1$,
+we have
+\begin{eqnarray*}
+(\lg\lg n \lfloor \lg n/\lg\lg n\rfloor)^{\lfloor \lg n/\lg \lg
+    n\rfloor}
+&\ge& (\lg n - \lg\lg n)^{\lg n/\lg\lg n - 1} \\
+&=& 2^{(\lg n / \lg\lg n - 1)\lg(\lg n - \lg \lg n)} \\
+&=& 2^{(\lg n/\lg\lg n - 1)(\lg \lg n + \lg(1 - \lg \lg n/\lg n))} \\
+&\ge& 2^{(\lg n - \lg\lg n)}\,2^{\lg n/\lg\lg n \lg(1-\lg\lg n/\lg n)} \\
+&=& \frac{n}{\lg n}\,2^{\lg n/\lg\lg n \lg(1-\lg\lg n/\lg n)}
+\end{eqnarray*}
+We have,
+\[ \lim_{n \to +\infty}\,2^{\lg n/\lg\lg n \lg(1-\lg\lg n/\lg n)}
+= 2^{-1/\ln 2} \simeq 0.37.\]
+So for sufficiently large $n$ we have
+\[ (\lg\lg n \lfloor \lg n/\lg\lg n\rfloor)^{\lfloor \lg n/\lg \lg
+    n\rfloor}
+\ge \frac{n}{2\lg n}.\]
+So finally for $k = \lfloor\lg n/\lg\lg n\rfloor$, we have for
+sufficiently large $n$
+\[ f^{(k)}(n) \le 2\lg n\,e^{\lg n/\lg\lg n} \le
+e^{2\lg n/\lg\lg n}.\ \mbox{(*)}\]
+For sufficiently large $n$, let's show by induction that for $\alpha
+= o(\lg\lg n)$, there exists an integer $k$ such that
+\[ k \le \frac{\lg n}{\lg\lg n} +
+\sum_{i=1}^\alpha \lg n\left(\frac{4}{\lg\lg n}\right)^i
+\ \mbox{(1)}\]
+and
+\[ f^{(k)}(n) \le \exp\left(\lg n\,
+\left(\frac{4}{\lg\lg n}\right)^\alpha\right)\ \mbox{(2)}.\]
+
+\medskip
+For $\alpha = 1$ we deduce these inequalities from (*).  Suppose we
+have these properties for $\alpha \ge 1$.
+
+Note $N = \exp\left(\lg n\, \left(\frac{4}{\lg\lg
+  n}\right)^\alpha\right)$.  From (*) we have
+\[ f^{(\lfloor \lg N/\lg\lg N\rfloor)}(N) \le
+e^{2\lg N/\lg\lg N}\ \mbox{(**)}.\]
+We have,
+\[\frac{2\lg N}{\lg\lg N} =
+2\lg n\left(\frac{4}{\lg\lg n}\right)^{\alpha} \frac{\lg e}{\lg\lg n
+  +\lg\lg e + \alpha(2 - \lg\lg\lg n)}.\] Given that $\lg e < 2$, if
+$\alpha = o(\lg\lg n)$ we have for sufficiently large $n$
+\[\frac{\lg e}{1 + 
+\frac{\lg\lg e + \alpha(2- \lg\lg\lg n)}{\lg\lg n}} \le 2.\]
+Thus, 
+\[\frac{2\lg N}{\lg\lg N} \le 
+\lg n \left(\frac{4}{\lg\lg n}\right)^{\alpha+1}\ \mbox{(***)}.\] Note
+$k' = k + \lfloor \lg N/\lg\lg N\rfloor$.  From (1) and (***), we
+deduce easily that
+\[ k' \le \frac{\lg n}{\lg\lg n} +
+\sum_{i=1}^{\alpha+1} \lg n\left(\frac{4}{\lg\lg n}\right)^i.\]
+And from (2), we deduce given that $f$ is a monotically
+increasing function
+
+\begin{eqnarray*}
+f^{(k')}(n) &=& f^{(\lfloor \lg N/\lg\lg N\rfloor)}
+\left(f^{(k)}(n)\right) \\
+&\le& f^{(\lfloor \lg \lg N/\lg\lg N\rfloor)}(N) \\
+&\le& e^{2\lg N/\lg\lg N},\ \mbox{from (**)} \\
+&\le&\exp\left(\lg n\,
+\left(\frac{4}{\lg\lg n}\right)^{\alpha+1}\right)\ \mbox{from (***)}
+\end{eqnarray*}
+
+\medskip
+So, we demonstrated that the properties (1) and (2) are verified
+for sufficiently large $n$ and if $\alpha = o(\lg\lg n)$.  But for 
+\[ \alpha \ge \frac{\lg\lg n - \lg \ln 2}{\lg\lg\lg n - 2}\]
+we have
+\[ \exp\left(\lg n \left(\frac{4}{\lg\lg n}\right)^\alpha\right)
+\le 2.\]
+So for 
+$\alpha = \left\lceil \frac{\lg\lg n - \lg \ln 2}{\lg\lg\lg n - 2}
+\right\rceil = o(\lg\lg n)$, there exists an integer $k$ such that
+\[ k \le \frac{\lg n}{\lg\lg n} +
+\sum_{i=1}^\alpha \lg n\left(\frac{4}{\lg\lg n}\right)^i\]
+and
+\[ f^{(k)}(n) \le 2.\]
+We then deduce that,
+\begin{eqnarray*}
+f^*_2(n) &\le& k \le \frac{\lg n}{\lg\lg n} +
+\sum_{i=1}^\alpha \lg n\left(\frac{4}{\lg\lg n}\right)^i \\
+&\le&\frac{\lg n}{\lg\lg n} +
+\sum_{i=1}^{+\infty} \lg n\left(\frac{4}{\lg\lg n}\right)^i \\
+&=&\frac{\lg n}{\lg\lg n} +
+\frac{4\lg n}{\lg\lg n(1 - 4/\lg\lg n)}
+\end{eqnarray*}
+We then deduce that $f^*_2(n) = O(\lg n/\lg\lg n)$.  So finally
+\[ f^*_2(n) = \Theta\left(\frac{\lg n}{\lg\lg n}\right).\]
+\end{document}

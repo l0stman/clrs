@@ -1,0 +1,69 @@
+\documentclass[a4paper,12pt]{article}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+\begin{document}
+
+\newpar{1.2-1}
+A search engine requires algorithmic content at the application
+level.  Like Google, most search engines use pagerank to find the most
+pertinent results from the keywords typed by the user.  The algorithm
+classify web pages wich are the most popular based on the inbounding
+links to the page.
+
+\newpar{1.2-2}
+ We want $8 n^2 \le 64 n \lg n$, or simplifying the expression $ n \le
+ 8 \lg n$.\\
+Note: $f(x) = x - 8 \lg x$. We have,
+\[ f'(x) = 1 - \frac{8}{x \ln 2}\ge 0 \mbox{ if } x \ge 
+\frac{8}{\ln 2} \simeq 11.54.\]
+
+Thus for $n \le 11$, insertion sort beat merge sort.
+
+\newpar{1.2-3}
+Note: $f(x) = 100 x^2 - 2^x$ for $x \ge 1$.  We have
+\begin{eqnarray*}
+f'(x) &=& 200 x - (\ln 2)\, 2^x\\
+f''(x) &=& 200 - (\ln 2)^2\, 2^x
+\end{eqnarray*}
+Thus we have, $f''(x) \ge 0$ if only if 
+\[x \le \lg \left(\frac{200}{(\ln 2)^2}\right)\]
+and
+\[f'\left(\lg \left(\frac{200}{(\ln 2)^2}\right)\right) > 0 .\]
+Given that $x \ge 1$ and $\lim_{x \to +\infty}f'(x) = -\infty$,
+there's an uniq 
+\[x_0 > \lg\left(\frac{200}{(\ln 2)^2}\right) \ge 8\]
+ such that:
+\[ f'(x) \ge 0 \mbox{ if } 1\le x \le x_0 \mbox{ and }f'(x)< 0 
+\mbox{ otherwise }.\]
+We have:
+\[ f(14) = 3216 > 0 \mbox{ and } f(15) = -10268 < 0.\]
+We then deduce that $f(n) > 0$ for $1 \le n \le 14$ and $f(n) < 0$
+otherwise.
+
+\newprob{1-1} Here's the result.
+\begin{quote}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline &second & minute & hour & day & month & year & century\\ \hline
+$\lg n$& $2^{10^6}$ & $2^{6\ 10^7}$ & $2^{36\ 10^8}$ & $2^{864\ 10^8}$ & 
+$2^{2592\ 10^9}$& $2^{94608\ 10^{10}}$ & $2^{9460\ 10^{12}}$\\ \hline
+$\sqrt n$& $10^{12}$ & $3.61\ 10^{16}$ & $1.30\ 10^{19}$ & 
+$7.46\ 10^{21}$& $6.72\ 10^{23}$ & $8.95\ 10^{29}$ &
+$8.95\ 10^{31}$\\ \hline
+$n$ & $10^6$ & $6\ 10^7$ & $36\ 10^{-8}$&$864\ 10^8$ & $2592\ 10^9$ &
+$94608\ 10^{10}$ & $94608\ 10^{12}$\\ \hline
+$n \lg n$ & $6.27\ 10^{4}$ & $2,8\ 10^6$ & $1.33\ 10^8$ &
+$2.75\ 10^9$ & $7.10\ 10^{10}$ & $2.14\ 10^{13}$ &
+$1.86\ 10^{15}$\\ \hline
+$n^2$ & $1001$ & $7746$ & $60001$ & $293939$ & $1609969$ &
+$30758414$ & $307584135$\\ \hline
+$n^3$ & $101$ & $392$ & $1533$ & $4421$ & $13737$ & $98170$ &
+$455662$\\ \hline
+$2^n$ & $20$ & $26$ & $32$ & $37$ & $42$ & $50$ & $57$\\\hline
+$n!$ & $10$ & $12$ & $13$ & $14$ & $16$ & $18$ & $19$\\\hline
+\end{tabular}
+\end{quote}
+\end{document}

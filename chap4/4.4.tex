@@ -1,0 +1,682 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+
+\begin{document}
+\newpar{4.4-1}
+Let's show that $n_j = \lceil n/b^j\rceil$ if $b$
+is a positive integer.  For this let's show than if $p$ and $q$ are
+positive integers and $x$ is a real number, we have
+\[ \left\lceil
+\frac{\left\lceil \frac{x}{p}\right\rceil} {q}
+\right\rceil
+= \left\lceil \frac{x}{pq}\right\rceil.\]
+We have,
+\[\left\lceil
+\frac{\left\lceil\frac{x}{p}\right\rceil}{q}
+\right\rceil \ge \frac{\left\lceil
+  \frac{x}{p}\right\rceil}{q} \ge \frac{x}{pq}.
+\]            
+We then deduce the inequality
+\[ \left\lceil
+\frac{\left\lceil \frac{x}{p}\right\rceil} {q}
+\right\rceil \ge \left\lceil
+\frac{x}{pq}\right\rceil.
+\]
+Furthermore,
+\[ q\left\lceil \frac{\left\lceil
+  \frac{x}{p}\right\rceil}{q}\right\rceil  <
+\left\lceil \frac{x}{p}\right\rceil + q.\]
+Given that the two members of the inequalities are
+integers, we deduce that
+\begin{eqnarray*}
+  q \left\lceil \frac{\left\lceil
+    \frac{x}{p}\right\rceil}{q}
+  \right\rceil &\le&
+  \left\lceil \frac{x}{p}\right\rceil + q - 1 \\
+  &<& \frac{x}{p} + q \\
+  &=& q\left(\frac{x}{pq} + 1\right) \\
+  &\le& q\left(
+  \left\lceil\frac{x}{pq}\right\rceil + 1
+  \right)
+\end{eqnarray*}
+So simplifying by $q$ we obtain
+\[
+\left\lceil \frac{\left\lceil
+  \frac{x}{p}\right\rceil}{q}
+\right\rceil
+< \left\lceil\frac{x}{pq}\right\rceil + 1
+\]
+And given that the two members of the inequality are
+integers, we deduce
+\[
+\left\lceil \frac{\left\lceil
+  \frac{x}{p}\right\rceil}{q}
+\right\rceil
+\le \left\lceil\frac{x}{pq}\right\rceil
+\]
+So finally,
+\[
+\left\lceil \frac{\left\lceil
+  \frac{x}{p}\right\rceil}{q}
+\right\rceil
+= \left\lceil\frac{x}{pq}\right\rceil
+\]
+
+So little induction show as that
+\[ n_j = \left\lceil \frac{n}{b^j}\right\rceil.\]
+
+\newpar{4.4-2} Suppose $f(n) = \Theta(n^{\log_ba}\lg^k n)$ for $k \ge 0$
+and n is an exact power of $b$.  From (4.6) we have,
+\[ T(n) = \Theta(n^{\log_b a}) +
+\sum_{j=0}^{\log_b n -1}a^jf(n/b^j).\]
+We have,
+\[ f(n/b^j) = \Theta((n/b^j)^{\log_b a}\lg^k b(\log_b n - j)^k).\]
+Thus,
+\begin{eqnarray*}
+  \sum_{j=0}^{\log_b n - 1} a^jf(n/b^j) &=&
+  \Theta\left(\sum_{j=0}^{\log_b n - 1}a^j(n/b^j)^{\log_b a}\lg^k b(\log_b n
+  - j)^k\right) \\ &=&
+  \Theta\left(n^{\log_b a}\lg^kb\sum_{j=1}^{\log_b n}j^k\right) \\ &=&
+  \Theta\left(n^{\log_b a}\sum_{j=1}^{\log_b n}j^k\right) \\ &=&
+  \Theta(n^{\log_b a}\lg^{k+1}n)
+\end{eqnarray*}
+For the last equality, we could show by induction on $k$ that
+\[ \sum_{j=1}^m j^k = \Theta(m^{k+1}).\]
+The case is trivial for $k=0$.  Suppose we have the property for
+$k-1$.  We have
+\[ (l+1)^{k+1} - l^{k+1} = \sum_{p=0}^k C_p^{k+1} l^p.\]
+Thus,
+\begin{eqnarray*}
+  (m+1)^{k+1} - 1 &=& \sum_{l=1}^m\sum_{p=0}^kC_p^{k+1}l^p \\
+  &=& (k+1) \sum_{l=1}^m l^k +
+  \sum_{p=0}^{k-1}C_p^{k+1}\left(\sum_{l=1}^m l^p\right) \\
+\end{eqnarray*}
+We have,
+\begin{eqnarray*}
+  \sum_{l=1}^ml^{k-1} &\le& \sum_{p=0}^{k-1}C_p^{k+1}
+  \left(\sum_{l=1}^ml^p\right) \\ &\le&
+  \left(\sum_{l=1}^ml^{k-1}\right)
+  \left(\sum_{p=0}^{k-1}C_p^{k+1}\right) \\ &\le&
+  \left(\sum_{l=1}^ml^{k-1}\right)
+  \left(\sum_{p=0}^{k+1}C_p^{k+1}\right) \\ &=&
+  2^{k+1}\left(\sum_{l=1}^ml^{k-1}\right)
+\end{eqnarray*}
+We then deduce by induction that,
+\[ \sum_{p=0}^{k-1} C_p^{k+1}\left(\sum_{l=1}^ml^p\right) =
+\Theta\left(\sum_{l=1}^ml^{k-1}\right) =
+\Theta(m^k).\]
+So finally, we have
+\[ \sum_{l=1}^ml^k = \Theta(\Theta(m^{k+1}) - \Theta(m^k))
+= \Theta(m^{k+1}).\]
+
+\newpar{4.4-3}
+Suppose that we have $af(n/b) \le cf(n)$ for some constant $c < 1$.  A
+little induction gives us,
+\[ (a/c)^kf(n/b^k) \le f(n).\]
+Especially for $k = \lfloor\log_b n\rfloor$, we have
+\begin{eqnarray*}
+  f(n) &\ge& (a/c)^{\lfloor\log_b n\rfloor}
+  f(n/b^{\lfloor\log_b n\rfloor}) \\
+  &\ge& (a/c)^{\log_b n - 1}f(n/b^{\log_b n}) \\
+  &=& f(1) (c/a) n^{\log_b (a/c)}
+\end{eqnarray*}
+If we take $\epsilon = -\log_b c > 0$, we have
+\[ f(n) = \Omega(n^{\log_ba+\epsilon}).\]
+
+\newprob{4-1}
+\subpar{a} $\lg 2 = 1$ and we have $2(n/2)^3 = n^3/4$.  So we're in
+the third case of the master method so $T(n) = \Theta(n^3)$.
+
+\subpar{b} $\log_{10/9}1 = 0$ and $1\times (9/10 n) = 0.9\,n$.  We're in
+the third case of the master method so $T(n) = \Theta(n)$.
+
+\subpar{c} $\log_416 = 2$.  We're in the second case of the master
+method so $T(n) = n^2\lg n$.
+
+\subpar{d} $\log_3 7 \simeq 1.77 < 2$. And $7(n/3)^2 = 7/9 n^3$.
+We're in the third case of the master method so $T(n) = \Theta(n^2)$.
+
+\subpar{e} $\lg 7 \simeq 2.81 > 2$.  We're in the first case of the
+master method so $T(n) = \Theta(n^{\lg 7})$.
+
+\subpar{f} $\log_4 2 = 1/2$.  We're in the second case of the master
+method so $T(n) = \Theta(\sqrt{n}\lg n)$.
+
+\subpar{g} We have
+\[ \sum_{k=2}^n(T(k) - T(k-1)) = \sum_{k=2}^n k = \frac{n(n+1)}{2} -
+1.\]
+Thus
+\[ T(n) = \frac{n(n+1)}{2} + T(1) - 1.\]
+
+\subpar{h}  Note: $T'(n) = T(2^n)$.  We then deduce the recurrence
+\[ T'(n) = T(2^n) = T(2^{\frac{n}{2}}) + 1 = T'(n/2) + 1.\]
+
+We're in the second case of the master method so $T'(n) = \Theta(\lg
+n)$.  And finally,
+\[ T(n) = T'(\lg n) = \Theta(\lg \lg n).\]
+
+\newpage
+\newprob{4-2}
+\textmd{FIND-MISSING(A, n)}
+\begin{algorithmic}[1]
+  \STATE Create an array $indexes[1\ n]$
+  \STATE $len \la n$
+  \FOR{$j \la 1$ to $len$}
+  \STATE $indexes[j] \la j$
+  \ENDFOR
+
+  \STATE $res \la 0$
+  \STATE $j \la 1$
+  \WHILE{$\lfloor n/2^{j-1}\rfloor > 0$}
+  \STATE $count \la 0$
+  
+  \FOR{$i \la 1$ to $len$}
+  \STATE $count \la count + \textmd{BIT}(j, A[indexes[i]])$
+  \ENDFOR
+
+  \STATE \COMMENT{Compute the number of integers between $0$ and $n$
+    whose last $j-1$ bits are equals to $res$ and have the $j^{th}$ bit
+    equal to $1$}
+  \STATE $total \la \lfloor n/2^j\rfloor$
+  \IF{ $res > n - 2^jtotal$}
+  \STATE $total \la total - 1$
+  \ENDIF
+  \STATE $total \la \lfloor (total+1)/2\rfloor$
+
+  \IF{$count < total$}
+  \STATE \COMMENT{the $j^{th}$ bit of the missing integer is $1$}
+  \STATE $res \la res + 2^j$
+  \STATE $keep \la 1$
+  \ELSE
+  \STATE $keep \la 0$
+  \ENDIF
+
+  \STATE $k \la 1$
+  \FOR{$i \la 1$ to $len$}
+  \IF{$\textmd{BIT}(j, A[indexes[i]]) = keep$}
+  \STATE $indexes[k] \la indexes[i]$
+  \STATE $k \la k+1$
+  \ENDIF
+  \ENDFOR
+
+  \STATE $len \la k$
+  \ENDWHILE
+
+  \RETURN{res}
+\end{algorithmic}
+Where \textmd{BIT}($j$, $m$) returns the $j^{th}$ bit of the integer
+$m$.
+
+Let's show that this algorithm really returns the missing integer in
+the array $A$.  Let's consider as invariant for the while loop the
+property:
+\begin{quote}
+  $res$ is equal to the last $j-1$ bits of the missing integer and
+  $indexes$ contains the index of each integer in $A$ whose last $j-1$
+  bits corresponds to $res$.
+\end{quote}
+
+\begin{itemize}
+\item
+  \textbf{Initialization:}  For $j=1$, the last $0$ bits of the
+  missing integer doesn't exist.  So we can say the last $0$ bits of
+  two arbitrary integers is the same.
+
+\item
+  \textbf{Maintenance:}  Suppose we have the property for $j-1$.
+  After the execution of the for loop at lines 10--12,  $count$ is
+  equal the number of integers in the array $A$ whose last $j-1$ bits
+  is equal to the missing integer and whose $j^{th}$ bit is equal to
+  one.
+
+  \medskip
+  Let's show that after line 18, $total$ is equal to the number of
+  integers between $0$ and $n$ whose last $j-1$ bits are equals to
+  $res$ and the $j^{th}$ bit equal to $1$.
+
+  Note $q$ and $r$ the two integers obtained by doing the euclidian
+  division of $n$ by $2^j$, that is
+  \[ n = 2^jq + r,\ \mbox{with}\ 0 \le r \le 2^j-1.\]
+  Thus $r$ is the last $j-1$ bits of $n$ and $q$ is the first $n-j+1$
+  ones.
+  We have
+  \[ q = \left\lfloor\frac{n}{2^j}\right\rfloor\ \mbox{and}\
+  r = n - 2^j\left\lfloor\frac{n}{2^j}\right\rfloor.\]
+  If $res > r$ the integers that we are interested to have the form
+  \[ 2^j(1 + 2i) + res,\ \mbox{with}\ 0 \le 2i \le q-2.\]
+  Otherwise, the integer $i$ needs to satisfy $0 \le 2i \le q-1$.
+
+  And that's exactly what the code from lines 14--18 does.
+
+  \medskip
+  So if $count$ is less than $total$, we know that the $j^{th}$ bit of the missing
+  integer is equal to $1$.  And after executing the lines 19--25,
+  $res$ is equal to the last $j$ bits of the missing integer.
+
+  Lastly, the for loop at lines 27--32 keeps only in the array
+  $indexes$ the indexes of the integers in $A$ whose last $j^{th}$ bit
+  is the same as the missing integer's.  And given that their last $j-1$
+  bits is the same as the missing integer's,  $indexes$ those contains
+  the indexes of the integers in $A$ whose last $j$ bits corresponds
+  to those of the missing integer.
+
+\item
+  \textbf{Termination:}  At the end of the while loop, we have:
+  \[\left\lfloor \frac{n}{2^{j-1}}\right\rfloor = 0\ \mbox{and}\
+  \left\lfloor \frac{n}{2^{j-2}}\right\rfloor > 0.\]
+
+  We then deduce that $j-1 = \lfloor \lg n\rfloor + 1$.  So the $j-1$
+  is equal to the number of bits in $n$.  So $res$ is the missing integer.
+  \end{itemize}
+\newprob{4-3}
+Let's note $T_1, T_2,$ and $T_3$ the respective worst-case running
+time of the algorithms in the three cases.
+
+\subpar{a}  We have
+\begin{eqnarray*}
+ T_1(N) &=& T_1\left(\left\lfloor \frac{N+1}{2}\right\rfloor\right) +
+\Theta(1) \\
+ T_2(N) &=& T_2\left(\left\lfloor \frac{N+1}{2}\right\rfloor\right) +
+\Theta(N) \\
+ T_3(N) &=& T_3\left(\left\lfloor \frac{N+1}{2}\right\rfloor\right) +
+\Theta(N) \\
+\end{eqnarray*}
+If we replace $\left\lfloor (N+1)/2\right\rfloor$ by $N/2$.  Using the
+master method, we deduce that,
+\[ T_1(N) = O(\lg N), T_2(N) = O(N), T_3(N) = O(N).\]
+
+We've already shown in exercises 2.3-5 that this is true for
+$T_1(N)$.  So let's show the result for $T_2$ and $T_3$ which is the
+same recurrence.  Suppose that we have, a constant $C > 0$ such that
+\[ T(N) \le C\,N +
+T\left(\left\lfloor\frac{N+1}{2}\right\rfloor\right).\]
+Let's show by induction that $T(N) \le D\,N$ for an appropriate choice
+of the constant $D > 0$.  Suppose we have the inequality for
+$\left\lfloor(N+1)/2\right\rfloor$, we have
+\begin{eqnarray*}
+  T(N) &\le& C\,N + T\left(\left\lfloor \frac{N+1}{2}\right
+  \rfloor\right) \\
+  &\le& C\,N + D\left\lfloor\frac{N+1}{2}\right\rfloor,\,\mbox{by
+    induction} \\
+  &\le& D\,N - \left(\left(\frac{D}{2} - C\right)N +
+  \frac{D}{2}\right) \\
+  &\le& D\,N
+\end{eqnarray*}
+If we have $D \ge 2C$ and $N \ge 1$.  Plus we should choose $D$ large
+enough such that $T(1) \le D$.
+
+\subpar{b}  For \textmd{MERGE-SORT} we have the following recurrence
+for all the three cases
+\[ T(N) = T\left(\left\lfloor\frac{N+1}{2}\right\rfloor\right) +
+T\left(\left\lfloor\frac{N-1}{2}\right\rfloor\right) + \Theta(N).\]
+Again, if we replace $\lfloor (N+1)/2\rfloor$ and $\lfloor
+(N-1)/2\rfloor$ by $N/2$, we obtain the recurrence
+\[ T(N) = 2T(N/2) + \Theta(N).\]
+We're in the second case of the master method so $T(N) = \Theta(N\lg
+N)$.  Let $C > 0$ be a constant such that
+\[ T(N) \le T\left(\left\lfloor\frac{N+1}{2}\right\rfloor\right) +
+T\left(\left\lfloor\frac{N-1}{2}\right\rfloor\right) + C\,N.\] Let's
+show that $T(N) \le D\,N\lg N$ for an appropriate choice of the
+constant $D > 0$.  Suppose we have the inequality for $\lfloor
+(N+1)/2\rfloor$ and $\lfloor (N-1)/2\rfloor$, we have
+\begin{eqnarray*}
+  T(N) &\le& T\left(\left\lfloor\frac{N+1}{2}\right\rfloor\right) +
+  T\left(\left\lfloor\frac{N-1}{2}\right\rfloor\right) + C\,N \\
+  &\le& D\left\lfloor\frac{N+1}{2}\right\rfloor
+  \lg\left(\left\lfloor\frac{N+1}{2}\right\rfloor\right) + 
+  D\left\lfloor\frac{N-1}{2}\right\rfloor
+  \lg\left(\left\lfloor\frac{N-1}{2}\right\rfloor\right) + C\,N \\
+  &\le&  D\frac{N+1}{2}
+  \lg\left(\frac{N+1}{2}\right) + 
+  D\frac{N-1}{2}
+  \lg\left(\frac{N-1}{2}\right) + C\,N \\
+  &=& D\frac{N}{2}\lg(N^2 - 1)+
+  \frac{D}{2} \lg\left(\frac{N+1}{N-1}\right) +
+  (C - D) N \\
+  &\le& D \frac{N}{2} \lg(N^2) + \frac{D}{2} \lg 2 + (C - D) N \\
+  &=& D\,N\lg N - \left((D - C) N - \frac{D}{2}\right) \\
+  &\le& D\,N\lg N - \left(\frac{D}{2} - C\right) \\
+  &\le& D\,N\lg N
+\end{eqnarray*}
+if we have $D \ge \frac{C}{2}$.  So in the case of
+\textmd{MERGE-SORT}, there's no difference in the final result
+according to the parameter-passing costs.  It's always $N\lg N$.
+
+\newprob{4-4}
+\subpar{a} We have $\lg 3 \simeq 1.58$.  So we're in the first case of
+the master method, so $T(n) = \Theta(n^{\lg 3})$.
+
+\subpar{b}  Let's show that $T(n) = \Theta(n)$.  For this we want to
+show that
+\[c_1\,n \le T(n) \le c_2\,n - c_3\frac{n}{\lg n}\]
+for appropriate choices of the positive constants $c_1$, $c_2$ and $c_3$.
+Suppose we have the inequalities for $n/5$, thus we have
+\begin{eqnarray*}
+  T(n) &=& 5\,T\left(\frac{n}{5}\right) + \frac{n}{\lg n} \\
+  &\ge& 5c_1\frac{n}{5} + \frac{n}{\lg n} \\
+  &\ge& c_1\,n
+\end{eqnarray*}
+and
+\begin{eqnarray*}
+  T(n) &=& 5\,T\left(\frac{n}{5}\right) + \frac{n}{\lg n} \\
+  &\le& 5\left(c_2\frac{n}{5} - c_3\frac{n}{5(\lg n - \lg 5)}\right) +
+  \frac{n}{\lg n} \\
+  &=& c_2\,n - \frac{n}{\lg n}\left(\frac{c_3}{1 - 1/\log_5n}-1\right) \\
+  &\le& c_2\,n
+\end{eqnarray*}
+if we have $n > 5$ and $c_3 > 1$.  Plus, if we choose $c_1$ small
+enough and $c_2$ large enough such that
+\[ 5c_1 \le T(5) \le 5c_2 - c_3\frac{5}{\lg 5},\]
+then we have $T(n) = \Theta(n)$.
+
+\subpar{c} We have $\lg 4 = 2$ and
+\[ 4 \left(\frac{n}{2}\right)^2 \sqrt{\frac{n}{2}} =
+\frac{n^2 \sqrt{n}}{\sqrt{2}}.\]
+So, we're in the third case of the master method so $T(n) =
+\Theta(n^2\sqrt{n})$.
+
+\subpar{d}  If replace $n/3 + 5$ by $n/3$ in the recurrence, we're in
+the second case of the master method so $T(n) = \Theta(n\lg n)$
+
+Let's show that this intuition is true by showing that
+\[ c_1\,n\lg n \le T(n) \le c_2\,n\lg n\]
+for an appropriate choice of the positive constants $c_1$ and $c_2$.
+Suppose we have the inequalities for $n/3 + 5$.  Thus we have,
+\begin{eqnarray*}
+  T(n) &=& 3T\left(\frac{n}{3} + 5\right) + \frac{n}{2} \\
+  &\ge& 3\,c_1\left(\frac{n}{3} + 5\right)
+  \lg\left(\frac{n}{3} + 5\right) + \frac{n}{2} \\
+  &\ge& c_1n\lg\left(\frac{n}{3}\right) + \frac{n}{2} \\
+  &\ge& c_1n\lg n + n\left(\frac{1}{2} - c_1\lg 3\right) \\
+  &\ge& c_1n\lg n
+\end{eqnarray*}
+If we have $c_1 \le (2\lg 3)^{-1}$.  And,
+\begin{eqnarray*}
+  T(n) &=& 3T\left(\frac{n}{3} + 5\right) + \frac{n}{2} \\
+  &\le& 3c_2\left(\frac{n}{3} + 5\right)
+  \lg\left(\frac{n}{3} + 5\right) + \frac{n}{2} \\
+  &=& c_2\,n\left(\lg n + \lg\left(\frac{1}{3} + \frac{5}{\lg
+    n}\right)\right) + \frac{n}{2} + 15c_2\lg\left(\frac{n}{3} + 5\right)
+\end{eqnarray*}
+If we choose have $n \ge \sqrt{2}^{15}$, then we have
+\begin{eqnarray*}
+  T(n) &\le& c_2\,n(\lg n - 1) + \frac{n}{2} + 15c_2\lg\left(\frac{n}{3}
+  + 5\right) \\
+  &=& c_2\,n\lg n - \left((c_2 - 1/2) n - 15c_2\lg\left(\frac{n}{3}
+  + 5\right)\right) \\
+  &\le& c_2\,n\lg n
+\end{eqnarray*}
+if we have $c_2 > \frac{1}{2}$ and $n$ large enough.  Let's say that
+it's true for
+\[n \ge n_0 \ge \sqrt{2}^{15}.\]
+Finally, if we choose $c_1$ small enough and $c_2$ large enough such
+that,
+\[ c_1\,n_0 \lg n_0 \le T(n_0) \le c_2\,n_0 \lg n_0,\]
+then we can deduce that $T(n) = \Theta(n\lg n)$.
+
+\subpar{e} Let's show that $T(n) = \Theta(n)$.  That is we have
+\[ c_1\,n \le T(n) \le c_2\,n\left(1 - \frac{1}{\lg n}\right)\]
+for appropriate choices of the positive constants $c_1$ and $c_2$.
+Suppose we have the inequalities for $n/2$.  Thus we have,
+\begin{eqnarray*}
+  T(n) &=& 2T\left(\frac{n}{2}\right) + \frac{n}{\lg n} \\
+  &\ge& c_1\,n + \frac{n}{\lg n} \\
+  &\ge& c_1\,n
+\end{eqnarray*}
+and
+\begin{eqnarray*}
+  T(n) &=& 2T\left(\frac{n}{2}\right) + \frac{n}{\lg n} \\
+  &\le& c_2\,n\left(1 - \frac{1}{\lg n - 1}\right) + \frac{n}{\lg n}
+  \\
+  &=& c_2\,n - \frac{n}{\lg n}\left(\frac{c_2}{1 - (\lg n)^{-1}} -
+  1\right) \\
+  &\le& c_2\,n - \frac{n}{\lg n}(c_2 - 1) \\
+  &\le& c_2\,n
+\end{eqnarray*}
+If we have $c_2 > 1$.  Plus if we choose $c_1$ small enough and $c_2$
+large enough such that
+\[ 3c_1\le T(3) \le 3c_2(1 - \log_3 2),\]
+we have the inequalities for $n \ge 3$.  Thus $T(n) = \Theta(n)$.
+
+\subpar{f} Let's show that $T(n) = \Theta(n)$.  That is, we have the
+inequalities
+\[ c_1\,n \le T(n) \le c_2\,n\]
+for appropriate choices of the positive constants $c_1$ and $c_2$.
+Suppose we have the inequalities for $n/2$, $n/4$, and $n/8$.  Thus we
+have,
+\begin{eqnarray*}
+  T(n) &=& T(n/2) + T(n/4) + T(n/8) + n \\
+  &\le& c_2\left(\frac{n}{2} + \frac{n}{4} + \frac{n}{8}\right) + n \\
+  &=& c_2\,n - \left(\frac{c_2}{8} - 1\right)n \\
+  &\le& c_2\,n
+\end{eqnarray*}
+if we have $c_2 \ge 8$. And
+\begin{eqnarray*}
+  T(n) &\ge& c_1\,n + \left(1 - \frac{c_1}{8}\right)n \\
+  &\ge& c_1\,n
+\end{eqnarray*}
+if we have $c_1 \le 8$.  Plus if we choose $c_1$ small enough and
+$c_2$ large enough such that for $ n \le 12$
+\[ c_1\,n \le T(n) \le c_2\,n,\]
+we have the inequalities for $n\ge 1$.  Thus $T(n) = \Theta(n)$.
+
+\subpar{g}  We have immediately
+\[ T(n) = T(1) + \sum_{i=2}^n \frac{1}{i}.\]
+But if $\gamma$ represents Euleur's constant we have,
+\[ \sum_{i=1}^n \frac{1}{i} = \ln n - \gamma +
+o\left(\frac{1}{n}\right).\]
+
+We then deduce that $T(n) = \Theta(\lg n)$.
+
+\subpar{h} We deduce that
+\[ T(n) = T(1) + \sum_{i=2}^n \lg n = T(1) + \lg n!.\]
+From Strirling's approximation, we deduce immediately that
+\[ T(n) = \Theta(n\lg n).\]
+
+\subpar{i}  We have
+\begin{eqnarray*}
+  \sum_{i=0}^{\left\lfloor\frac{n-1}{2}\right\rfloor -1 }(T(n-2i) -
+  T(n-2(i+1))) &=&
+  2\sum_{i=0}^{\left\lfloor\frac{n-1}{2}\right\rfloor-1}\lg(n-2i)
+  \\ T(n) - T\left(n - 2\left\lfloor\frac{n-1}{2}\right\rfloor\right)
+  &=& 2\sum_{i=0}^{\left\lfloor\frac{n-1}{2}\right\rfloor-1}\lg(n-2i).
+\end{eqnarray*}
+If $n$ is even we have
+\begin{eqnarray*}
+  T(n) &=& T(2) + 2 \sum_{i=2}^{\frac{n}{2}}\lg(2i) \\
+  &=& T(2) + 2\left(\frac{n}{2} - 1 +
+  \lg\left(\frac{n}{2}\right)!\right) \\
+  &=& \Theta(n\lg n)
+\end{eqnarray*}
+from Strirling's formula. If $n$ is odd we have
+\begin{eqnarray*}
+  T(n) &=& T(1) + \sum_{i=1}^{\frac{n-1}{2}}\lg(2i+1) \\
+  &=& T(1) + \lg n! - \sum_{i=1}^{\frac{n-1}{2}}\lg(2i) \\
+  &=& T(1) + \lg n! - \left(\frac{n-1}{2} +
+  \lg\left(\frac{n-1}{2}\right)!\right) \\
+  &=& T(1) + n\lg n - \frac{n-1}{2} - \frac{n-1}{2}\lg\frac{n-1}{2} +
+  o(1)  \\
+  &=& \Theta(n\lg n)
+\end{eqnarray*}
+So finally we have $T(n) = \Theta(n\lg n)$.
+
+\subpar{j}  Note $S(n) = T(2^n)$.  We have the recurrence
+\[ S(n) = 2^{\frac{n}{2}}S\left(\frac{n}{2}\right) + 2^n.\]
+From the recursion tree of this function we suppose that
+\[ S(n) = \Theta(2^{n} \lg n).\]
+Let's demonstrate this intuition.  That is we have
+\[ c_1\,2^n\lg n \le S(n) \le c_2\,2^n\lg n\]
+for appropriate choices of the positive constants $c_1$ and $c_2$.
+Suppose we have these inequalities for $n/2$.  We have
+\begin{eqnarray*}
+  S(n) &=& 2^{\frac{n}{2}}S\left(\frac{n}{2}\right) + 2^n \\
+  &\le& c_2 2^n(\lg n - 1) + 2^n \\
+  &=& c_22^n\lg n- 2^n(c_2 - 1) \\
+  &\le& c_22^n\lg n
+\end{eqnarray*}
+if we have $c_2 \ge 1$.  And
+\begin{eqnarray*}
+  S(n) &\ge& c_12^n\lg n + 2^n(1-c_1) \\
+  &\ge& c_12^n\lg n
+\end{eqnarray*}
+if we have $c_1 \le 1$.  Plus if we choose $c_1$ small enough and
+$c_2$ large enough such that
+\[ 4c_1 \le S(2) \le 4c_2,\]
+if we have the inequalities for $n \ge 2$.  Thus $S(n) = \Theta(2^n
+\lg n)$.
+
+And finally we deduce that
+\[ T(n) = S(\lg n) = \Theta(n \lg \lg n).\]
+
+\newprob{4-6}
+\subpar{a}  Let's show by induction for $n \ge 2$ that if more than
+$n/2$ chips are bad, the professor can't determine which chips are
+good using any strategy.
+
+If $n=2$, the two chips are necessarily bad ones.  But they can
+emulate any situation where there's only two chips.  So the professor
+can't conclude based on the answers they give.
+
+Suppose that the property is true for $n$ but suppose that we could
+find a strategy to solve the problem with $n+1$ chips.
+
+Let's take a group of $n$ chips where more than half of the chips are
+bad.  We add a bad chip to the group and we mark this chip. More than
+$(n+1)/2$ chips are still bad.  Running our strategy, we could tell
+which chips are bad and which ones are good.  We then take back the
+marked chip and we solved the problem for $n$ chips.  That is absurd
+by induction so we can't solve the problem for $n+1$ chips.
+
+\subpar{b} Note $k$ the number of good chips and suppose $k > n-k$.  We
+performs $\lfloor n/2\rfloor$ pairwise tests and do the following,
+\begin{itemize}
+\item
+  If both chips are good or both are bad, we keep only one of the
+  chips
+\item
+  If at least one is bad, we get rid of both of them
+\end{itemize}
+Note $n_g$ the number of pairs of good chips, $n_b$ the number of
+pairs of bad chips, and $n_{bg}$ the number of pairs formed by a
+good and a bad chip.  We have,
+\[ n_b + n_g + n_{bg} = \left\lfloor\frac{n}{2}\right\rfloor.\]
+After filtering the chips, there's $k - (n_g + n_{bg})$ good chips
+left.  And there's at most $n-k - (n_b + n_{bg})$ bad ones left.
+Suppose that we have $n_b > n_g$, then
+\[ 2\,n_g + n_{bg} < n_b + n_g + n_{bg} =
+\left\lfloor\frac{n}{2}\right\rfloor.\]
+But $2\,n_g + n_{bg}$ is the number of good chips or the number of
+good chips minus one if $n$ is odd and the one leftover chip is a good
+one.  Thus,
+\[ k-1 \le 2\,n_g + n_{bg} < \left\lfloor\frac{n}{2}\right\rfloor.\]
+Which is absurd so $n_b \le n_g$ and the number of good chips is still
+greater than the number of bad ones.  And the total number of chips is
+\begin{eqnarray*}
+  (k - (n_g + n_{bg})) + (n-k - (n_b + n_{bg})) &=& n - (n_g + n_b) \\
+  &\le& n - \left\lfloor \frac{n}{2}\right\rfloor \\
+  &=& \left\lceil \frac{n}{2}\right\rceil
+\end{eqnarray*}
+
+\subpar{c}  A good chip can be found by performing repeatedly the
+filtering in b. because if $n=1$ there's only a good chip left.  We
+have the following recurrence for the worst-case running time
+\[ T(n) = T\left(\left\lceil \frac{n}{2}\right\rceil\right) +
+f(n)\] where $f(n) = \Theta(n).$  Note $\alpha$ and $\beta$ positive
+constants verifying
+\[ \alpha n\le f(n) \le \beta n.\]
+
+Let's show that $c_1\,n \le T(n) \le c_2\,n$ for appropriate choices
+of the positive constants $c_1$ and $c_2$.  Suppose we have the
+inequalities for $\lceil n/2\rceil$, then we have
+\begin{eqnarray*}
+  T(n) &\ge& c_1\left\lceil\frac{n}{2}\right\rceil + \alpha n \\
+  &\ge& c_1\frac{n}{2} + \alpha n \\
+  &=& c_1 n + \left(\alpha - \frac{c_1}{2}\right)n \\
+  &\ge& c_1 n
+\end{eqnarray*}
+if we have $c_1 \le 2\alpha$. And
+\begin{eqnarray*}
+  T(n) &\le& c_2\left\lceil\frac{n}{2}\right\rceil + \beta n\\
+  &<& c_2\left(\frac{n}{2} + 1\right) + \beta n \\
+  &=& c_2\,n - \left(\left(\frac{c_2}{2} - \beta\right)n - c_2\right)
+  \\
+  &\le c_2\,n 
+\end{eqnarray*}
+if we have $n \ge 3$ and $c_2 \ge 6\beta$.  Plus, we have to choose
+$c_1$ small enough and $c_2$ large enough such that
+\[ 3c_1 \le T(3) \le 3c_2.\]
+Then we have the inequality for $n \ge 3$.  Thus $T(n) = \Theta(n)$.
+Once we found a good chip, we perform $n-1$ pairwise tests
+between that chip and the rest to know their identities.
+
+\newprob{4-7}
+\subpar{a} Suppose that $A$ is a Monge Array.  Then for $1\le i\le m-1$
+and $1\le j\le n-1$, we have by definition
+\[ A[i,j] + A[i+1,j+1] \le A[i,j+1] + A[i+1,j].\]
+Inversely, suppose we have this property.  For $1\le i \le m-1$, let's
+show by induction for $1\le j < l \le n$ that
+\[ A[i, j] + A[i+1, l] \le A[i+1, j] + A[i, l].\ \mbox{(*)}\]
+The case is trivial for $l = j+1$.  Suppose we have the property for
+$j<l < n$.  We have,
+\[ A[i, l] + A[i+1, l+1] \le A[i+1, l] + A[i, l+1].\]
+We then deduce by induction that
+\[ A[i, j] + A[i+1, l+1] \le A[i+1, j] + A[i, l+1].\]
+
+\medskip
+Suppose we have $1 \le i < k \le m$ and $1 \le j<l \le n$.  Then from
+(*), we have for $i\le p\le k-1$
+\[ A[p, j] + A[p+1, l] \le A[p+1, j] + A[p, l].\]
+Rewriting the inequality we have
+\[ A[p+1, l] - A[p, l] \le A[p+1, j] - A[p, j].\]
+And taking the sum when $p$ varies from $i$ to $k-1$
+\[ A[k, l] - A[i, l] \le A[k, j] - A[i, j].\]
+Thus finally
+\[ A[i, j] + A[k, j] \le A[k, j] + A[i, l].\]
+
+\subpar{b} We can replace $7$ in the second line, third column with $5$ and we
+have a Monge array.
+
+\subpar{c} Suppose we have $1 \le i < m$ such that $f(i+1) < f(i)$.
+Since we have a Monge array,
+\[ A[i, f(i+1)] + A[i+1, f(i)] \le A[i+1, f(i+1)] + A[i, f(i)].\]
+But the second member of this inequality is the smallest value of the
+sum of two elements of row $i$ and row $i+1$.  We then deduce that
+\[ A[i, f(i+1)] = A[i, f(i)]\ \mbox{and}\ A[i+1, f(i)] = A[i+1,
+  f(i+1)].\]
+But the fact $f(i+1) < f(i)$ contradicts the definition of $f$.  Thus,
+we then deduce that $f(i) \le f(i+1)$.
+
+\subpar{d}  From c., for each odd-numbered row 2i+1, we have only to
+search for the minimum $f(2i+1)$ in the columns between $f(2i)$ and $f(2(i+1))$
+(or $1$ and $f(2)$ if $i=0$ or $f(m-1)$ and $n$ if $m$ is odd and
+$i=\frac{m-1}{2}$).  And we deduce from the relation from c. too that
+this will take $O(m+n)$.
+
+\subpar{e}  The running of the algorithm described in d. verify
+\[ T(m) = T\left(\left\lfloor \frac{m}{2}\right\rfloor\right) +
+O(m+n).\] Let's show that $T(m) \le c(m + n\lg m)$ an appropriate
+choice of the positive constant $c$.  Note $\alpha$ a constant factor
+in the $O$ notation above.  Suppose we have the inequality for
+$\lfloor\frac{m}{2}\rfloor$, we have
+\begin{eqnarray*}
+  T(m) &=& T\left(\left\lfloor \frac{m}{2}\right\rfloor\right)
+  + O(m+n) \\ &\le&
+  c\left(\left\lfloor\frac{m}{2}\right\rfloor +
+  n \lg \left\lfloor\frac{m}{2}\right\rfloor\right) +
+  \alpha \left(\left\lfloor\frac{m}{2}\right\rfloor + n\right) \\
+  &\le& c\left(\frac{m}{2} + n (\lg m -1)\right) +
+  \alpha\left(\frac{m}{2} + n\right) \\ &=&
+  c(m + n\lg m) - (c-\alpha)\left(\frac{m}{2} + n\right) \\
+  &\le& c(m + n\lg m)
+\end{eqnarray*}
+if we have $c \ge \alpha$.  Plus, if we choose $c$ large enough such
+that $T(1) \le c$, we have the inequality for $m \ge 1$.  We then
+deduce that $T(m) = O(m + n\lg m)$.
+\end{document}

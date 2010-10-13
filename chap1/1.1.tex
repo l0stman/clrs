@@ -1,0 +1,53 @@
+\documentclass[a4paper,12pt]{article}
+\newcommand{\newpar}[1]{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+\begin{document}
+
+\newpar{1.1-1}
+Sorting is used for a website search engine wich returns its results
+by alphabetical order or by date.
+
+\medskip
+Most of the time, in modelisation and numerical simulation of linear
+system such as a heat transfert trough differnet layers of a wall,
+multiplying matrices is involved.
+
+\medskip
+Convex hull is used in pattern recognition and image processing.
+
+\newpar{1.1-2}
+We could also measure memory usage.
+
+\newpar{1.1-3} These are some data structures.
+\begin{description}
+\item[List:]
+The advantage of list is it's quite flexible to contain heterogeneous
+datas and if we don't know that much about the data we're
+manipulating.  Adding and removing a new element by pushing and
+popping is efficient.  Changing value on the list is costly.
+
+\item[Vector:]
+A vector is preferred over a list when we know in advance the number
+of elements we want to manipulate.  Access-time in a vector is
+constant.
+
+\item[Hash table:]
+A hash table is used to store effeciently a pair of keys and values.
+Access time for a hash table is generally faster than for a list,
+except for some small datas.  The tricky part is most of the time to
+choose a good hash function.
+\end{description}
+
+\newpar{1.1-4}
+Both of them try to minimize the path length.  But for the
+shortest-path you just need the most efficient path between two
+points.  Whereas, for the traveling-salesman problem,  the salesman
+must pass by a given set of points and go back at the initial point.
+
+\newpar{1.1-5}
+In NP-hard problems such as the traveling-salesman,  an
+``approximately'' the best solution is good enough.  But in critical
+situation such an auto-pilot for an aircraft, only the best solution
+will do.
+\end{document}

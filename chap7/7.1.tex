@@ -1,0 +1,40 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\prob}[1]{\mathrm{Pr}\left\{ #1 \right\}}
+
+\begin{document}
+\newpar{7.1-2}
+When all the elements in the array $A[p..r]$ have the same value,  $r$
+is returned by \textsc{PARTITION}.
+
+\medskip \noindent
+\textsc{PARTITION}($A$, $p$, $r$)
+\begin{algorithmic}
+  \STATE $q \la \lfloor \frac{p+r}{2}\rfloor$
+  \STATE $x \la A[q]$
+  \STATE $i \la p-1$
+  \FOR{$j\la p$ to $r-1$}
+  \IF{$j\le q$ \textbf{and}$A[j] \le x$ \textbf{or} $j > q$
+    \textbf{and} $A[j]<x$}
+  \STATE $i \la i+1$
+  \STATE $\mathrm{exchange}\ A[i] \leftrightarrow A[j]$
+  \ENDIF
+  \ENDFOR
+  \STATE $\mathrm{exchange}\ A[i+1] \leftrightarrow A[r]$
+  \RETURN{$i+1$}
+\end{algorithmic}
+
+\newpar{7.1-3}
+The \textbf{for} loop is executed $n$ times and at each iteration is a
+$\Theta(1)$ operation.  Thus \textsc{PARTITION} is $\Theta(n)$.
+
+\newpar{7.1-4}
+Just change the test in line $4$ of \textsc{PARTITION} to $A[j] \ge x$.
+\end{document}

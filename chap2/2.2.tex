@@ -1,0 +1,84 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+\begin{document}
+
+\newpar{2.2-1}
+We have
+\[ \frac{n^3}{1000} - 100 n^2 - 100 n + 3 = \Theta(n^3).\]
+
+\newpar{2.2-2}
+SELECTION-SORT($A$)
+\begin{algorithmic}
+\FOR {$i \la 1$ to $length[A]$}
+	\STATE $i_{min} \la \mathrm{MIN}(A, i)$
+	\STATE $tmp \la A[i_{min}]$
+	\STATE $A[i_{min}] \la A[i]$
+	\STATE $A[i] \la tmp$
+\ENDFOR
+\end{algorithmic}
+
+\smallskip \noindent
+MIN($A$, $i$)
+\begin{algorithmic}
+\STATE $res \la i$
+\FOR {$j \la i+1$ to $length[A]$}
+	\IF {$A[j] < A[res]$}
+		\STATE $res \la j$
+	\ENDIF
+\ENDFOR
+\RETURN $res$
+\end{algorithmic}
+
+MIN($A$, $i$) returns the index of the minimum of the array
+$A[i\ \ n]$.
+
+Let's consider as loop invariant the property: The array $A[1\ \ i-1]$
+is sorted and $ A[i-1] \le A[k], i\le k\le n$.
+\begin{itemize}
+\item
+\textbf{Initialization: }For $i=1$, the array $A[1\ \ i-1]$ is empty
+and the element $A[i-1]$ doesn't exist so the property is verified.
+
+\item
+\textbf{Maintenace: }Suppose we have the property for $i-1$.  We have,
+\[ A[i_{min}] \le A[k] \mbox{ for } i\le k\le n.\]
+The body of the loop swaps the value of $A[i]$ and $A[i_{min}]$. So we
+have after executing the body,
+\[ A[i] \le A[k] \mbox{ for } i+1\le k\le n.\]
+Plus, we have $A[i-1] \le A[i]$.  So we have the property maintained.
+
+\item
+\textbf{Termination: } At the end of the loop the indice is $i$ is
+$n+1$ so we have the result.
+\end{itemize}
+
+From the loop invariant for $i=n-1$, we have the array $A[1\ \ n-1]$
+sorted and $A[n-1] \le A[n]$.  So the algorithm needs only to run for
+the first n-1 elements.
+
+The algorithm running time is the same for all entries of the same
+size.  The function \textrm{MIN} is $\Theta(n-i)$.  We then deduce
+that,
+\[ T(n) = \sum_{i=1}^n\Theta(n-i).\]
+We then deduce that, $T(n) = \Theta(n^2)$.
+
+\newpar{2.2-3} If we note $n$ the size of the array.  If the element
+$v$ is at the index $i$, we need to check $i$ elments of the array.  So
+the number of elements of the input need to be checked on the average
+is,
+\begin{eqnarray*}
+A(n) &=& \sum_{i=1}^n \frac{i}{n}\\
+&=&\frac{n+1}{2}\\
+\end{eqnarray*}
+In the worst case, we need to check all the elements so $T(n) = n$.
+We then deduce that $A(n) = \Theta(n)$ and $T(n) = \Theta(n)$.
+
+\newpar{2.2-4}
+We check for a special case that we know the value,  we then return this answer.
+\end{document}

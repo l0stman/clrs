@@ -1,0 +1,134 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]
+{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\prob}[1]{\mathrm{Pr}\left\{ #1 \right\}}
+
+\begin{document}
+ \newpar{C.3-1}
+Note $X$ the discrete variable equals to the sum of the two values of
+the dices of $Y$ the maximum of the two values.  Note $X_1$ the value
+of the first dice and $X_2$ the value of the second one.  We have,
+\begin{eqnarray*}
+  E[X] &=& \sum_{s=2}^{12} s \prob{X=s} \\
+  &=& \sum_{s=2}^7 s \prob{X=s} + \sum_{s=8}^{12} s \prob{X=s} \\
+  &=& \sum_{s=2}^7 s \sum_{i=1}^{s-1} \prob{X_1 = i}\prob{X_2 = s-i} +
+  \\ && \sum_{s=8}^{12} s \sum_{i=s-6}^6\prob{X_1 = i} \prob{X_2 =
+    s-i} \\
+  &=& \sum_{s=2}^7 \frac{s(s-1)}{36} + \sum_{s=8}^{12}
+  \frac{s(13-s)}{36} \\
+  &=& 7
+\end{eqnarray*}
+and
+\begin{eqnarray*}
+  E[Y] &=& \sum_{m=1}^6 m \prob{Y=m} \\
+  &=& \sum_{m=1}^6 m \frac{2m-1}{36} \\
+  &=& \frac{161}{36} \\
+  &\simeq& 4.5
+\end{eqnarray*}
+
+\newpar{C.3-2}
+Note $X$ the discrete variable equal to the index of the maximum
+element in the array.  We have
+\begin{eqnarray*}
+  E[X] &=& \sum_{i=1}^n i \prob{X = i} \\
+  &=& \sum_{i=1}^n \frac{i}{n} \\
+  &=& \frac{n}{2}
+\end{eqnarray*}
+The expectation of the index of the minimum element in the array is
+the same.
+
+\newpar{C.3-3}
+Note $X$ the discrete variable equal to the gain of the player.  We
+have
+\begin{eqnarray*}
+  E[X] &=& -1 \prob{X = 0} + 1 \prob{X = 1} + 2 \prob{X = 2} +
+  3 \prob{X = 3} \\
+  &=& - \left(\frac{5}{6}\right)^3 + 3\frac{1}{6}
+  \left(\frac{5}{6}\right)^2 +
+  6 \left(\frac{1}{6}\right)^2 \frac{5}{6} +
+  3 \left(\frac{1}{6}\right)^3 \\
+  &=& -\frac{17}{216} \\
+  &\simeq& - 0.079
+\end{eqnarray*}
+
+\newpar{C.3-4}
+If $X$ and $Y$ are nonnegative random variables, we have
+\[ X + Y - \max(X,Y) \ge 0.\]
+Thus by linearity
+\[ E[X] + E[Y] - E[\max(X,Y)] \ge E[0] = 0.\]
+
+\newpar{C.3-5}
+Let $X$ and $Y$ be independent random variables and $f$ and $g$ two
+functions.   We have,
+\[  \prob{f(X) = x\,\mbox{and}\,g(Y) = y} =
+\prob{X = x'\,\mbox{and}\,Y = y'}\]
+with $x' \in\, f^{-1}\left(\{x\}\right)$ and $y' \in\,
+g^{-1}\left(\{y\}\right)$.  Thus
+\begin{eqnarray*}
+  \prob{f(x) = x \,\mbox{and}\,g(Y) = y} &=&
+  \prob{X = x'} \prob{Y = y'}  \\
+  &=& \prob{f(X) = x} \prob{g(Y) = y}
+\end{eqnarray*}
+We then deduce that the random variables $f(X)$ and $g(Y)$ are
+independent.
+
+\newpar{C.3-6}
+Let $X$ be a nonnegative random variable, and suppose that $E[X]$ is
+well defined.  Let $t$ be a positive number.  We have
+\begin{eqnarray*}
+  E[X] &=& \sum_x x \prob{X=x} \\
+  &\ge& \sum_{x \ge t} x \prob{X=x} \\
+  &\ge& t \sum_{x \ge t} \prob{X=x} \\
+  &=& t \prob{X \ge t}
+\end{eqnarray*}
+Thus finally,
+\[ \prob{X \ge t} \le \frac{E[X]}{t}.\]
+
+\newpar{C.3-7}
+Let $S$ be a sample space, and let $X$ and $X'$ be random variables
+such that $X(s) \ge X'(s)$ for all $s \in S$.   Let $t$ be a real
+constant.
+
+We have
+\[ \{ s \in S: X'(s) \ge t \} \subset \{ s \in S: X(s) \ge t \}.\]
+Thus
+\begin{eqnarray*}
+  \prob{X' \ge t} &=& \prob{s \in S: X'(s) \ge t} \\
+  &\le& \prob{s \in S: X(s) \ge t} \\
+  &=& \prob{X \ge t}
+\end{eqnarray*}
+
+\newpar{C.3-8}
+Let $X$ be a random variable.  From (C.26) we have
+\[ E[X^2] - E^2[X] = Var[X] \ge 0.\]
+
+Thus the expectation of the square of a random variable is greater
+than the square of its expectation.
+
+\newpar{C.3-9}
+Let $X$ a random variable that takes on only the values $0$ and $1$.
+We have $X^2 = X$, thus
+\begin{eqnarray*}
+  Var[X] &=& E[X^2] - E^2[X] \\
+  &=& E[X] - E^2[X] \\
+  &=& E[X](1 - E[X]) \\
+  &=& E[X] E[1-X]\,\mbox{by linearity}
+\end{eqnarray*}
+
+\newpar{C.3-10}
+We have
+\begin{eqnarray*}
+  Var[a X] &=& E[(aX - E[aX])^2] \\
+  &=& E[(aX - aE[X])^2] \\
+  &=& E[a^2(X-E[X])^2] \\
+  &=& a^2 E[(X-E[X])^2] \\
+  &=& a^2 Var[X]
+\end{eqnarray*}
+\end{document}

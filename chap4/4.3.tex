@@ -1,0 +1,68 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]
+{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+
+\begin{document}
+\newpar{4.3-1}
+\subpar{a} $\log_2 4 = 2$.  We're in the first case of the Master
+Theorem $T(n) = \Theta(n^2)$.
+\subpar{b} We're in the second case. $T(n) = \Theta(n^2\lg n)$.
+
+\subpar{c} $4 (n/2)^3 < n^3$.  So we're in the third case.  $T(n) =
+\Theta(n^3)$.
+
+\newpar{4.3-2}
+We have $\lg 7 \simeq 2.81$.  From the Master method, we have $T(n) =
+\Theta(n^{\lg 7})$.
+
+If $a \le 16$,  we have from the Master method $T'(n) = o(T(n))$.
+Suppose $a > 16$, thus $T'(n) = \Theta(n^{\log_4a})$.
+
+For $A'$ to be faster than $A$, we need $\log_4a < \lg 7$,
+that is $ a < 49$. So the maximum value $a$ could take is $48$.
+
+\newpar{4.3-3}
+We have $\lg 1 = 0$.  So we're in the second case of the master
+method.  Thus, $T(n) = \Theta(\lg n)$.
+
+\newpar{4.3-4}
+We have, $\lg 4 = 2$.  Obviously, we have $ n^2 \lg n \not=
+\Theta(n^2)$.  And there is no positive constant $\epsilon$
+verifying
+\[ n^2\lg n = O(n^{2-\epsilon})\ \mbox{or}\ n^2\lg n =
+\Omega(n^{2+\epsilon}).\]
+So we can't apply the master method.
+
+Let's show that $T(n) \le c(n\lg n)^2$ for an appropriate choice of
+the constant $c > 0$.  Suppose we have the inequality for $n/2$, we
+then deduce
+\begin{eqnarray*}
+  T(n) &=& 4T(n/2) + n^2\lg n \\
+  &\le& 4c(n/2\lg(n/2))^2 + n^2\lg n \\
+  &=& c\,n^2(\lg n - 1)^2 + n^2\lg n \\
+  &=& c(n\lg n)^2 - n^2(c(2\lg n - 1) - \lg n) \\
+  &\le& c(n\lg n)^2
+\end{eqnarray*}
+If we have $n \ge 2$ and $c \ge 1$.  And we should choose $c$ large
+enough such that
+\[ T(2) \le 4c.\]
+
+We then deduce that $T(n) = O((n\lg n)^2)$.
+
+\newpar{4.3-5}
+Consider the recurrence $T(n) = T(n/2) + f(n)$ where $f$ is
+the function
+\[ f(n) = n\lg^{(n)}n.\]
+$\lg^{(n)}n$ represents the base 2 logarithm applied $n$ times to $n$.
+We have
+\[ f(n/2) = n/2 \lg^{(n/2)}(n/2) > n\lg^{(n)}n = f(n)\]
+for sufficiently large $n$ because $n \ge 2\lg n$ for sufficiently
+large $n$.
+\end{document}

@@ -1,0 +1,57 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\exchange}[2]{\mathrm{exchange}\ #1 \leftrightarrow #2}
+\newenvironment{alg}[2]
+               {\noindent $\textsc{#1}(#2)$ \begin{algorithmic}}
+               {\end{algorithmic}}
+
+\begin{document}
+
+\newpar{8.1-1} The smallest depth of a leaf in a decision tree for a
+comparison sort is $n-1$.  It's the case for example when the array is
+already sorted and we compare successively the $i^{th}$ element with
+the $(i+1)^{th}$ element when $i$ varies between $1$ and $n-1$.  We
+can show this by induction.
+
+\newpar{8.1-2} We have
+
+\begin{eqnarray*}
+  \sum_{k=1}^n \int_{k-1}^k \lg x\, dx &\le & \sum_{k=1}^n \lg k \le
+  \sum_{k=1}^n \int_k^{k+1} \lg x\,dx \\
+  \int_0^n \lg x\,dx &\le& \sum_{k=1}^n \lg k \le \int_1^{n+1}\lg
+  x\, dx \\
+  n\lg n - n &\le& \sum_{k=1}^n \lg k \le (n+1)\lg(n+1) - n
+\end{eqnarray*}
+
+\newpar{8.1-3}  Suppose that there is a comparison sort whose running
+time is linear for at least half of the $n!$ inputs of length $n$.
+Thus, at least half of the $n!$ inputs are the leaves of a binary tree
+of height $O(n)$.  There exists $c > 0$ such that
+
+\begin{eqnarray*}
+  \frac{n!}{2} &\le& 2^{c\,n} \\
+  \lg n! &\le& c\,n + 1.
+\end{eqnarray*}
+
+Which is absurd since $\lg n! = \Omega(n\lg n)$.
+
+\medskip
+The same reasoning applies for a fraction of $1/n$ or $1/2^n$ of the
+inputs of length $n$.
+
+\newpar{8.1-4}
+Since the elements in one the subsequence of $k$ elements are
+unsorted, we need at least $\Omega(k\lg k)$ edges in the path from the
+root to a leaf corresponding to the comparison between the elements in
+the subsequence.  This is true for all the subsequences so there's at
+least $\Omega(n\lg k)$ edges in this path.  Thus to solve this problem, we
+need at least $\Omega(n\lg k)$ comparisons.
+\end{document}
+

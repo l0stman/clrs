@@ -1,0 +1,63 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\exchange}[2]{\mathrm{exchange}\ #1 \leftrightarrow #2}
+
+\begin{document}
+
+\newpar{6.4-2}
+Let's show the property is a loop invariant.
+\begin{itemize}
+\item \textbf{Initialization: }  For $i = \mathrm{length}[A]$,
+  $A[1\ldots i]$ is max-heap containing the $i$ smallest elements of
+  $A[1\ldots n]$. And $A[i+1\ldots n]$ is an empty array so we can say
+  whatever we want about it.
+
+\item \textbf{Maintenace: } Since $A$ is a max-heap, $A[1]$ is the
+  greatest elements of the heap $A$.  Since $A[i+1\ldots n]$ is sorted
+  and contains the $n-i$ largest elements of $A[1\ldots n]$, after we
+  execute line $3$, the subarray $A[i\ldots n]$ is sorted and contains
+  the $n-i+1$ largest elements of $A[1\ldots n]$.  Line $5$ ensures
+  that $A$ is a max-heap since the left node and right node are.
+  Thus, we maintain the property if we decrease the value of $i$.
+
+\item \textbf{Termination: } At the end of the loop $i = 1$, thus
+  $A[1]$ is the smallest elements of $A[1\ldots n]$ and the subarray
+  $A[2\ldots n]$ is sorted.  Thus the array $A$ is sorted.
+\end{itemize}
+
+\newpar{6.4-3}
+See \textbf{Exercises 6.4-5}.
+
+\newpar{6.4-4}
+See \textbf{Exercises 6.4-5}.
+
+\newpar{6.4-5} Note $h(1), h(2), \ldots, h(n)$ the distinct elements
+of a max-heap of size $n$.  For $k$ between $1$ and $n$, note
+$r(h(k))$ the rank of $h(k)$ if the heap is sorted in ascending order.
+When the loop variable $i$ is equal to $r(h(k))$, the root of the
+max-heap will be equal to $h(k)$ after we execute line $5$ because
+it's the greatest element in the max-heap of size $r(h(k))$.
+
+Thus we moved $h(k)$ from position $k$ to position $1$.  This needs at
+least $\lfloor \lg k\rfloor$ operations.  Thus to sort the array we
+need at least $\sum_{k=1}^n \lfloor \lg k\rfloor$ operations.
+
+We have
+\begin{eqnarray*}
+  \sum_{k=1}^n \lfloor \lg k\rfloor &>&
+  \sum_{k=1}^n \lg k - n \\
+  &\ge& \sum_{k=2}^n \int_{k-1}^k \lg x\,dx - n \\
+  &=& \int_1^n \lg x\,dx - n \\
+  &=& n \lg n - n
+\end{eqnarray*}
+We then deduce that the running time of \textsc{heapsort} on an array
+of distinct elements is $\Omega(n\lg n)$.
+
+\end{document}

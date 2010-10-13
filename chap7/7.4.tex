@@ -1,0 +1,388 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\exchange}[2]{\mathrm{exchange}\ #1 \leftrightarrow #2}
+
+\begin{document}
+\newpar{7.4-1}
+Let $K$ be a positive constant such that for $n > 0$
+\[ T(n) \ge \max_{0 \le q\le n-1}\left(T(q) + T(n-q-1)\right) + Kn.\]
+Let's show that $T(n) \ge c\,n^2$ for a certain positive constant
+$c$.  Suppose we have the property for $0 \le k\le n-1$.  We have
+
+\begin{eqnarray*}
+  T(n) &\ge& c\max_{0\le q\le n-1}\left(q^2 + (n-q-1)^2\right) +
+  Kn \\ &\ge&
+  c \left(0^2 + (n-1)^2\right) + Kn \\ &=&
+  c\,n^2 + \left(Kn - 2cn + 1\right) \\ &\ge&
+  c\,n^2,\ \mbox{if $c \le \frac{K}{2}$}
+\end{eqnarray*}
+
+Plus if we chose $c$ small enough such that $T(1) \ge c$,  we have the
+property for $n > 0$.  Thus, $T(n) = \Omega(n^2)$.
+
+\newpar{7.4-2}
+For the best-case running time we have
+\[ T(n) = \min_{0\le q \le n-1}\left(T(q) + T(n-q-1)\right) +
+\Theta(n).\]
+Let $K$ be a positive constant such that for $n > 0$, we have
+\[ T(n) \ge \min_{0\le q \le n-1}\left(T(q) + T(n-q-1)\right) + Kn.\]
+Let's show that $T(n) \ge c\,n\lg n$ for a certain positive constant
+$c$.  Suppose we have the property for $0 \le q \le n-1$.  We have
+
+\begin{eqnarray*}
+  T(n) &\ge& c\min_{0\le q\le n-1}\left(q\lg q + (n-q-1)\lg
+  (n-q-1)\right) + Kn \\ &\ge&
+  2c \times \frac{n-1}{2} \lg \frac{n-1}{2} + Kn \\ &=&
+  c\,n\lg n + Kn - c\left(n-1 - \lg(n-1) - n
+  \lg\left(1-\frac{1}{n}\right)\right)
+\end{eqnarray*}
+
+There exists a positive integer $n_0$ such that for $n \ge n_0$, we
+have
+\[ n - 1 - \lg(n-1) - n\lg\left(1-\frac{1}{n}\right) \ge 0.\]
+Thus, for $n \ge n_0$
+\[ T(n) \ge cn\lg n + K n - c \ge cn\lg n,\]
+if we have $c \le K$.  Plus if we choose $c$ small enough such that
+\[ T(n_0) \ge c\,n_0 \lg n_0,\]
+then we have $T(n) = \Omega(n\lg n)$.
+
+\newpar{7.4-3}
+Note: $f(x) = x^2 + (n - x - 1)^2$ for $0 \le x \le n-1$.  We have
+
+\begin{eqnarray*}
+  f'(x) &=& 2x - 2(n - x - 1) \\
+  &=& 2\left(2x - (n-1)\right)
+\end{eqnarray*}
+
+Thus $f'(x) \ge 0$ if and only if $x \ge \frac{n-1}{2}$.  We then
+deduce that $f$ reaches its maximum for $x = 0$ and $x = n-1$.
+
+\newpar{7.4-4}
+c.f. \textbf{7.4-2}.
+
+\newpar{7.4-5}
+If we draw the recursion tree corresponding to the algorithm and
+assumes that each partition has a $1/2$ - $1/2$ ratio.  At depth $\log
+\frac{n}{k}$, we have $\frac{n}{k}$ partitions of length $k$.  And at
+each level,  we execute $\Theta(n)$ operations partitioning.  Thus,
+the top-level quicksort is $O\left(n \lg \frac{n}{k}\right)$.
+
+An insertion sort on a partition of size $k$ is $O(k^2)$.  Thus the
+total cost of the all the insertion sort is $O(n k)$.  So the
+algorithms runs in $O\left(nk + n \lg \frac{n}{k}\right)$.
+
+We want this new algorithm to run faster than the classical quicksort.
+Actually, there're two constants that play roles here.  The first one
+is a constant $Q > 0$ such that the running time of quicksort is less
+than $Q n \lg n$ and a constant $I > 0$ such that the running time of
+insertion sort is less than $I n^2$.  Thus, we want the inequality
+\[ I nk + Q n \lg \frac{n}{k} < Q n \lg n.\]
+Dividing the first member by the second one, we have
+\[ \frac{I k}{Q \lg n} + \frac{1}{k} < 1.\]
+Typically, $I$ is less than $Q$ and we want to minimize the first
+member of this inequality.
+
+\newpar{7.4-6}
+Suppose $0 < \alpha < \frac{1}{2}$.  Note $p$ the index of the
+partition if the array were already sorted.  The partition is at worst
+an $\alpha$ to $1-\alpha$ split if
+\[ \alpha \le \frac{p}{n} \le 1-\alpha.\]
+That is
+\[ \lceil \alpha n \rceil \le p \le \lfloor (1-\alpha)n\rfloor.\]
+Given that $- \lceil x\rceil = \lfloor -x \rfloor$, we deduce that $p$
+could take $N = \lfloor (1-2\alpha)n \rfloor + 1$ different values.
+Since the partition is the median value of the three elements picked,
+we then deduce that the probability of obtaining at worst an $\alpha$
+to $1-\alpha$ split is
+
+\begin{eqnarray*}
+  P &=& 3!\frac{\sum_{k=1}^{N-2}k(N-1-k)}{n(n-1)(n-2)} \\
+  &=& 6 \frac{\frac{(N-1)^2(N-2)}{2} -
+    \sum_{k=1}^{N-2}k^2}{n(n-1)(n-2)}\\
+  &\simeq& 6 \frac{\frac{N^3}{2} - \frac{2N^3}{6}}{n^3} \\
+  &\simeq& (1-2\alpha)^3
+\end{eqnarray*}
+
+\newprob{7-1}
+\subpar{a}\\
+13 19 9 5 12 8 7 4 11 2 6 21, $j \leftarrow 11$, $i \leftarrow 1$ \\
+6 19 9 5 12 8 7 4 11 2 13 21, $j \leftarrow 10$, $i \leftarrow 2$ \\
+6 2 9 5 12 8 7 4 11 19 13 21, $j \leftarrow 9$, $i \leftarrow 10$
+
+\subpar{b} At the beginning of the \textbf{while} loop we have,
+\[ i = p-1 < j=r+1.\]
+The two inner loops always increment and decrement $i$ and $j$
+respectively, and given that the elements $A$ are accessed only if $i
+< j$, we can deduce that we don't access an element of $A$ outside the
+subarray $A[p\ldots r]$.
+
+\subpar{c} Let's consider the first iteration of the \textbf{while}
+loop.  If $j = r$ after we execute the \textbf{repeat} loop at the
+lines $5$ and $6$,  we have $A[r] \le x = A[p]$.  After we execute the
+lines $7$ and $8$, we have $i = p$.  Given that $p < r$, the procedure
+doesn't return and execute the next iteration.  And line $5$ will
+decrement $j$ so we'll have $j < r$.
+
+\subpar{d} Let's show that the following property holds throughout the
+execution of the procedure:
+
+\begin{quote}
+  Every element of $A[p\ldots i]$ is less than $x$ which is less than
+  or equal to every element of $A[j\ldots r]$.
+\end{quote}
+
+\begin{itemize}
+
+\item \textbf{Initialization: } The arrays $A[r+1\ldots r]$ and
+  $A[p\ldots p-1]$ are void so we can say whatever property we want
+  about them.
+
+\item \textbf{Maintenance: } Suppose that the property is true at the
+  beginning of an iteration of the \textbf{while} loop.
+
+  After executing the lines $5$ and $6$, we have $A[j] \le x$ and $x$
+  is less or equal to the elements of the array $A[j+1\ldots r]$.
+
+  After executing the lines $7$ and $8$, we have $A[i] \ge x$ and $x$
+  is greater than the elements of the array $A[p\ldots i-1]$.
+
+  If $i < j$, then after executing line $10$, we have the property:
+  every elements of $A[p\ldots i]$ are less than $x$ which is less or
+  equal than every elements of $A[j\ldots i]$
+
+  \item \textbf{Termination: } We execute the body of the while loop
+    one more time before exiting.  The difference with the previous
+    case is that this time $i \ge j$ so the swapping doesn't occur.
+    We then deduce that the elements of $A[p\ldots j-1]$ is less than
+    $x$ which is less or equal to the elements of the array
+    $A[j+1\ldots r]$.  Given that $A[j] \le x$,  we have the desired
+      property.
+\end{itemize}
+
+\subpar{e}
+
+\noindent
+\textsc{quicksort}($A$, $p$, $r$)
+\begin{algorithmic}
+  \IF{$p < r$}
+  \STATE $q \la \textsc{hoare-partition}(A, p, q)$
+  \STATE \textsc{quicksort}($A$, $p$, $q$)
+  \STATE \textsc{quicksort}($A$, $q+1$, $r$)
+  \ENDIF
+\end{algorithmic}
+\newprob{7-2}
+\subpar{a} Since the choice of the pivot is randomized, all the
+elements of the array have equal probability to be chosen, which is
+$1/n$.  We have $E[X_i] = \frac{1}{n}$.
+
+\subpar{b}
+The procedure \textsc{randomized-partition} on an array of size $n$ is
+$\Theta(n)$.  Thus we have the relation
+\[ T(n) = \sum_{q=1}^n X_q(T(q-1) + T(n-q)) + \Theta(n).\]
+
+\subpar{c}
+Using the linearity of the expected value, we have
+
+\begin{eqnarray*}
+  E[T(n)] &=& \sum_{q=1}^n(T(q-1) + T(n-q)) E[X_q] + \Theta(n) \\
+  &=& \frac{1}{n}\left(\sum_{q=1}^n T(q-1) + \sum_{q=1}^nT(n-q)\right)
+  + \Theta(n) \\
+  &=& \frac{2}{n} \sum_{q=1}^n T(q-1) + \Theta(n)
+\end{eqnarray*}
+
+\subpar{d}
+We have,
+\begin{eqnarray*}
+  \sum_{k=1}^{n-1} k \lg k &=& \sum_{k=1}^{\lceil n/2\rceil - 1} k \lg
+  k + \sum_{k = \lceil n/2\rceil}^{n-1} k \lg k \\ &\le& \lg(n/2)
+  \sum_{k=1}^{\lceil n/2\rceil} k + \lg n \sum_{k=\lceil
+    n/2\rceil}^{n-1} k \\ &=& \frac{\lceil n/2\rceil (\lceil n/2\rceil
+    - 1)}{2}(\lg n - 1) + \\ && \frac{(\lceil n/2\rceil + n - 1)(n -
+    \lceil n/2\rceil)}{2} \lg n \\ &\le&
+  \frac{n^2}{8}(\lg n - 1) + \frac{3n^2}{8} \lg n \\ &=&
+  \frac{n^2}{8} \lg n - \frac{n^2}{8}
+\end{eqnarray*}
+
+\subpar{f}
+Let $K$ be a positive constant such that for $n > 0$ we have from
+(7.6)
+
+\[ E[T(n)] \le \frac{2}{n} \sum_{q=0}^{n-1}E[T(q)] + Kn .\]
+
+Let's show that
+
+\[ E[T(n)] \le a n \lg n\]
+
+for some positive constant $a$.
+
+Suppose we have the property for $0 \le k \le n-1$.  We then deduce
+
+\begin{eqnarray*}
+  E[T(n)] &\le& \frac{2a}{n} \sum_{q=0}^{n-1} q \lg q + Kn \\
+  &\le& \frac{2a}{n} \left(\frac{n^2}{2}\lg n - \frac{n^2}{8}\right)
+  + Kn \\
+  &=& a n \lg n - \left(\frac{a}{4} -K\right)n \\
+  &\le& a n \lg n,\ \mbox{if we have $a \ge 4K$}
+\end{eqnarray*}
+
+Moreover, if we choose $a$ large enough such that $E[T(2)] \le 2a$,
+then we have the property for $n \ge 2$.  Thus $E[T(n)] = \Theta(n\lg
+n)$.
+
+\newprob{7-3}
+\subpar{a}
+It's easy to see that if $j \le i+1$ then \textsc{stooge-sort} sorts
+the array $A$.  Suppose that if $k < n$ then \textsc{stooge-sort}
+sorts the array.
+
+Line $6$ sorts the subarray $A[i\ldots j-k]$.  After line $7$ the
+subarray $A[i+k\ldots j]$ is sorted, and $A[i+k]$ is greater than each
+element of index less than $i+k$.  Thus the last line sorts the array
+$A$.
+
+\subpar{b}  The worst case running-time verifies
+
+\[ T(n) = 3 T\left(\frac{2n}{3}\right) + \Theta(1).\]
+
+Using the master method, we have $T(n) = \Theta(n^{(1 - \log_32)^{-1}})$.
+
+\subpar{c} Given that $(1- \log_32)^{-1} \simeq 2.71$ the worst-case
+running time of \textsc{stooge-sort} is a lot worse that those of
+insertion sort, merge sort, heapsort and quicksort.  Moreover, the
+expected running-time of \textsc{stooge-sort} is equal to the
+worst-case running-time.  So this algorithm is worse than bubble
+sort.  The professors should be fired immediately.
+
+\newprob{7-4}
+\subpar{a} Line $5$ is equivalent to \textsc{quicksort'}($A$,
+$q+1$, $r$).  Thus it's the same algorithm as \textsc{quicksort}.
+
+\subpar{b} If each partition produces a $r-p$ to $1$ ratio, then the
+stack depth is $\Theta(n)$.
+
+\subpar{c} We just make sure that \textsc{quicksort} never makes a
+recursive call with a subarray of length greater than $n/2$ as
+argument.
+
+\newpage
+\noindent
+\textsc{quicksort'}($A$, $p$, $r$)
+\begin{algorithmic}
+  \WHILE{ $p < r$ }
+  \STATE $q \la \textsc{partition}(A, p, r)$
+  \IF{ $q < \frac{r-p}{2}$ }
+  \STATE $\textsc{quicksort}(A, p, q-1)$
+  \STATE $p \la q+1$
+  \ELSE
+  \STATE $\textsc{quicksort}(A, q+1, r)$
+  \STATE $r \la q-1$
+  \ENDIF
+  \ENDWHILE
+\end{algorithmic}
+
+\newprob{7-5}
+\subpar{a} We have
+\begin{eqnarray*}
+  p_i &=& 3! \times \frac{i-1}{n} \times \frac{1}{n-1} \times
+  \frac{n-i}{n-2} \\
+  &=& \frac{6 (i-1)(n-i)}{n(n-1)(n-2)}
+\end{eqnarray*}
+
+\subpar{b} If $i = \lfloor (n+1)/2 \rfloor$, we have
+\begin{eqnarray*}
+  \lim_{n \ra +\infty}\frac{p_i}{1/n} = \frac{3}{2}.
+\end{eqnarray*}
+So we have increased our chance to choose the median value by a factor
+of $1.5$.
+
+\subpar{c} From \textbf{exercises 7.4-6}, taking $\alpha = 1/3$ the
+answer is $1/27$.
+
+\subpar{d} Even with the median-of-3 methods, quicksort could still run
+in $\Theta(n^2)$ on certain entries.  And the constant factor in
+$\Omega(n\lg n)$ increases because we do more work to choose the
+pivot.  Although generally, the algorithm should run faster.
+
+\newprob{7.6}
+\subpar{a}  We use the same algorithm as quicksort for fuzzy-sort.
+The array $A$ and $B$ represent respectively the left and right
+endpoints of the intervals.
+
+\medskip
+\noindent
+$\textsc{fuzzy-sort}(A, B, p, r)$
+\begin{algorithmic}
+  \STATE \COMMENT{ Create an array $I$ of length $2$ }
+  \STATE $\textsc{fsort}(A, B, p, r, I)$
+\end{algorithmic}
+
+\newpage
+\noindent
+$\textsc{fsort}(A, B, p, r, I)$
+\begin{algorithmic}
+  \IF{ $p < r$ }
+  \STATE $\textsc{partition}(A, B, p, r, I)$
+  \STATE $\textsc{fsort}(A, B, p, I[0], I)$
+  \STATE $\textsc{fsort}(A, B, I[1], r, I)$
+  \ENDIF
+\end{algorithmic}
+
+The partition algorithm produces the following results:
+
+\begin{itemize}
+\item the sub-arrays $A[p\ldots I[0]]$ and $B[p\ldots I[0]]$ contain
+  the endpoints of the intervals less than the pivot whose index is
+  $I[0]+1$.
+
+  \item the sub-arrays $A[I[1] \ldots r]$ and $B[I[1]\ldots r]$
+    contain the endpoints of the intervals greater than the pivot.
+
+    \item the sub-arrays $A[I[0]+1 \ldots I[1]-1]$ and $B[I[0]+1\ldots
+      I[1]-1]$ contains the intervals which overlap with the pivot.
+\end{itemize}
+Note that we get rid of the intervals which overlap with the pivot in
+subsequent calls to \textsc{fsort}.
+
+\medskip
+\noindent
+$\textsc{partition}(A, B, p, r, I)$
+\begin{algorithmic}
+  \STATE $x \la A[r]$
+  \STATE $y \la B[r]$
+  \STATE $i \la p-1$
+  \FOR{ $j \la p$ \textbf{to} $r-1$ }
+  \IF{ $B[j] < x$ }
+  \STATE $i \la i+1$
+  \STATE $\exchange{A[i]}{A[j]}$
+  \STATE $\exchange{B[i]}{B[j]}$
+  \ENDIF
+  \ENDFOR
+  \STATE $I[0] \la i$
+  \STATE $i \la i+1$
+  \STATE $\exchange{A[i]}{A[r]}$
+  \STATE $\exchange{B[i]}{B[r]}$
+  \FOR{ $j \la i+1$ \textbf{to} $r-1$ }
+  \IF{$x \le A[i] \le y$ \textbf{or} $x \le B[i] \le y$}
+  \STATE $i \la i+1$
+  \STATE $\exchange{A[i]}{A[j]}$
+  \STATE $\exchange{B[i]}{B[j]}$
+  \ENDIF
+  \ENDFOR
+  \STATE $I[1] \la i+1$
+\end{algorithmic}
+
+\subpar{b} This algorithm is basically the same as quicksort, given
+that the running-time of \textsc{partition} is $\Theta(n)$. Thus, the expected
+running time is $\Theta(n \lg n)$.
+
+If all the intervals overlap we would have $I[0] = p-1$ and $I[1] =
+r+1$.  Thus \textsc{fsort} terminates after calling
+\textsc{partition} once.  Thus the running time is $\Theta(n)$.
+\end{document}

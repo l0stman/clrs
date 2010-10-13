@@ -1,0 +1,129 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]
+{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+
+\begin{document}
+\newpar{4-2.1}
+Let's show that $T(n) = O(n^{\lg 3})$, that is we have
+\[ T(n) \le c\,n^{\lg 3} - n/2\]
+for an appropriate choice of the positive constants $c$ .
+Suppose we have the inequality for $\lfloor n/2\rfloor$.  Thus,
+\begin{eqnarray*}
+T(n) &=& 3T(\lfloor n/2\rfloor) + n \\
+&\le& 3c(\lfloor n/2\rfloor)^{\lg 3} - 3/2\,n+ n \\
+&\le& 3c(n/2)^{\lg 3} - n/2  \\
+&=& c\,n^{\lg 3} - n/2
+\end{eqnarray*}
+And we need to choose the constant $c$ large enough such that,
+\[ T(1) \le c - 1/2.\]
+
+\newpar{4.2-2}
+Consider the recursion tree of $T(n) = T(n/3) + T(2n/3) + cn$.  The
+shortest path from the root to a leaf is the leftmost one which has a
+height equal to $\log_3 n$.  So if we consider the subtree of height
+$\log_3 n-1$, it's a binary tree so each level has a total cost equal
+to $c\,n$.  We then deduce that,
+\[ T(n) \ge c\,n (\log_3 n - 1).\]
+Thus $T(n) = \Omega(n\lg n)$.
+
+\newpar{4.2-3} We suppose that $T(n) = \Theta(n^2).$ Let's show that
+$T(n) \le Cn^2 - b\,n$ for an appropriate choice of the positive
+constants $C$ and $b$.  Suppose that we have the inequality for $\lfloor
+n/2\rfloor$, thus
+\begin{eqnarray*}
+T(n) &=& 4 T(\lfloor n/2\rfloor) + c\,n \\
+&\le& 4C(\lfloor n/2\rfloor)^2 - 4b\lfloor n/2\rfloor + c\,n \\
+&\le& C n^2 - 4b(n/2 - 1) + c\,n \\
+&=& C n^2 - b\,n - ((b-c)n - 4b)
+\end{eqnarray*}
+If we have $b > c$, and for $n$ sufficiently large, that is $n \ge
+4b/(b-c)$, we have
+\[ T(n) \le n^2 - b\,n.\]
+Plus if we note $n_0 = \lfloor 4b/(b-c)\rfloor$, we choose $C$ large
+enough so we have,
+\[ T(n_0) \le Cn_0^2 - b\,n_0.\]
+Thus, we have $T(n) = O(n^2)$.  And let's show that $Dn^2 \le T(n)$
+for an appropriate choice of the constant $D > 0$.  Suppose we have
+the inequality for $\lfloor n/2\rfloor$, thus
+\begin{eqnarray*}
+T(n) &=& 4 T(\lfloor n/2\rfloor) + c\,n \\
+&\ge& 4 D(\lfloor n/2\rfloor)^2 + c\,n \\
+&\ge& 4 D(n/2 - 1)^2 + c\,n \\
+&\ge& Dn^2 - 4Dn + c\,n \\
+&=& Dn^2 + (c - 4D) n \\
+&\ge& Dn^2
+\end{eqnarray*}
+if we have $D \le c/4$.  Plus, we should choose $D$ small enough such
+that,
+\[ T(1) \ge D.\]
+We then deduce that $T(n) = \Omega(n^2)$.  So finally $T(n) =
+\Theta(n^2)$.
+
+\newpar{4.2-4} We want to show that $T(n) = \Theta(n^2)$.  Let's show
+that $T(n) \le Cn^2$ for an appropriate choice of the positive
+constant $C$.  Suppose that we have the inequality for $n-a$,
+thus
+\begin{eqnarray*}
+T(n) &=& T(n-a) + T(a) + c\,n \\
+&\le& C(n-a)^2 + T(a) + c\,n \\
+&=& Cn^2 - ((2aC - c)n - Ca^2 - T(a)) \\
+&\le& Cn^2
+\end{eqnarray*}
+if we have 
+\[C > \frac{c}{2a}\ \mbox{and}\ \
+n \ge n_0 = \left\lceil
+\frac{Ca^2+T(a)}{2aC - c}\right\rceil.\]
+And we should choose $C$ large enough such that
+\[ T(n_0) \le Cn_0^2.\]
+We then deduce that $T(n) = O(n^2)$.
+
+\medskip
+Let's show that $Dn^2 \le T(n)$ for an appropriate choice of the
+positive constant $D$.  Suppose we have the inequality for $n-a$, thus
+\begin{eqnarray*}
+T(n) &=& T(n-a) + T(a) + c\,n \\
+&\ge& C(n-a)^2 + T(a) + c\,n \\
+&\ge& Cn^2 + (c-2aC)n \\
+&\ge& Cn^2
+\end{eqnarray*}
+if we have $C \le \frac{c}{2a}$.  Plus $C$ should be small enough such
+that
+\[ T(a) \ge Ca^2.\]
+We then deduce that $T(n) = \Omega(n^2)$.  So finally, we have $T(n) =
+\Theta(n^2)$.
+
+\newpar{4.2-5}
+Since we can replace $a$ with $1-a$ without changing the recurrence 
+\[ T(n) = T(an) + T((1-a)n) + cn\]
+we can assume that $0 < a \le 1/2$.
+
+The shortest path in the recursion tree is the leftmost one, which has a
+height equal to $-\log_an$.  Thus, if we consider the subtree of
+height $-\log_an - 1$, we have a binary and the total cost of each level
+is equal to $c\,n$.  We then deduce that,
+\[ T(n) \ge c\,n (- \log_a n - 1).\]
+So, $T(n) = \Omega(n\lg n)$.
+
+\medskip
+Let's show that $T(n) \le C n\lg n$ for an appropriate choice of the
+positive constant $C$.  Suppose we have the inequality for $an$ and
+$(1-a)n$, we then deduce
+\begin{eqnarray*}
+T(n) &=& T(an) + T((1-a)n) + cn \\
+&\le& Ca\,n\lg(an) + C(1-a)n\lg((1-a)n) + cn \\
+&=& Cn\lg n - (C(-a \lg a -(1-a)\lg(1-a)) - c) n \\
+&\le& Cn\lg n
+\end{eqnarray*}
+if we have
+\[ C \ge \frac{c}{-a\lg a - (1-a)\lg(1-a)}.\]
+Plus, we should choose $C$ large enough such that,
+\[ T(2) \le 2C.\]
+Thus, $T(n) = O(n\lg n)$.  So finally, $T(n) = \Theta(n\lg n)$.
+\end{document}

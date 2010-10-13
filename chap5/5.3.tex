@@ -1,0 +1,117 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\prob}[1]{\mathrm{Pr}\left\{ #1 \right\}}
+
+\begin{document}
+\newpar{5.3-1}
+\textsc{RANDOMIZE-IN-PLACE}($A$)
+\begin{algorithmic}[1]
+  \STATE $n \la length[A]$
+  \STATE $\mathrm{swap}\ A[1] \leftrightarrow A[\textsc{RANDOM}(1,
+    n)]$
+  \FOR{$i\la 2$ to $n$}
+  \STATE $\mathrm{swap}\ A[i] \leftrightarrow A[\textsc{RANDOM}(i,
+    n)]$
+  \ENDFOR
+\end{algorithmic}
+The invariant of the loop remains the same.  If $i=2$, the invariant
+says that for each possible $1$-permutation, the subarray $A[1..1]$
+contains this $1$-permutation with probability $1/n$.  This is true
+because of line $2$.  And the rest of the proof is the same.
+
+\newpar{5.3-2}
+Suppose $n > 2$.  And consider the permutation where the first and
+second elements of the array are swapped and everything else remains
+in place.  Professor Kelp code couldn't produce this permutation
+because each element couldn't stay at the same place.
+
+\newpar{5.3-3}
+Let's show that the probability to obtain a given permutation is
+$1/n^n$ and not $1/n!$.  Consider the following invariant:
+\begin{quote}
+  Prior the $i^{th}$ iteration of the \textbf{for} loop, for each
+  possible $(i-1)$-permutation, the subarray $A[1 .. i-1]$ contains
+  this $(i-1)$-permutation with probability $1/n^{i-1}$.
+\end{quote}
+\begin{description}
+\item[Initialization]
+  For $i=1$ the subarray $A[1 .. 0]$ is an empty
+  subarray and a $0$-permutation has no elements.  Thus $A[1 .. 0]$
+  contains any $0$-permutation with probability $1$
+
+\item[Maintenance]
+  Consider an $i$-permutation $<x_1,\ldots,x_i>$.
+  By hypothesis, the probability that the subarray $A[1.. i-1]$
+  contains the $i-1$-permutation $<x_1,\ldots,x_{i-1}>$ is
+  $1/n^{i-1}$.  So after we execute the body of the loop, the
+  probability that the subarray $A[1 .. i]$ contains the
+  $i$-permutation is 
+  \[ \frac{1}{n^{i-1}} \times \frac{1}{n} = \frac{1}{n^i}.\]
+  Incrementing $i$ then maintains the loop invariant.
+
+\item[Termitantion]
+  We have $i = n+1$, so the probability that the array $A[1..n]$
+  contains any $n$-permutation is $1/n^n$.
+\end{description}
+Thus \textsc{PERMUTE-WILL-ALL} doesn't produce a uniform random
+permutation.
+
+\newpar{5.3-4}
+Let $1\le i\le n$.  The probability of $A[i]$ winding up in $A[j]$ is
+the probability that $offset$ is equal to $j - i \bmod n$ for every
+$1\le j\le n$.  So it's equal to $1/n$.
+
+An inversion couldn't be produced by \textsc{PERMUTE-BY-CYCLIC} so
+this code doesn't produce an uniformly random permutation.
+
+\newpar{5.3-5}
+We have $(1-x)^n \ge 1 - nx$ for $0\le x\le 1$.  The
+probability that all elements are unique is
+\begin{eqnarray*}
+  \frac{n^3}{n^3}\,\frac{n^3-1}{n^3}\ldots \frac{n^3-(n-1)}{n^3} &=&
+  \prod_{i=0}^{n-1} \left(1 - \frac{i}{n^3}\right) \\
+  &\ge& \prod_{i=0}^{n-1}\left(1 - \frac{1}{n^2}\right) \\
+  &=& \left(1 - \frac{1}{n^2}\right)^n \\
+  &\ge& 1 - n \frac{1}{n^2} \\
+  &=& 1 - \frac{1}{n}
+\end{eqnarray*}
+
+\newpage
+\newpar{5.3-6}
+We just keep generating keys until there's no duplicate.
+
+\medskip
+\noindent
+\textsc{PERMUTE-BY-SORTING}($A$)
+\begin{algorithmic}
+  \STATE $n \la length[A]$
+  \STATE $i \la 1$
+  \WHILE{$i \le n$}
+  \STATE $dup \la \textsc{TRUE}$
+  \WHILE{$dup$}
+  \STATE $P[i] \la \textsc{RANDOM}(1, n^3)$
+  \STATE $j \la i-1$
+  \STATE $nodup \la \textsc{TRUE}$
+  \WHILE{$nodup$\ \textbf{and}\ $j > 0$}
+  \IF{$P[j] = P[i]$}
+  \STATE $nodup \la \textsc{FALSE}$
+  \ELSE
+  \STATE $j \la j-1$
+  \ENDIF
+  \ENDWHILE
+  \IF{$nodup$}
+  \STATE $dup \la \textsc{FALSE}$
+  \ENDIF
+  \ENDWHILE
+  \STATE $i \la i+1$
+  \ENDWHILE
+  \STATE \COMMENT{sort $A$, using $P$ as sort keys}
+\end{algorithmic}
+\end{document}

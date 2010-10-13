@@ -1,0 +1,53 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\prob}[1]{\mathrm{Pr}\left\{ #1 \right\}}
+
+\begin{document}
+
+\newpar{6.1-1}
+The maximum numbers of elements in a heap of heigh $h$ is
+\[ 1 + 2 + 2^2 + \cdots + 2^h = 2^{h+1} - 1.\]
+And the minimum numbers of elements is
+\[ 1 + 2 + 2^2 + \cdots + 2^{h-1} + 1 = 2^h.\]
+
+\newpar{6.1-2}
+If we note $h$ the height of the heap, from \textbf{Exercises 6.1-1},
+we have
+\[ 2^h \le n < 2^{h+1} - 1\]
+Thus
+\[ h \le \lg n < h+1.\]
+So finally $h = \lfloor \lg n\rfloor.$
+
+\newpar{6.1-3}
+Let's show the property by induction in height $h$ of the max-heap.
+
+The property is true for $h=0$.  Suppose it's true of all max-heap of
+height $n$.  And let's consider a max-heap of height $n+1$.
+
+By induction, the root $L$ of the left subtree of the root is the
+largest value in the left subtree.  We have the same property for the
+root $R$ of the right subtree. Since we have a max-heap, $L$ and $R$
+are less than their parent which is the root the heap.
+
+\newpar{6.1-4}
+If all the elements of a max-heap are distinct, the smallest element
+resides on the lowest level.
+
+\newpar{6.1-5}
+Yes.
+
+\newpar{6.1-6}
+No because $A[\textsc{parent}(9)] = 6 < A[9] = 7.$
+
+\newpar{6.1-7}
+The first leaf of the tree is the node following the parent of the
+$n^{th}$ node, which is $\lfloor n/2\rfloor + 1$.
+
+\end{document}

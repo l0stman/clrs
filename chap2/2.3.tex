@@ -1,0 +1,408 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{algorithmic}
+\newcommand{\newpar}[1]
+{\bigskip \noindent \textbf{Exercises #1} \newline}
+\newcommand{\newprob}[1]
+{\bigskip \noindent \textbf{Problem #1} \newline}
+\newcommand{\subpar}[1]
+{\medskip \noindent #1.}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+\begin{document}
+
+\newpar{2.3-2}
+MERGE($A$, $p$, $q$, $r$)
+\begin{algorithmic}
+\STATE $n_1 \la q - p + 1$
+\STATE $n_2 \la r - q$
+\FOR {$i \la 1$ \textbf{to} $n_1$}
+	\STATE $L[i] \la A[p + i -1]$
+\ENDFOR
+\FOR {$j \la 1$ \textbf{to} $n_2$}
+	\STATE $R[j] \la A[q + j]$
+\ENDFOR
+\STATE $i \la j \la 1$
+\STATE $T \la \textbf{NIL}$
+\STATE $k \la p$
+\WHILE {$k \le r$ \textbf{and} $T = \textbf{NIL}$}
+	\IF {$i > n_1$}
+		\STATE $T = R[j\ \ n_2]$
+	\ELSIF {$j > n_2$}
+		\STATE $T = L[i\ \ n_1]$
+	\ELSIF {$L[i] \le R[j]$}
+		\STATE $A[k] \la L[i]$
+		\STATE $i \la i + 1$
+		\STATE $k \la k + 1$
+	\ELSE
+		\STATE $A[k] \la R[j]$
+		\STATE $j \la j + 1$
+		\STATE $k \la k + 1$
+	\ENDIF
+\ENDWHILE
+\FOR {$i \la 1$ \textbf{to} $length[T]$}
+	\STATE $A[k] \la T[i]$
+	\STATE $k \la k+1$
+\ENDFOR
+\end{algorithmic}
+
+\newpar{2.3-3} We have $T(2)= 2 = 2 \log 2$.  Suppose that for $k \ge
+1$, $T(2^k) = 2^k \lg 2^k = k 2^k$.  Thus we have, $k+1 > 1$ and
+\begin{eqnarray*}
+T(2^{k+1}) &=& 2T(2^k) + 2^{k+1} \\
+	&=& k 2^{k+1} + 2^{k+1} \mbox{ by induction } \\
+	&=& 2^{k+1} \lg 2^{k+1}
+\end{eqnarray*}
+
+\newpar{2.3-4} To insert a element in an array of $n-1$ elments, the
+running time is $\Theta(n)$,  so we have the recurence
+\[ T(n) = \left\{
+\begin{array}{cl}
+\Theta(1) & \mbox{if $n = 1$}\\
+T(n-1) + \Theta(n) & \mbox{if $ n > 1$} \end{array} \right. \]	 
+
+\newpar{2.3-5}
+BINARY-SEARCH($A$, $v$) 
+\begin{algorithmic}
+\STATE $m \la \left\lfloor \frac{1 + length[A]}{2}\right\rfloor$
+\IF {$m = 0$}
+	\STATE $r \la \mathbf{NIL}$
+\ELSIF {$A[m] = v$}
+	\STATE $r \la m$
+\ELSIF {$A[m] < v$}
+	\STATE $r \la \mbox{BINARY-SEARCH}(A[1\ \ m-1],\ v)$
+\ELSE
+	\STATE $r \la \mbox{BINARY-SEARCH}(A[m+1\ \ length[A],\ v)$
+\ENDIF
+\RETURN $r$
+\end{algorithmic}
+
+Note $T(n)$ the worst case running time for an entry of size $n$.  At
+each step, if we doesn't stop yet we run the algorithm on an entry of
+size less than $\left\lfloor\frac{n+1}{2}\right\rfloor$.  Thus we have
+the relation for a certain constant $C$
+\[ T(n) \le C + 
+T\left(\left\lfloor\frac{n+1}{2}\right\rfloor\right) \mbox{(*)}.\]
+Let's show by recurrence that for $k \ge 1$
+\[ T(n) \le C k + 
+T\left(\left\lfloor\frac{n+2^k-1}{2^k}\right\rfloor\right).\]
+Suppose we have the relation for $k$.  Using (*) we have,
+\begin{eqnarray*}
+T(n) &\le& C(k+1) + T\left(\left\lfloor\frac{
+\left\lfloor\frac{n + 2^k - 1}{2^k}\right\rfloor + 1
+}{2}\right\rfloor\right)\\ &=&
+C(k+1) + T\left(\left\lfloor\frac{
+\left\lfloor\frac{n + 2^k - 1}{2^k} + 1\right\rfloor
+}{2}\right\rfloor\right)\\ &=&
+C(k+1) + T\left(\left\lfloor\frac{
+\left\lfloor\frac{n + 2^{k+1} - 1}{2^k}\right\rfloor
+}{2}\right\rfloor\right)\\ &=&
+C(k+1) + T\left(\left\lfloor
+\frac{n + 2^{k+1} - 1}{2^{k+1}}\right\rfloor\right)
+\end{eqnarray*}
+
+\medskip
+Taking $k = \lg n$, we have
+\[ k \le \lg n < k+1.\]
+and
+\begin{eqnarray*}
+\left\lfloor\frac{n + 2^k - 1}{2^k}\right\rfloor &\le&
+\frac{n+2^k-1}{2^k}\\ &<&
+\frac{2(2n-1)}{n}\\ &<&
+4
+\end{eqnarray*}
+Thus,
+\[ T(n) \le C \lfloor \lg n \rfloor + T(4).\]
+We then deduce that,
+\[ T(n) = \Theta(\lg n).\]
+
+\newpar{2.3-6} Even if we replace the linear search through the sorted
+subarray $A[1\ \ j-1]$ by a binary search , if we find the $key$ we
+need to shift the array to the right to insert it.  So the running
+time is always $\Theta(n^2)$.
+
+\newpar{2.3-7}
+IS-SUM($S$, $x$)
+\begin{algorithmic}
+\STATE $r[1] \la \mathbf{NIL}$ \COMMENT {$r$ is an array of two elements}
+\STATE MERGE-SORT($S$, $1$, $length[S]$)
+\STATE $i \la 1$
+\WHILE {$i \le length[A]$ \textbf{and} $r[1] = \mathbf{NIL}$}
+	\STATE $r[2] \la \mbox{BINARY-SEARCH}(S, v - A[i]) $
+	\IF {$r[2] \not= \mathbf{NIL}$}
+		\STATE $r[1] = i$
+	\ENDIF
+	\STATE $i \la i+1$
+\ENDWHILE
+\RETURN $r$	
+\end{algorithmic}
+
+We know that the running time of MERGE-SORT is $\Theta(n\lg n)$.  And
+for BINARY-SEARCH, it's $\Theta(\lg n)$.  So we deduce easily that
+IS-SUM is $\Theta(n\lg n)$.
+
+\newprob{2-1} a. A list of length $k$ is sorted by insertion sort in
+$\Theta(k^2)$ worst-case time. So for $\frac{n}{k}$ sublists, it's done in
+$\Theta(nk)$.
+
+\subpar{b} Given that the total length of the list is $n$,
+it's easy to see that at each step of the merging the running time is
+$\Theta(n)$.  Plus, the height of a binary tree who have $\frac{n}{k}$
+leaves is $\lg(n/k)$.  Thus the worst-case time is
+$\Theta(n \lg(n/k)$.
+
+\subpar{c} $k$ should be $\Theta(\lg n)$.
+
+\subpar{d} We choose $k$ such that INSERT-SORT performs
+better than MERGE-SORT in input of size less than $\lg n$.
+
+\newprob{2-2}
+\subpar{a} We must prove that the array $A'$ is a permutation of the array
+$A$.
+
+\subpar{b} Consider the following property as loop invariant:
+\[ A[j] \le A[k], \mbox{ for } j+1 \le k \le n.\]
+\begin{itemize}
+\item
+\textbf{Initialization} For $j = n$, there's no $k$ verifying $j+1 \le
+k \le n$ so the property holds.
+
+\item
+\textbf{Maintenance} We have $A[j-1] \le A[j]$ after executing the
+body of the loop.  So finally, we have
+\[ A[j-1] \le A[k], \mbox{ for } j \le k \le n.\]
+
+\item
+\textbf{Termination} At the end of the loop $j = i$.  So we have,
+\[ A[i] \le A[k], \mbox{ for } i+1 \le k \le n.\]
+\end{itemize}
+
+\subpar{c} Consider the following property,
+\[ A[1\ \ i-1] \mbox { is sorted and } A[i-1] \le A[k], \mbox{ for }
+i \le k \le n.\]
+
+\begin{itemize}
+\item
+\textbf{Initialization} For $i=1$ the array $A[1\ \ i-1]$ is empty and
+$A[i-1]$ is not defined.  So the property is correct.
+
+\item
+\textbf{Maintenance} From b., after the execution of the inner loop we
+have
+\[A[i] \le A[k], \mbox{ for } i+1 \le k \le n.\]
+And given that $A[i-1] \le A[i]$, we have the property preserved.
+
+\item
+\textbf{Termination} At the end of the loop $i = n+1$, thus the array
+$A[1\ \ n]$ is sorted.
+\end{itemize}
+
+\subpar{d} The inner loop running time is $\Theta(n-i)$.  So we can
+easily see that the worst-case running time of bubblesort is
+$\Theta(n^2)$.
+
+Bubble sort and insertion sort have the same worst case running time.
+But in the case of bubble sort, even if the array is already sorted,
+the inner loop still scan all elments of the list.  So the
+running time of bubble sort on a sorted array is still $\Theta(n^2)$,
+compared to $\Theta(n)$ for insertion sort.
+
+\newprob{2-3}
+\subpar{a} The running time of the code is $\Theta(n)$.
+
+\subpar{b}  The coefficients of the polynomial is in the array $A$ of
+size $n$.
+
+\noindent
+POL($x$, $A$)
+\begin{algorithmic}[1]
+\STATE $y \la 0$
+\FOR {$ i \la 1$ \textbf{to} $length[A]$}
+	\STATE $prod \la 1$
+	\FOR {$j \la 1$ \textbf{to} $i-1$}
+		\STATE $prod \la prod * x$
+	\ENDFOR
+	\STATE $y \la y + prod$
+\ENDFOR
+\RETURN $y$		
+\end{algorithmic}
+
+The \textbf{for} loop of lines $4$-$5$ runs in $\Theta(i-1)$.  So the
+running time of the algorithm is $\Theta(n^2)$.  So it's worse than
+Horner's rule.
+
+\subpar{c} 
+\begin{itemize}
+\item
+\textbf{Initialization}  If $i=0$, $\sum_{k=0}^{n-(i+1)}a_{k+i+1}x^k =
+0$ so the property holds.
+
+\item
+\textbf{Maintenance} After executing $y \la a_i + x * y$, we have
+\[ y = a_i + \sum_{k=1}^{n-i}a_{k+i}x^k =
+\sum_{k=0}^{n-i}a_{k+i}x^k.\]
+So after we execute $i \la i-1$, we have 
+\[ y = \sum_{k=0}^{n-(i+1)}a_{k+i+1}x^k.\]
+
+\item
+\textbf{Termination} Afetr executing the \textbf{for} loop, we have $i
+= -1$, thus
+\[ y = \sum_{k=0}^n a_k x^k.\]
+\end{itemize}
+
+\subpar{d} The algorithm terminates because $i$ is decremented in
+each iteration so after $n$ iterations, $i = -1$.  And the result is
+the value of the polynom characterized by the coefficients 
+$a_0, a_1, \ldots, a_n$ on the value $x$.
+
+\newprob{2-4}
+\subpar{a} $(2, 1),\ (3, 1),\ (8, 1),\ (6, 1),\ (8, 6)$.
+
+\subpar{b} It's the array $A$ such that,
+\[ A[i] = n-i, \mbox{ for } 1\le i\le n.\]
+It has $\sum_{i=1}^{n-1}(n-i) = \frac{n(n-1)}{2}$ inversions.
+
+\subpar{c} Note $I$ the number of inversions in the input array.
+
+\noindent
+INSERTION-SORT($A$)
+\begin{algorithmic}[1]
+\FOR {$j \la 2$ \textbf{to} $length[A]$}
+	\STATE $key \la A[j]$
+	\STATE $i \la j-1$
+	\WHILE {$i > 0$ \textbf{and} $A[i] > key$}
+		\STATE $A[i+1] \la A[i]$
+		\STATE $i \la i-1$
+	\ENDWHILE
+	\STATE $A[i+1] \la key$
+\ENDFOR
+\end{algorithmic}
+Let's show that the running thime of insertion sort is
+$\Theta(I+n)$.  Note $A_0$ the input array before we do any
+operation on $A$.
+
+It's easy to see that: $key = A_0[j]$.  And the running time of the
+\textbf{while} loop at lines $4$-$7$ is
+\[ \Theta\left(\sum_{i=1\atop A[i] > key}^{j-1} 1\right).\]
+Note that the array $A[1\ \ j-1]$ is a permutation of
+$A_0[1\ \ j-1]$.  So there exists a permutation $\sigma$ of $1, 2,
+  \dots, j-1$ such that
+\[ A[i] = A_0[\sigma(i)] \mbox{ for } 1 \le i \le j-1.\]
+Putting all of this together, we have
+\begin{eqnarray*}
+\sum_{i=1\atop A[i] > key}^{j-1} 1 &=& 
+\sum_{i=1\atop A_0[\sigma(i)] > key}^{j-1} 1\\ &=&
+\sum_{i=1\atop A_0[i] > key}^{j-1} 1\\ &=&
+\sum_{i=1\atop A_0[i] > A_0[j]}^{j-1} 1
+\end{eqnarray*}
+Thus the running time of the body of the \textbf{for} loop is
+\[\Theta\left(\sum_{i=1\atop A_0[i] > A_0[j]}^{j-1}1\right)
++ \Theta(1).\]
+We then deduce the running time of insertion sort as
+\begin{eqnarray*}
+\sum_{j=2}^n \Theta\left(\sum_{i=1\atop A_0[i] > A_0[j]}^{j-1}1\right)
++ \Theta(n) &=& \Theta\left(
+\sum_{j=2}^n\sum_{i=1\atop A_0[i] > A_0[j]}^{j-1}1\right) +
+\Theta(n)\\&=&
+\Theta(I) + \Theta(n) \\&=&
+\Theta(I+n)
+\end{eqnarray*}
+
+\subpar{d}  Let's modify MERGE-SORT to count the number of inversions in $A$.
+\noindent
+MERGE-SORT($A$, $p$, $r$)
+\begin{algorithmic}[1]
+\IF {$p < r$}
+	\STATE $q \la \lfloor(p+r)/2\rfloor$
+	\STATE $count \la \mbox{MERGE-SORT}(A, p, q) +
+		\mbox{MERGE-SORT}(A, q+1, r)$
+	\STATE $count \la count + \mbox{MERGE}(A, p, q,r)$
+\ELSE
+	\STATE $count \la 0$
+\ENDIF
+\RETURN $count$
+\end{algorithmic}
+
+Here's the new version of MERGE,
+
+\noindent
+MERGE($A$, $p$, $q$, $r$)
+\begin{algorithmic}[1]
+\STATE $n_1 \la q - p + 1$
+\STATE $n_2 \la r - q$
+\STATE $count \la 0$
+\STATE create arrays $L[1\ \ n_1+1]$ and $R[1\ \ n_2+1]$
+\FOR {$i \la 1$ \textbf{to} $n_1$}
+	\STATE $L[i] \la A[p + i -1]$
+\ENDFOR
+\FOR {$j \la 1$ \textbf{to} $n_2$}
+	\STATE $R[j] \la A[q + j]$
+\ENDFOR
+\STATE $L[n_1 + 1] \la \infty$
+\STATE $R[n_2 + 1] \la \infty$
+\STATE $i \la 1$
+\STATE $j \la 1$
+\FOR {$k \la p$ \textbf{to} $r$}
+	\IF {$L[i] \le R[j]$}
+		\STATE $A[k] \la L[i]$
+		\STATE $i \la i+1$
+	\ELSE
+		\STATE $count \la count + 1$
+		\STATE $A[k] \la R[j]$
+		\STATE $j \la j+1$
+	\ENDIF
+\ENDFOR
+\RETURN $count$
+\end{algorithmic}
+Let's adopt the following notation for a property $P$,
+\[ [P] = \left\{
+\begin{array}{cl}
+0 & \mbox{if $P$ is true}\\
+1 & \mbox{if $P$ is false} \end{array} \right. \]
+
+Again, let's note $A'$ the array $A$ before any operation in MERGE.
+We then deduce easily that at the end of the \textbf{for} loop at
+lines $15$-$24$, we have
+\begin{eqnarray*}
+count &=& \sum_{j=1}^{r-q}\sum_{i=1}^{q-p+1}[L[i] > R[j]]\\
+&=& \sum_{j=q+1}^r \sum_{i=p}^q [A'[i] > A'[j]]\mbox{ (*)}
+\end{eqnarray*}
+We can use as loop invariant the following expression to demonstrate
+this,
+\[ count = \sum_{l=1}^{j-1} \sum_{k=1}^{i-1}[L[k] > R[l]].\]
+Now let's take a look at the value returned by MERGE-SORT.  If $p =
+r$, $count = 0$ so it's really the number of inversions in $A$.  Now
+suppose that MERGE-SORT returns the number of inversions in an array
+of length less than $r - p + 1$.
+
+\medskip
+Now suppose that $p < r$ and note $A_0$ the unsorted array.  By
+induction after we execute line $3$, we have
+\[ count = \sum_{j=q+1}^r\sum_{i=q+1}^{j-1}[A_0[i] > A_0[j]] +
+\sum_{j=p}^q \sum_{i=p}^{j-1} [A_0[i] > A_0[j]].\]
+Note that the array $A$ after line $3$ becomes the array $A'$ in (*).
+So finally after executing line $4$ we have
+
+\newpage
+\begin{eqnarray*}
+count &=& \sum_{j=q+1}^r\sum_{i=q+1}^{j-1}[A_0[i] > A_0[j]] +
+\sum_{j=p}^q \sum_{i=p}^{j-1} [A_0[i] > A_0[j]] +\\&&
+\sum_{j=q+1}^r \sum_{i=p}^q [A'[i] > A'[j]].
+\end{eqnarray*}
+
+But the array $A'[p\ \ q]$ is a permutation of $A_0[p\ \ q]$ and
+$A'[q+1\ \ r]$ is a permutation of $A_0[q+1\ \ r]$.  So we can deduce
+that 
+\[ \sum_{j=q+1}^r \sum_{j=p}^q[A'[i] > A'[j]] =
+\sum_{j=q+1}^r \sum_{j=p}^q[A_0[i] > A_0[j]].\]
+So finally we have,
+\begin{eqnarray*}
+count &=& \sum_{j=q+1}^r\sum_{i=q+1}^{j-1}[A_0[i] > A_0[j]] +
+\sum_{j=p}^q \sum_{i=p}^{j-1} [A_0[i] > A_0[j]] +\\&&
+\sum_{j=q+1}^r \sum_{i=p}^q [A_0[i] > A_0[j]]\\&=&
+\sum_{j=q+1}^r \sum_{j=p}^{j-1}[A_0[i] > A_0[j]] +
+\sum_{j=p}^q \sum_{i=p}^{j-1}[A_0[i] > A_0[j]]\\&=&
+\sum_{j=p}^r\sum_{i=p}^{j-1}[A_0[i] > A_0[j]]
+\end{eqnarray*}
+
+So count returns the number of inversions in $A_0$.
+\end{document}
