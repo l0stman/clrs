@@ -73,15 +73,17 @@ distance from the origin, we have an average running-time equal to
 $\Theta(n)$.
 
 \newpar{8.4-5} Since the probability distribution function $P$ is
-continuous, it takes all the possible values between $0$ and $1$.  Thus
-for each $i$ between $0$ and $n-1$, the probability that a certain
-$P(x)$ lies between $\frac{i}{n}$ and $\frac{i+1}{n}$ is
-$\frac{1}{n}$.
+continuous, it takes all the possible values between $0$ and $1$.  Let
+$x_0, x_1, \ldots, x_n$ be a sequel such that $P(x_i) = \frac{i}{n}$
+for $0 \le i \le n$.  For $0 \le i \le n-1$, then we have
+\[  \prob{ x_i < X \le x_{i+1}} = \prob{ X \le x_{i+1}} - \prob{ X \le
+  x_i} = \frac{1}{n}.\]
 
 We use \textsc{bucket-sort} by placing $X_i$ in the $j^{th}$ bucket if
-$\frac{j-1}{n}\le X_i<\frac{j}{n}$ for $1\le j < n$ or in the $n^{th}$
-bucket if $X_i = 1$.  Since the random variables are drawn at random,
-the probability that $X_i$ is in the $j^{th}$ bucket is $\frac{1}{n}$.
+$x_{j-1} < X_i \le x_j$ for $1\le j \le n$ or if $X_i = 0$ we already
+know that it's the minimal value.  Since the random variables are
+drawn at random, the probability that $X_i$ is in the $j^{th}$ bucket
+is $\frac{1}{n}$.
 
 \newprob{8-1} \subpar{a} Since the algorithm is correct, the only
 leaves that could be reached from the root of $T_A$ are the
