@@ -67,14 +67,26 @@ Thus by linearity
 \newpar{C.3-5}
 Let $X$ and $Y$ be independent random variables and $f$ and $g$ two
 functions.   We have,
-\[  \prob{f(X) = x\,\mbox{and}\,g(Y) = y} =
-\prob{X = x'\,\mbox{and}\,Y = y'}\]
-with $x' \in\, f^{-1}\left(\{x\}\right)$ and $y' \in\,
-g^{-1}\left(\{y\}\right)$.  Thus
 \begin{eqnarray*}
-  \prob{f(x) = x \,\mbox{and}\,g(Y) = y} &=&
-  \prob{X = x'} \prob{Y = y'}  \\
-  &=& \prob{f(X) = x} \prob{g(Y) = y}
+    \prob{f(X) = x\,\mbox{and}\,g(Y) = y} &=& \sum_{s \in S: f(X(s)) =
+     x\,\mbox{and}\,g(Y(s)) = y}\prob{s} \\
+    &=& \sum_{x' \in f^{-1}\left(\{x\}\right)} \sum_{y' \in
+      g^{-1}\left(\{y\}\right)} \\ && \sum_{s \in S: X(s) =
+      x'\,\mbox{and}\,Y(s) = y'} \prob{s}
+\end{eqnarray*}
+
+From the independence of the random variables $X$ and $Y$ we then
+deduce that
+\begin{eqnarray*}
+  \prob{f(X) = x\,\mbox{and}\,g(Y) = y} &=& \left( \sum_{x' \in
+    f^{-1}\left(\{x\}\right)} \sum_{s \in S: X(s) = x'} \prob{s}
+  \right) \times \\
+  && \left( \sum_{y' \in
+    g^{-1}\left(\{y\}\right)} \sum_{s \in S: Y(s) = y'} \prob{s}
+  \right) \\
+  &=& \left( \sum_{s \in S: f(X(s)) = x} \prob{s} \right) \times \\ &&
+  \left( \sum_{s \in S: g(Y(s)) = y} \prob{s} \right) \\
+  &=& \prob{f(X) =  x} \times \prob{g(Y) = y}
 \end{eqnarray*}
 We then deduce that the random variables $f(X)$ and $g(Y)$ are
 independent.
