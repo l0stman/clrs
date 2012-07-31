@@ -74,16 +74,25 @@ $\Theta(n)$.
 
 \newpar{8.4-5} Since the probability distribution function $P$ is
 continuous, it takes all the possible values between $0$ and $1$.  Let
-$x_0, x_1, \ldots, x_n$ be a sequel such that $P(x_i) = \frac{i}{n}$
+$x_0, x_1, \ldots, x_n$ be a sequence such that $P(x_i) = \frac{i}{n}$
 for $0 \le i \le n$.  For $0 \le i \le n-1$, then we have
 \[  \prob{ x_i < X \le x_{i+1}} = \prob{ X \le x_{i+1}} - \prob{ X \le
   x_i} = \frac{1}{n}.\]
 
+And since $P$ is a non-decreasing function, the sorted order of the
+sequence $X_1, X_2, \ldots, X_n$ is the same as those of $P(X_1), P(X_2),
+\ldots, P(X_n)$.  And moreover if $x_i < x \le x_{i+1}$ then
+$\frac{i}{n} \le P(x) \le \frac{i+1}{n}$.
+
 We use \textsc{bucket-sort} by placing $X_i$ in the $j^{th}$ bucket if
-$x_{j-1} < X_i \le x_j$ for $1\le j \le n$ or if $X_i = 0$ we already
-know that it's the minimal value.  Since the random variables are
-drawn at random, the probability that $X_i$ is in the $j^{th}$ bucket
-is $\frac{1}{n}$.
+$x_{j-1} < X_i \le x_j$ for $1\le j \le n$ and by comparing $P(X_l)$
+to $P(X_m)$ instead of directly comparing $X_l$ to $X_m$ when sorting
+a bucket.  Or if $X_i = 0$ we already know that it's the
+minimal value.
+
+Sine we've already shown that the probability of each random variable
+to fall into a particular bucket is $\frac{1}{n}$, the expected
+running time of the algorithm is linear.
 
 \newprob{8-1} \subpar{a} Since the algorithm is correct, the only
 leaves that could be reached from the root of $T_A$ are the
