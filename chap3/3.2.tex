@@ -70,9 +70,8 @@ But we have,
 \begin{eqnarray*}
 \left(\frac{\lceil \lg n\rceil}{e}\right)^{\lceil \lg n \rceil} &\ge&
 \left(\frac{\lg n}{e}\right)^{\lg n} \\ &=&
-(\lg n^e)^{\lg n} \\ &=&
-2^{\lg n \lg \lg n^e} \\ &=&
-n^{\lg \lg n^e}
+2^{\lg n (\lg \lg n - \lg e)} \\ &=&
+n^{\lg \lg n - \lg e}
 \end{eqnarray*}
 So $\lceil \lg n \rceil !$ couldn't be polynomially bounded.
 
