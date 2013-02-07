@@ -395,7 +395,7 @@ equivalent of \emph{Theorem 3.1}.
 \hline
 &$\mathbf{f(n)}$&$\mathbf{c}$&$\mathbf{f_c^*(n)}$\\
 \hline
-\textbf{a.}&$n-1$&$0$&$n$\\
+\textbf{a.}&$n-1$&$0$&$n-1$\\
 \hline
 \textbf{b.}&$\lg n$&$1$&$\lg^*n$ \\
 \hline
@@ -455,7 +455,7 @@ f^{(k+1)}(n) &\le& f\left(\frac{n}
 \sum_{i=0}^{k-1}\lg \left(1 - i \frac{\lg \lg n}{\lg n}\right)}
 \end{eqnarray*}
 Given that $0 < k < \lg n / \lg \lg n + 1$, we have
-\[ - \sum_{i=0}^{k-1}\lg(1 - i \lg n/\lg \lg n) > 0\]
+\[ - \sum_{i=0}^{k-1}\lg(1 - i \lg \lg n/\lg n) > 0\]
 because each term is positive.
 We then deduce that,
 \[ f^{(k+1)}(n) \le \frac{n}{\prod_{i=0}^{k}(\lg n - i \log \lg n)}.\]
