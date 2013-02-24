@@ -14,9 +14,22 @@
 Because we couldn't trick the algorithm to run on the worst-case
 performance.
 
-\newpar{7.3-2}
-In the worst case the partition ratio would be $0$ to $1-1/n$ at each
-step.  So \textsc{RANDOM} is called $\Theta(n)$ times.  In the best
-case scenario,  the number of calls is $\Theta(\lg n)$ because the
-ratio would be $1/2$ to $1/2$.
+\newpar{7.3-2} Let's note $T(n)$ the number of times \textsc{random}
+is called when running the randomized \textsc{quicksort} algorithm on
+an input array of size $n$.
+
+Let's consider first the worst running time of
+\textsc{randomized-quicksort} where at each step the partition ratio
+would be $0$ to $1-1/n$. \textsc{random} is called $n-1$ times.  We
+then deduce that $T(n) = \Omega(n)$.
+
+Now let's show by induction that if $n \ge 1$, then $T(n) \le n-1$.
+If $n = 1$, we don't call \textsc{random} thus $T(n) = 0$.  Suppose
+that $n > 1$ and we have the property for all $k < n$.  Note $m$ the size
+of the smaller partition we get after partitioning the array.  We have
+$m < n$ and the size of the other partition is $n-m-1$.  Thus, by
+induction
+\[ T(n) = T(m) + T(n-m-1) + 1 = m-1 + n-m-2 + 1 \le n-1.\]
+
+Hence $T(n) = O(n)$.  So finally $T(n) = \Theta(n)$.
 \end{document}
