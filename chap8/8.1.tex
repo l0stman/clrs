@@ -46,12 +46,23 @@ Which is absurd since $\lg n! = \Omega(n\lg n)$.
 The same reasoning applies for a fraction of $1/n$ or $1/2^n$ of the
 inputs of length $n$.
 
-\newpar{8.1-4}
-Since the elements in one the subsequence of $k$ elements are
-unsorted, we need at least $\Omega(k\lg k)$ edges in the path from the
-root to a leaf corresponding to the comparison between the elements in
-the subsequence.  This is true for all the subsequences so there's at
-least $\Omega(n\lg k)$ edges in this path.  Thus to solve this problem, we
-need at least $\Omega(n\lg k)$ comparisons.
+\newpar{8.1-4} Each subsequence has $k$! possible permutations.  Thus
+the number of reachable leaves in the decision tree of a sorting
+algorithm is at least
+\[ k! \times k! \times \cdots \times k! = {k!}^{\frac{n}{k}} .\]
+
+If we note $h$ the height of the decision tree, we know that the
+latter has no more than $2^h$ leaves.  Hence,
+\[ {k!}^{\frac{n}{k}} \le 2^h.\]
+
+Thus,
+\begin{eqnarray*}
+  h &\ge& \frac{n}{k} \lg k! \\
+  &\ge& \frac{n}{k} \times \Omega(k \lg k) \\
+  &=& \Omega(n \lg k)
+\end{eqnarray*}
+And since a lower bound on the height of the decision tree is a lower
+bound on the worst-case running time of the algorithm, we deduce that
+the latter is $\Omega(n \lg k)$.
 \end{document}
 
